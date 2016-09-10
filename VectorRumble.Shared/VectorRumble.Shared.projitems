@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{8C4932C0-BE33-47FA-835E-601E3E69E924}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>VectorRumble.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AudioManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CollectCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BloomPostprocess\BloomComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BloomPostprocess\BloomSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\Asteroid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\DoubleLaserPowerUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\DoubleLaserWeapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\LaserProjectile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\LaserWeapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\MineProjectile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\MineWeapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\RocketPowerUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\RocketProjectile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\RocketWeapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\Ship.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\TripleLaserPowerUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\TripleLaserWeapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\LineBatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\Particle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\ParticleSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\Starfield.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rendering\VectorPolygon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScreenManager\GameScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScreenManager\InputState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScreenManager\ScreenManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\BackgroundScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameOverScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameplayScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\LoadingScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\MainMenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\MenuEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\MenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\MessageBoxScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\OptionsMenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\PauseMenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\Actor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\Collision.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\CollisionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\PowerUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\Projectile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\Weapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\World.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\WorldActor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Simulation\WorldRules.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+  </ItemGroup>
+</Project>
