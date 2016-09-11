@@ -8,11 +8,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VectorRumble.UWP {
+namespace VectorRumble {
     using System;
     using System.Reflection;
     
     
+    internal static class ResourceMapExt {
+        public static string GetString (this Windows.ApplicationModel.Resources.Core.ResourceMap map, string s, object foo)
+        {
+            return map.GetValue(s).ValueAsString;
+        }
+    }
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -20,12 +26,12 @@ namespace VectorRumble.UWP {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    //[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    //[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    //[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
         
-        private static global::System.Resources.ResourceManager resourceMan;
+        private static global::Windows.ApplicationModel.Resources.Core.ResourceMap resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
@@ -37,11 +43,11 @@ namespace VectorRumble.UWP {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::Windows.ApplicationModel.Resources.Core.ResourceMap ResourceManager {
             get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VectorRumble.UWP.Strings", typeof(Strings).GetTypeInfo().Assembly);
-                    resourceMan = temp;
+                if (object.ReferenceEquals (resourceMan, null))
+                {
+                    resourceMan = Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetSubtree ("Strings");
                 }
                 return resourceMan;
             }
