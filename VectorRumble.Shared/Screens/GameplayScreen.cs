@@ -301,7 +301,7 @@ namespace VectorRumble
 						message = Strings.Press_Z_To_Join;
 					else if (index == PlayerIndex.Two && !caps.IsConnected)
 						message = Strings.Press_M_To_Join;
-					else
+					else if (!caps.IsConnected)
 						message = Strings.Connect_Gamepad;
                 }
 

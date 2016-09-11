@@ -70,8 +70,9 @@ namespace VectorRumble
         {
 #if AUDIO
             return sounds.GetCue(cueName);
+#else
+            return null; // TODO When sound is working DELETE this.
 #endif
-			return null; // TODO When sound is working DELETE this.
         }
 
         /// <summary>
