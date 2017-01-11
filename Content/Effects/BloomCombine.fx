@@ -1,9 +1,23 @@
+#if OPENGL
+#define SV_POSITION POSITION
+#define VS_SHADERMODEL vs_3_0
+#define PS_SHADERMODEL ps_3_0
+#else
+#define VS_SHADERMODEL vs_4_0_level_9_1
+#define PS_SHADERMODEL ps_4_0_level_9_1
+#endif
 // Pixel shader combines the bloom image with the original
 // scene, using tweakable intensity levels and saturation.
 // This is the final step in applying a bloom postprocess.
 
 sampler BloomSampler : register(s0);
-sampler BaseSampler : register(s1);
+sampler BaseSampler : register(s1)
+{ 
+    Texture = (BaseTexture);  
+    Filter = Linear;  
+    AddressU = clamp;
+    AddressV = clamp;
+};
 
 float BloomIntensity;
 float BaseIntensity;
@@ -23,7 +37,7 @@ float4 AdjustSaturation(float4 color, float saturation)
 }
 
 
-float4 PixelShaderFunction(float4 position : POSITION0, float2 texCoord : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 position : SV_POSITION, float4 Color : COLOR0, float2 texCoord : TEXCOORD0) : COLOR0
 {
     // Look up the bloom and original base image colors.
     float4 bloom = tex2D(BloomSampler, texCoord);
@@ -46,6 +60,6 @@ technique BloomCombine
 {
     pass Pass1
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+		PixelShader = compile PS_SHADERMODEL PixelShaderFunction();
     }
 }
