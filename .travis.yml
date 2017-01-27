@@ -9,7 +9,7 @@ env:
     - Configuration=Release
 
 install:
-  - wget nc -P downloads "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg"
+  - wget -P downloads "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg"
   - sudo installer -pkg "downloads/MonoGame.pkg" -target / 
 
 script:
