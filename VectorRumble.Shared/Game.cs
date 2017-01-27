@@ -42,8 +42,10 @@ namespace VectorRumble
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-			
-#if WINDOWS_PHONE || IOS || ANDROID // WP7, iPad or Tablets only
+
+#if USE_DEFAULT_DEVICE_SETTINGS
+            // Use default device settings defined by platform.
+#elif WINDOWS_PHONE || IOS || ANDROID // WP7, iPad or Tablets only
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 480;
 			graphics.IsFullScreen = true;

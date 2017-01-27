@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin
-/intermediateDir:obj
+/outputDir:bin\$(Platform)
+/intermediateDir:obj\$(Platform)
 /platform:Windows
 /config:
 /profile:Reach
@@ -17,12 +17,14 @@
 #begin Fonts/retroMedium.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroMedium.spritefont
 
 #begin Fonts/retroSmall.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroSmall.spritefont
 
@@ -62,6 +64,7 @@
 #begin Fonts/retroLarge.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroLarge.spritefont
 

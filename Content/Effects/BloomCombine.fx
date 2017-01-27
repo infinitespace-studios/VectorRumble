@@ -1,47 +1,38 @@
-#if OPENGL
-#define SV_POSITION POSITION
-#define VS_SHADERMODEL vs_3_0
-#define PS_SHADERMODEL ps_3_0
-#else
-#define VS_SHADERMODEL vs_4_0_level_9_1
-#define PS_SHADERMODEL ps_4_0_level_9_1
-#endif
 // Pixel shader combines the bloom image with the original
 // scene, using tweakable intensity levels and saturation.
-// This is the final step in applying a bloom postprocess.
+// This is the final step in applying a bloom post-process.
+#include "Macros.fxh"
 
-sampler BloomSampler : register(s0);
-sampler BaseSampler : register(s1)
-{ 
-    Texture = (BaseTexture);  
-    Filter = Linear;  
-    AddressU = clamp;
-    AddressV = clamp;
-};
+DECLARE_TEXTURE(BloomTexture, 0);
 
-float BloomIntensity;
-float BaseIntensity;
+BEGIN_DECLARE_TEXTURE(BaseTexture, 1)
+    Filter = LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+END_DECLARE_TEXTURE;
 
-float BloomSaturation;
-float BaseSaturation;
-
+BEGIN_CONSTANTS
+    float	BloomIntensity;
+    float	BaseIntensity;
+    float	BloomSaturation;
+    float	BaseSaturation;
+END_CONSTANTS
 
 // Helper for modifying the saturation of a color.
 float4 AdjustSaturation(float4 color, float saturation)
 {
     // The constants 0.3, 0.59, and 0.11 are chosen because the
     // human eye is more sensitive to green light, and less to blue.
-    float grey = dot(color, float3(0.3, 0.59, 0.11));
+    float grey = dot((float3)color, float3(0.3, 0.59, 0.11));
 
     return lerp(grey, color, saturation);
 }
 
-
-float4 PixelShaderFunction(float4 position : SV_POSITION, float4 Color : COLOR0, float2 texCoord : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 position : SV_POSITION, float4 Color : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
 {
     // Look up the bloom and original base image colors.
-    float4 bloom = tex2D(BloomSampler, texCoord);
-    float4 base = tex2D(BaseSampler, texCoord);
+    float4 bloom = SAMPLE_TEXTURE(BloomTexture, texCoord);
+    float4 base = SAMPLE_TEXTURE(BaseTexture, texCoord);
     
     // Adjust color saturation and intensity.
     bloom = AdjustSaturation(bloom, BloomSaturation) * BloomIntensity;
@@ -55,11 +46,4 @@ float4 PixelShaderFunction(float4 position : SV_POSITION, float4 Color : COLOR0,
     return base + bloom;
 }
 
-
-technique BloomCombine
-{
-    pass Pass1
-    {
-		PixelShader = compile PS_SHADERMODEL PixelShaderFunction();
-    }
-}
+TECHNIQUE_NO_VS(BloomCombine, PixelShaderFunction );

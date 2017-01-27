@@ -154,7 +154,7 @@ namespace VectorRumble
             // shader that extracts only the brightest parts of the image.
             bloomExtractEffect.Parameters["BloomThreshold"].SetValue(
                 Settings.BloomThreshold);
-            bloomExtractEffect.Parameters ["TextureSampler"].SetValue (sceneRenderTarget);
+            bloomExtractEffect.Parameters ["Texture"].SetValue (sceneRenderTarget);
 
             DrawFullscreenQuad(sceneRenderTarget, renderTarget1,
                                bloomExtractEffect,
@@ -163,7 +163,7 @@ namespace VectorRumble
             // Pass 2: draw from rendertarget 1 into rendertarget 2,
             // using a shader to apply a horizontal gaussian blur filter.
             SetBlurEffectParameters(1.0f / (float)renderTarget1.Width, 0);
-            gaussianBlurEffect.Parameters ["TextureSampler"].SetValue (renderTarget2);
+            gaussianBlurEffect.Parameters ["Texture"].SetValue (renderTarget2);
 
             DrawFullscreenQuad(renderTarget1, renderTarget2,
                                gaussianBlurEffect,
@@ -172,7 +172,7 @@ namespace VectorRumble
             // Pass 3: draw from rendertarget 2 back into rendertarget 1,
             // using a shader to apply a vertical gaussian blur filter.
             SetBlurEffectParameters(0, 1.0f / (float)renderTarget1.Height);
-            gaussianBlurEffect.Parameters ["TextureSampler"].SetValue (renderTarget1);
+            gaussianBlurEffect.Parameters ["Texture"].SetValue (renderTarget1);
 
             DrawFullscreenQuad(renderTarget2, renderTarget1,
                                gaussianBlurEffect,
