@@ -1,6 +1,5 @@
-language: csharp
+language: objective-c
 osx_image: xcode8.2
-solution: VectorRumble.Shared.sln
 
 env: 
   global: 
