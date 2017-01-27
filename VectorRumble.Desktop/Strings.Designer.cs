@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VectorRumble.UWP {
+namespace VectorRumble {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace VectorRumble.UWP {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VectorRumble.UWP.Strings", typeof(Strings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VectorRumble.Strings", typeof(Strings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
