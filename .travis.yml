@@ -13,4 +13,4 @@ install:
   - sudo installer -pkg "downloads/MonoGame.pkg" -target / 
 
 script:
-  - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration-$(Configuration) /v:d /t:Build 
+  - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=$(Configuration) /v:d /t:Build 
