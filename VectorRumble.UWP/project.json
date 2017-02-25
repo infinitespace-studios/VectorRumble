@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "InfinitespaceStudios.Pipeline": "1.0.7",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
   },
   "frameworks": {

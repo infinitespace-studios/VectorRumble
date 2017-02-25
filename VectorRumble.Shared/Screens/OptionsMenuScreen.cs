@@ -82,7 +82,7 @@ namespace VectorRumble
             motionBlurMenuEntry.Selected += MotionBlurMenuEntrySelected;
             blurIntensityMenuEntry.Selected += BlurIntensityMenuEntrySelected;
             neonEffectMenuEntry.Selected += NeonEffectMenuEntrySelected;
-			fullScreenMenuEntry.Selected += FullScreenMenuEntrySelected;
+            fullScreenMenuEntry.Selected += FullScreenMenuEntrySelected;
 
             MenuEntries.Add(scoreLimitMenuEntry);
             MenuEntries.Add(asteroidDensityMenuEntry);
@@ -90,13 +90,15 @@ namespace VectorRumble
             MenuEntries.Add(motionBlurMenuEntry);
             MenuEntries.Add(blurIntensityMenuEntry);
             MenuEntries.Add(neonEffectMenuEntry);
+#if !USE_DEFAULT_DEVICE_SETTINGS
 			MenuEntries.Add(fullScreenMenuEntry);
+#endif
         }
 
 
-        #endregion
+#endregion
 
-        #region Handle Input
+#region Handle Input
 
 
         /// <summary>
@@ -113,11 +115,12 @@ namespace VectorRumble
 			motionBlurMenuEntry.Text = string.Format (Strings.Motion_Blur,motionBlur);
 			neonEffectMenuEntry.Text = string.Format (Strings.Neon_Effect ,neonEffect);
 			blurIntensityMenuEntry.Text = string.Format (Strings.Blur_Intesity ,blurIntensity);
-			if (gdm == null) {
+#if !USE_DEFAULT_DEVICE_SETTINGS
+            if (gdm == null) {
 				gdm = ScreenManager.Game.Services.GetService<GraphicsDeviceManager> ();
 			}
 			fullScreenMenuEntry.Text = string.Format (Strings.Display_Mode, !gdm.IsFullScreen ? Strings.Windowed : Strings.FullScreen);
-
+#endif
         }
 
 
@@ -201,6 +204,6 @@ namespace VectorRumble
         }
 
 
-        #endregion
+#endregion
     }
 }

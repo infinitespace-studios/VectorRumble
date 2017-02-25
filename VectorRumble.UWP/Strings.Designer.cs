@@ -355,5 +355,29 @@ namespace VectorRumble {
                 return ResourceManager.GetString("Wall_Style_Two", resourceCulture);
             }
         }
+
+        internal static string Windowed
+        {
+            get
+            {
+                return ResourceManager.GetString("Windowed", resourceCulture);
+            }
+        }
+
+        internal static string FullScreen
+        {
+            get
+            {
+                return ResourceManager.GetString("FullScreen", resourceCulture);
+            }
+        }
+
+        internal static string Display_Mode
+        {
+            get
+            {
+                return ResourceManager.GetString("Display_Mode", resourceCulture);
+            }
+        }
     }
 }

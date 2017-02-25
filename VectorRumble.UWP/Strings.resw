@@ -216,4 +216,13 @@
   <data name="Wall_Style_Two" xml:space="preserve">
     <value>Two</value>
   </data>
+  <data name="Display_Mode" xml:space="preserve">
+    <value>Display Mode : {0}</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>FullScreen</value>
+  </data>
+  <data name="Windowed" xml:space="preserve">
+    <value>Windowed</value>
+  </data>
 </root>
