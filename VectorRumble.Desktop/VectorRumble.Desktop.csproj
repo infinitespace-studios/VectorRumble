@@ -52,6 +52,7 @@
     <MonoGameContentReference Include="..\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico">
@@ -92,7 +93,7 @@
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <Target Name="_AlterContentHeader" BeforeTargets="RunContentBuilder">
 	<PropertyGroup>
-	  <Header Condition=" '$(OS)' != 'Unix' " >$(Header) /define:BuildEffects=Yes</Header>
+	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
 </Project>
