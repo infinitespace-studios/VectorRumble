@@ -3,13 +3,14 @@
 
 /outputDir:bin\$(Platform)
 /intermediateDir:obj\$(Platform)
-/platform:Windows
+/platform:Android
+/config:
 /profile:Reach
 /compress:False
 
 #-------------------------------- References --------------------------------#
 
-/reference:../packages/InfinitespaceStudios.Pipeline.1.0.1/tools/InfinitespaceStudios.Pipeline.dll
+/reference:../packages/InfinitespaceStudios.Pipeline.1.0.2/tools/InfinitespaceStudios.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -79,22 +80,30 @@
 /processorParam:TextureFormat=Color
 /build:Textures/controls.png
 
-$if BuildEffects=Yes
 #begin Effects/BloomCombine.fx
 /importer:EffectImporter
-/processor:EffectProcessor
+/processor:RemoteEffectProcessor
+/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
+/processorParam:RemotePort=443
+/processorParam:Protocol=https
 /processorParam:DebugMode=Auto
 /build:Effects/BloomCombine.fx
 
 #begin Effects/BloomExtract.fx
 /importer:EffectImporter
-/processor:EffectProcessor
+/processor:RemoteEffectProcessor
+/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
+/processorParam:RemotePort=443
+/processorParam:Protocol=https
 /processorParam:DebugMode=Auto
 /build:Effects/BloomExtract.fx
 
 #begin Effects/GaussianBlur.fx
 /importer:EffectImporter
-/processor:EffectProcessor
+/processor:RemoteEffectProcessor
+/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
+/processorParam:RemotePort=443
+/processorParam:Protocol=https
 /processorParam:DebugMode=Auto
 /build:Effects/GaussianBlur.fx
-$endif
+
