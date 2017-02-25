@@ -12,6 +12,7 @@ env:
 install:
   - wget -P downloads -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
   - sudo installer -pkg "downloads/MonoGame.pkg" -target / 
+  - nuget restore VectorRumble.Shared.sln
 
 script:
   - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Platform=$(Platform) /p:Configuration=$(Configuration) /v:d /t:Build 
