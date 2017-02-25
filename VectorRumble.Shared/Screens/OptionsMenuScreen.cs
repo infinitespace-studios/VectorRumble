@@ -55,8 +55,9 @@ namespace VectorRumble
         MenuEntry motionBlurMenuEntry = new MenuEntry(String.Empty);
         MenuEntry blurIntensityMenuEntry = new MenuEntry(String.Empty);
         MenuEntry neonEffectMenuEntry = new MenuEntry(String.Empty);
+		MenuEntry fullScreenMenuEntry = new MenuEntry (String.Empty);
 
-
+		GraphicsDeviceManager gdm;
         #endregion
 
         #region Initialization
@@ -72,7 +73,7 @@ namespace VectorRumble
             currentWallStyle = (int)WorldRules.WallStyle;
             scoreLimit = WorldRules.ScoreLimit;
             motionBlur = WorldRules.MotionBlur;
-		blurIntensity = WorldRules.BlurIntensity;
+            blurIntensity = WorldRules.BlurIntensity;
             neonEffect = WorldRules.NeonEffect;
 
             scoreLimitMenuEntry.Selected += ScoreLimitMenuEntrySelected;
@@ -81,6 +82,7 @@ namespace VectorRumble
             motionBlurMenuEntry.Selected += MotionBlurMenuEntrySelected;
             blurIntensityMenuEntry.Selected += BlurIntensityMenuEntrySelected;
             neonEffectMenuEntry.Selected += NeonEffectMenuEntrySelected;
+			fullScreenMenuEntry.Selected += FullScreenMenuEntrySelected;
 
             MenuEntries.Add(scoreLimitMenuEntry);
             MenuEntries.Add(asteroidDensityMenuEntry);
@@ -88,6 +90,7 @@ namespace VectorRumble
             MenuEntries.Add(motionBlurMenuEntry);
             MenuEntries.Add(blurIntensityMenuEntry);
             MenuEntries.Add(neonEffectMenuEntry);
+			MenuEntries.Add(fullScreenMenuEntry);
         }
 
 
@@ -110,6 +113,10 @@ namespace VectorRumble
 			motionBlurMenuEntry.Text = string.Format (Strings.Motion_Blur,motionBlur);
 			neonEffectMenuEntry.Text = string.Format (Strings.Neon_Effect ,neonEffect);
 			blurIntensityMenuEntry.Text = string.Format (Strings.Blur_Intesity ,blurIntensity);
+			if (gdm == null) {
+				gdm = ScreenManager.Game.Services.GetService<GraphicsDeviceManager> ();
+			}
+			fullScreenMenuEntry.Text = string.Format (Strings.Display_Mode, !gdm.IsFullScreen ? Strings.Windowed : Strings.FullScreen);
 
         }
 
@@ -170,6 +177,10 @@ namespace VectorRumble
             neonEffect = !neonEffect;
         }
 
+        void FullScreenMenuEntrySelected (object sender, EventArgs e)
+        {
+			gdm.ToggleFullScreen ();
+        }
 
         /// <summary>
         /// When the user cancels the options screen, go back to the main menu.

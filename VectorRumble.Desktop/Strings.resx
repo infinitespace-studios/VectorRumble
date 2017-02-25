@@ -109,4 +109,13 @@ B button, Esc = cancel</value>
 	<data name="Wall_Style_Random" xml:space="preserve">
 		<value>Random</value>
 	</data>
+	<data name="Windowed" xml:space="preserve">
+		<value>Windowed</value>
+	</data>
+	<data name="FullScreen" xml:space="preserve">
+		<value>Fullscreen</value>
+	</data>
+	<data name="Display_Mode" xml:space="preserve">
+		<value>Display Mode : {0}</value>
+	</data>	
 </root>
