@@ -41,6 +41,7 @@ namespace VectorRumble
         public VectorRumbleGame()
         {
             graphics = new GraphicsDeviceManager(this);
+			Services.AddService (typeof (GraphicsDeviceManager), graphics);
             Content.RootDirectory = "Content";
 
 #if USE_DEFAULT_DEVICE_SETTINGS
@@ -58,7 +59,7 @@ namespace VectorRumble
 			graphics.IsFullScreen = false;
 #endif
 			graphics.SynchronizeWithVerticalRetrace = true;
-			Window.AllowUserResizing = true;
+			Window.AllowUserResizing = false;
 
             // create the screen manager
             screenManager = new ScreenManager(this);

@@ -4,7 +4,6 @@
 /outputDir:bin\$(Platform)
 /intermediateDir:obj\$(Platform)
 /platform:Windows
-/config:
 /profile:Reach
 /compress:False
 
@@ -80,6 +79,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/controls.png
 
+$if BuildEffects=Yes
 #begin Effects/BloomCombine.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -97,4 +97,4 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/GaussianBlur.fx
-
+$endif

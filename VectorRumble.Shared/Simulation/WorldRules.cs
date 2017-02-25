@@ -39,7 +39,7 @@ namespace VectorRumble
         public static AsteroidDensity AsteroidDensity = AsteroidDensity.Low;
         public static WallStyle WallStyle = WallStyle.Three;
         public static bool MotionBlur = true;
-	public static int BlurIntensity = 5;
+        public static int BlurIntensity = 5;
         public static bool NeonEffect = true;
     }
 }
