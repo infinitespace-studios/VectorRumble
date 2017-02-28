@@ -13,8 +13,8 @@ script:
 - nuget restore VectorRumble.Shared.sln
 - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Platform=$(Platform) /p:Configuration=$(Configuration) /v:d /t:Build
 - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Platform=$(Platform) /p:Configuration=$(Configuration) /v:d /t:BuildGamePackages 
-- cd VectorRumble.Desktop/bin/Release/ && zip -r VectorRumble_MacOS.zip VectorRumble.app/**/* 
-- cd VectorRumble.Desktop/bin/Release/VectorRumble && zip -r VectorRumble_Steam.zip ./**/*
+- cd /Users/travis/build/infinitespace-studios/VectorRumble.Desktop/bin/Release/ && zip -r VectorRumble_MacOS.zip VectorRumble.app/**/* 
+- cd /Users/travis/build/infinitespace-studios/VectorRumble.Desktop/bin/Release/VectorRumble && zip -r VectorRumble_Steam.zip ./**/*
 deploy:
   provider: releases
   api_key:
