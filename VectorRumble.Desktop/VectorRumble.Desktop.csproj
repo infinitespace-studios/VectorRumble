@@ -96,4 +96,5 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
+  <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.1-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.1-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
 </Project>
