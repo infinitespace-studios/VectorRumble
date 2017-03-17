@@ -24,6 +24,7 @@ namespace VectorRumble.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        static string deviceFamily;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -32,6 +33,28 @@ namespace VectorRumble.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            //API check to ensure the "RequiresPointerMode" property exists, ensuring project is running on build 14393 or later
+            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Application", "RequiresPointerMode"))
+            {
+                //If running on the Xbox, disable the default on screen pointer
+                if (IsXbox())
+                {
+                    Application.Current.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Detection code in Windows 10 to identify the platform it is being run on
+        /// This function returns true if the project is running on an XboxOne
+        /// </summary>
+        public static bool IsXbox()
+        {
+            if (deviceFamily == null)
+                deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+
+            return deviceFamily == "Windows.Xbox";
         }
 
         /// <summary>
@@ -41,7 +64,6 @@ namespace VectorRumble.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -64,6 +86,11 @@ namespace VectorRumble.UWP
                 {
                     //TODO: Load state from previously suspended application
                 }
+
+                if (!e.PrelaunchActivated)
+                {
+
+                } 
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;

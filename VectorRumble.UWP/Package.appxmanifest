@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="4327289f-dc82-4e66-99ad-62ce2ff1a5b9" Publisher="CN=Dean" Version="1.0.0.0" />
+  <Identity Name="15682Infinitespace-Studio.VectorRumble" Publisher="CN=F4A9DCFF-56E1-45E1-AFCC-A04A77811137" Version="1.1.6.0" />
   <mp:PhoneIdentity PhoneProductId="4327289f-dc82-4e66-99ad-62ce2ff1a5b9" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>VectorRumble</DisplayName>
-    <PublisherDisplayName>Infinitespace Studios</PublisherDisplayName>
+    <DisplayName>Vector Rumble</DisplayName>
+    <PublisherDisplayName>Infinitespace-Studios</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,13 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VectorRumble.UWP.App">
-      <uap:VisualElements DisplayName="VectorRumble" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="VectorRumble" BackgroundColor="#464646">
+      <uap:VisualElements DisplayName="Vector Rumble" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="A Fast Paced Multi player shooter." BackgroundColor="#464646">
+        <uap:DefaultTile>
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\LockScreenLogo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="landscape" />
