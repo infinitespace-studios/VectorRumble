@@ -1,18 +1,28 @@
 language: csharp
 solution: VectorRumble.Shared.sln
-
 os:
-  - osx
-
-env: 
-  global: 
-    - Configuration=Release
-    - Platform=x86
-
+- osx
+env:
+  global:
+  - Configuration=Release
 install:
-  - wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
-  - sudo installer -pkg "MonoGame.pkg" -target / 
-  - nuget restore VectorRumble.Shared.sln
-
+- wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
+- sudo installer -pkg "MonoGame.pkg" -target /
 script:
-  - xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Platform=$(Platform) /p:Configuration=$(Configuration) /v:d /t:Build 
+- nuget restore VectorRumble.Shared.sln
+- xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build
+- xbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:BuildGamePackages 
+- pushd .
+- cd VectorRumble.Desktop/bin/Release/ && zip -r VectorRumble_MacOS.zip VectorRumble.app/* 
+- cd VectorRumble && zip -r ../VectorRumble_Steam.zip ./*
+- popd
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: IPHHTN2a/gz9ulPHPQ/75VM/CxUC80gjiwPoeFDoAbNJa09MYav3OGAAUsqkpCkIPrO/sVNDvZ2Wm+IkYtR7B+DFBPMbT2rGplWLhvkMypuGDUQvxOWUTXoU531pwAXFPhjC9Mgud/WEMfohyJ9R+q/6P6dO0Zfnd9A9OUnSXSnxdfxrdqnJFhPuyAqjYIWVoanN8Y0jrRZ9idqV7gjrgYP2EsmeF9Av1SuINzQ7a4Sr7NSIvlz/gksKPF8VFpT9SZJwdZlf24cBZeosP3CXRKKrs1IvICqkcf5gI3YVoZlAaIIJVYpz0r2pVNiHsQ5SsAgz+svrHEjH7BfjsfGKMbfyXLN9UJEBSO6Z8xLcZ60H5iUWh6xu91LHoiHs6mfg5ntGKx1HitYCkEQ2AKnteS6cuI/ZsVvkoA7+JZh+IrOUvnsH3PJbj23HVlf7ure9qbGvUTyFLwEyr7JgJENzSrt46goRDmlxYdcw6UuPWNW+BLHyDmWp7c3y2X5hxV4IlxFdjKafha7zgwgabRcBgmcO8O4rOn17haYsTZ66zGat97MmsNnPmcaws5ngJl8Yyt7cUO5D11ESMFcIneOk2dgMzXZzS6LRIHFJ1XdYEwWvQ+f1kqnLaFuQ5cig8CBgQPkfkHPjMQ5ib8QgAj5p2vz7fiQYwoJ8XTtFrsRgvbU=
+  file: 
+    VectorRumble.Desktop/bin/Release/VectorRumble_MacOS.zip
+    VectorRumble.Desktop/bin/Release/VectorRumble_Steam.zip
+  on:
+    repo: infinitespace-studios/VectorRumble
