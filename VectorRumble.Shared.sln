@@ -6,13 +6,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VectorRumble.Shared", "Vect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Desktop", "VectorRumble.Desktop\VectorRumble.Desktop.csproj", "{63A1D505-1512-4469-93D3-87FCAF4618EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Linux", "..\..\Documents\Sandbox\dellis1972\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj", "{35253CE1-C864-4CD3-8249-4D1319748E8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Linux", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj", "{35253CE1-C864-4CD3-8249-4D1319748E8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.OSX", "VectorRumble.OSX\VectorRumble.OSX.csproj", "{73B21C9F-C17E-4908-A726-408F36353BAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.UWP", "VectorRumble.UWP\VectorRumble.UWP.csproj", "{24B7D6C0-0ED3-4689-9846-078BFAF5BDC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.WindowsUniversal", "..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsUniversal.csproj", "{09C41A48-7BF3-4A46-9EB8-CE95B4C27CA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.WindowsUniversal", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsUniversal.csproj", "{09C41A48-7BF3-4A46-9EB8-CE95B4C27CA9}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -40,6 +40,7 @@ Global
 		{63A1D505-1512-4469-93D3-87FCAF4618EF}.Release|x64.ActiveCfg = Release|x86
 		{63A1D505-1512-4469-93D3-87FCAF4618EF}.Release|x86.ActiveCfg = Release|x86
 		{63A1D505-1512-4469-93D3-87FCAF4618EF}.Release|x86.Build.0 = Release|x86
+		{63A1D505-1512-4469-93D3-87FCAF4618EF}.Release|Any CPU.Build.0 = Release|x86
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -50,6 +51,7 @@ Global
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Release|x64.ActiveCfg = Release|Any CPU
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Release|x86.ActiveCfg = Release|Any CPU
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Release|x86.Build.0 = Release|Any CPU
+		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Debug|ARM.ActiveCfg = Debug|x86
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Debug|x64.ActiveCfg = Debug|x86
@@ -60,6 +62,7 @@ Global
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Release|x64.ActiveCfg = Release|x86
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Release|x86.ActiveCfg = Release|x86
 		{73B21C9F-C17E-4908-A726-408F36353BAC}.Release|x86.Build.0 = Release|x86
+		{73B21C9F-C17E-4908-A726-408F36353BAC}.Release|Any CPU.Build.0 = Release|x86
 		{24B7D6C0-0ED3-4689-9846-078BFAF5BDC2}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{24B7D6C0-0ED3-4689-9846-078BFAF5BDC2}.Debug|Any CPU.Build.0 = Debug|x86
 		{24B7D6C0-0ED3-4689-9846-078BFAF5BDC2}.Debug|Any CPU.Deploy.0 = Debug|x86

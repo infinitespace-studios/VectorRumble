@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants>AUDIO</DefineConstants>
+    <DefineConstants>AUDIO;SHADER_EFFECTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -36,9 +36,6 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\$(MonoGamePlatform)\MonoGame.Framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -89,6 +86,12 @@
     </ProjectReference>
 -->
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>MonoGame.Framework.Linux</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <Target Name="_AlterContentHeader" BeforeTargets="RunContentBuilder">
@@ -96,5 +99,5 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
-  <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.1-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.1-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
+  <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
 </Project>
