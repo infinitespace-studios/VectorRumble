@@ -30,22 +30,22 @@ namespace VectorRumble
     class GameplayScreen : GameScreen
     {
         #region Fields
-        BloomComponent bloomComponent;
         ContentManager content;
         LineBatch lineBatch;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
         Texture2D starTexture;
+#if ANDROID || IOS
 		Texture2D gamePadTexture;
+#endif
 		Texture2D controls;
 		float controlsTransition;
-		float direction = 1;
         World world;
         AudioManager audio;
         bool gameOver;
-        #endregion
+#endregion
 
-        #region Initialization
+#region Initialization
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -116,7 +116,7 @@ namespace VectorRumble
 			thumbStickRight.TextureRect = new Rectangle(2,2,68,68);
 			
 			GamePad.RightThumbStickDefinition = thumbStickRight;
-#endif			
+#endif
         }
 
 
@@ -137,9 +137,9 @@ namespace VectorRumble
             }
             content.Unload();
         }
-        #endregion
+#endregion
 
-        #region Update and Draw
+#region Update and Draw
         /// <summary>
         /// Updates the state of the game. This method checks the GameScreen.IsActive
         /// property, so the game will stop updating when the pause menu is active,
@@ -261,9 +261,9 @@ namespace VectorRumble
 
             DrawHud(elapsedTime);
 			
-#if ANDROID || IOS || WINDOWS_PHONE			
+#if ANDROID || IOS || WINDOWS_PHONE
 			GamePad.Draw(gameTime, spriteBatch);
-#endif			
+#endif
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0)
@@ -363,6 +363,6 @@ namespace VectorRumble
 
             spriteBatch.End();
         }
-        #endregion
+#endregion
     }
 }

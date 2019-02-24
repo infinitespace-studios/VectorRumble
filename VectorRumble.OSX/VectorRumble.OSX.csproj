@@ -10,18 +10,18 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>VectorRumble.OSX</RootNamespace>
     <AssemblyName>VectorRumble</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
-    <UseXamMacFullFramework>true</UseXamMacFullFramework>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <MonoGamePlatform>MacOS</MonoGamePlatform>
+    <ApplicationIcon>..\VectorRumble.Shared\Icon.ico</ApplicationIcon>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;AUDIO</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MACOS__;DEBUG;AUDIO;SHADER_EFFECTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -46,6 +46,7 @@
       </EnvironmentVariables>
     </EnvironmentVariables>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -69,18 +70,25 @@
     <XamMacArch>x86_64</XamMacArch>
     <CodeSignProvision>Automatic</CodeSignProvision>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="Xamarin.Mac" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.MacOS.3.7.1.189\lib\XamarinMac\MonoGame.Framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\VectorRumble.Shared\Strings.Designer.cs">
+      <Link>Strings.Designer.cs</Link>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -89,9 +97,18 @@
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="..\VectorRumble.Shared\Icon.ico">
+      <Link>Icon.ico</Link>
+    </EmbeddedResource>    
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.resx">
+      <Link>Strings.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <LogicalName>VectorRumble.Strings.resources</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MonoGame.Framework.dll.config">
@@ -99,18 +116,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="libopenal.1.dylib">
+    <NativeReference Include="..\VectorRumble.Shared\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
       <Kind>Static</Kind>
     </NativeReference>
-    <NativeReference Include="libSDL2-2.0.0.dylib">
+    <NativeReference Include="..\VectorRumble.Shared\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
       <Kind>Static</Kind>
     </NativeReference>
-    <NativeReference Include="libopenal.1.dylib">
+    <NativeReference Include="..\VectorRumble.Shared\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
       <Kind>Dynamic</Kind>
       <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
     </NativeReference>
-    <NativeReference Include="libSDL2-2.0.0.dylib">
+    <NativeReference Include="..\VectorRumble.Shared\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
       <Kind>Dynamic</Kind>
       <SmartLink>False</SmartLink>
     </NativeReference>
@@ -120,4 +141,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <Import Project="..\packages\MonoGame.Framework.MacOS.3.7.1.189\build\MonoGame.Framework.MacOS.targets" Condition="Exists('..\packages\MonoGame.Framework.MacOS.3.7.1.189\build\MonoGame.Framework.MacOS.targets')" />
 </Project>
