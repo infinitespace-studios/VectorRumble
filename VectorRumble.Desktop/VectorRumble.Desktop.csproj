@@ -37,42 +37,46 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Strings.Designer.cs">
+    <Compile Include="..\VectorRumble.Shared\Strings.Designer.cs">
+      <Link>Strings.Designer.cs</Link>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icon.png" />
     <MonoGameContentReference Include="..\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
     <None Include="packages.config" />
+    <EmbeddedResource Include="..\VectorRumble.Shared\Icon.bmp">
+      <Link>Icon.bmp</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Icon.ico">
+      <Link>Icon.ico</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Icon.png">
+      <Link>Icon.png</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon.ico">
-    </EmbeddedResource>
-    <EmbeddedResource Include="Icon.bmp">
-      <LogicalName>Icon.bmp</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Strings.resx">
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.resx">
+      <Link>Strings.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MonoGame.Framework.dll.config">
+    <Content Include="..\VectorRumble.Shared\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="libopenal.1.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libSDL2-2.0.0.dylib">
+    <Content Include="..\VectorRumble.Shared\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -97,4 +101,5 @@
         </PropertyGroup>
   </Target>
   <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
+  <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets')" />
 </Project>

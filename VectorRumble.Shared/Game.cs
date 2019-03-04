@@ -59,7 +59,7 @@ namespace VectorRumble
 			graphics.IsFullScreen = false;
 #endif
 			graphics.SynchronizeWithVerticalRetrace = true;
-			Window.AllowUserResizing = false;
+            Window.AllowUserResizing = false;
 
             // create the screen manager
             screenManager = new ScreenManager(this);
