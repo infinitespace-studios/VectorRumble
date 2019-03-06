@@ -9,8 +9,12 @@
 
 #region Using Statements
 using System;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 #endregion
 
@@ -19,7 +23,7 @@ namespace VectorRumble
     /// <summary>
     /// The ship, which is the primary playing-piece in the game.
     /// </summary>
-    class Ship : Actor
+    internal class Ship : Actor
     {
         #region Constants
         /// <summary>
@@ -110,28 +114,25 @@ namespace VectorRumble
         const float shieldRotationToScalePeriodScalar = 4f;
 
         /// <summary>
-        /// The colors used for each ship, given it's player-index.
-        /// </summary>
-        static readonly Color[] shipColorsByPlayerIndex = 
-            {
-                Color.Lime, Color.CornflowerBlue, Color.Fuchsia, Color.Red
-            };
-
-        /// <summary>
         /// Particle system colors for the ship-explosion effect.
         /// </summary>
         static readonly Color[] explosionColors = 
-            { 
-                Color.Red, Color.Red, Color.Silver, Color.Gray, Color.Orange, 
-                Color.Yellow 
-            };
+        { 
+            Color.Red, Color.Red, Color.Silver, Color.Gray, Color.Orange, 
+            Color.Yellow, Color.DarkGray, Color.DarkRed
+        };
         #endregion
 
         #region Fields
         /// <summary>
         /// If true, this ship is active in-game.
         /// </summary>
-        private bool playing = false;
+        private bool playing;
+
+        /// <summary>
+        /// If true, this ship is selected on the selection screen.
+        /// </summary>
+        private bool selected;
 
         /// <summary>
         /// The current score for this ship.
@@ -146,7 +147,7 @@ namespace VectorRumble
         /// <summary>
         /// The strength of the shield.
         /// </summary>
-        private float shield = 0f;
+        private float shieldStrength = 0f;
 
         /// <summary>
         /// The rotation of the shield effect.
@@ -167,11 +168,6 @@ namespace VectorRumble
         /// The ship's additional mine-laying weapon.
         /// </summary>
         private MineWeapon mineWeapon = null;
-        
-        /// <summary>
-        /// The Gamepad player index that is controlling this ship.
-        /// </summary>
-        private PlayerIndex playerIndex;
 
         /// <summary>
         /// The current state of the Gamepad that is controlling this ship.
@@ -240,11 +236,16 @@ namespace VectorRumble
             get { return playing; }
         }
 
+        public bool Selected
+        {
+            get { return selected; }
+            set { selected = value; }
+        }
+
         public bool Safe
         {
             get { return (safeTimer > 0f); }
-            set
-            {
+            set {
                 if (value)
                 {
                     safeTimer = safeTimerMaximum;
@@ -261,26 +262,37 @@ namespace VectorRumble
             get { return score; }
             set { score = value; }
         }
+
+        public string Name { get; set; }
+
+        public string PlayerIndex { get; set; }
+
+        public PlayerIndex PlayerStringToIndex { get { return StringToPlayerIndexMapper[PlayerIndex]; } }
+
+        private Dictionary<string, PlayerIndex> StringToPlayerIndexMapper = new Dictionary<string, PlayerIndex> {
+            { "One", Microsoft.Xna.Framework.PlayerIndex.One },
+            { "Two",  Microsoft.Xna.Framework.PlayerIndex.Two },
+            { "Three", Microsoft.Xna.Framework.PlayerIndex.Three },
+            { "Four",  Microsoft.Xna.Framework.PlayerIndex.Four }
+        };
         #endregion
 
         #region Initialization
-        /// <summary>
-        /// Construct a new ship, for the given player.
-        /// </summary>
-        /// <param name="world">The world that this ship belongs to.</param>
-        /// <param name="playerIndex">
-        /// The Gamepad player index that controls this ship.
-        /// </param>
-        public Ship(World world, PlayerIndex playerIndex)
-            : base(world)
-        {
-            this.playerIndex = playerIndex;
 
-            this.radius = 20f;
-            this.mass = 32f;
-            this.color = shipColorsByPlayerIndex[(int)this.playerIndex];
-			this.polygon = VectorPolygon.CreatePlayer(playerIndex);
-            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 20f, 16);
+        /// <summary>
+        /// Construct a new ship.
+        /// </summary>
+        public Ship()
+        {
+            Initialize();
+        }
+
+        internal void Initialize()
+        {
+            mass = 32f;
+            playing = false;
+            radius = 20f;
+            shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 20f, 16);
         }
         #endregion
 
@@ -294,15 +306,15 @@ namespace VectorRumble
             // process all input
             ProcessInput(elapsedTime, false);
 
-            // if this player isn't in the game, then quit now
-            if (playing == false)
+            // if this player hasn't joined the game, then quit now
+            if (!selected)
             {
                 return;
             }
 
-            if (dead == true)
+            if (dead)
             {
-            // if we've died, then we're counting down to respawning
+                // if we've died, then we're counting down to respawning
                 if (respawnTimer > 0f)
                 {
                     respawnTimer = Math.Max(respawnTimer - elapsedTime, 0f);
@@ -329,10 +341,10 @@ namespace VectorRumble
                 // recharge the shields if the timer has come up
                 if (shieldRechargeTimer <= 0f)
                 {
-                    if (shield < 100f)
+                    if (shieldStrength < 100f)
                     {
-                        shield = Math.Min(100f,
-                            shield + shieldRechargePerSecond * elapsedTime);
+                        shieldStrength = Math.Min(100f,
+                            shieldStrength + shieldRechargePerSecond * elapsedTime);
                     }
                 }
             }
@@ -354,7 +366,7 @@ namespace VectorRumble
             }
 
             // update the radius based on the shield
-            radius = (shield > 0f) ? 20f : 14f;
+            radius = (shieldStrength > 0f) ? 20f : 14f;
 
             // update the spawn-in timer
             if (fadeInTimer < fadeInTimerMaximum)
@@ -366,7 +378,8 @@ namespace VectorRumble
             // update and apply the vibration
             smallMotorTimer -= elapsedTime;
             largeMotorTimer -= elapsedTime;
-            GamePad.SetVibration(playerIndex,
+
+            GamePad.SetVibration(PlayerStringToIndex,
                 (largeMotorTimer > 0f) ? largeMotorSpeed : 0f,
                 (smallMotorTimer > 0f) ? smallMotorSpeed : 0f);
             
@@ -383,30 +396,39 @@ namespace VectorRumble
         public override void Draw(float elapsedTime, LineBatch lineBatch)
         {
             // if the ship isn't in the game, or it's dead, don't draw
-            if ((playing == false) || (dead == true))
+            if ((!selected) || (dead))
             {
                 return;
             }
-            // update the shield rotation
-            shieldRotation += elapsedTime * shieldRotationPeriodPerSecond;
-            // calculate the current color
-            color = new Color(color.R, color.G, color.B, (byte)(255f * fadeInTimer / 
-                fadeInTimerMaximum));
-            // transform the shield polygon
-            Matrix translationMatrix = Matrix.CreateTranslation(position.X, 
-                position.Y, 0f);
-            shieldPolygon.Transform(Matrix.CreateScale(1f + shieldRotationToScaleScalar 
-                * (float)Math.Cos(shieldRotation * shieldRotationToScalePeriodScalar)) *
-                Matrix.CreateRotationZ(shieldRotation) * translationMatrix);
-            // draw the shield
-            if (Safe)
+
+            // We won't have shields during selection
+            if (shieldPolygon != null)
             {
-                lineBatch.DrawPolygon(shieldPolygon, color);
-            }
-            else if (shield > 0f)
-            {
-                lineBatch.DrawPolygon(shieldPolygon, new Color(color.R, color.G, 
-                    color.B, (byte)(255f * shield / shieldMaximum)), true);
+                // update the shield rotation
+                shieldRotation += elapsedTime * shieldRotationPeriodPerSecond;
+
+                // calculate the current color
+                color = new Color(color.R, color.G, color.B, (byte)(255f * fadeInTimer /
+                    fadeInTimerMaximum));
+
+                // transform the shield polygon
+                Matrix translationMatrix = Matrix.CreateTranslation(position.X,
+                    position.Y, 0f);
+
+                shieldPolygon.Transform(Matrix.CreateScale(1f + shieldRotationToScaleScalar
+                    * (float)Math.Cos(shieldRotation * shieldRotationToScalePeriodScalar)) *
+                    Matrix.CreateRotationZ(shieldRotation) * translationMatrix);
+
+                // draw the shield
+                if (Safe)
+                {
+                    lineBatch.DrawPolygon(shieldPolygon, color);
+                }
+                else if (shieldStrength > 0f)
+                {
+                    lineBatch.DrawPolygon(shieldPolygon, new Color(color.R, color.G,
+                        color.B, (byte)(255f * shieldStrength / shieldMaximum)), true);
+                }
             }
             base.Draw(elapsedTime, lineBatch);
         }
@@ -418,7 +440,20 @@ namespace VectorRumble
         /// </summary>
         public void JoinGame()
         {
-            if (playing == false)
+            if (!selected)
+            {
+                selected = true;
+                World.ShipManager.UpdateSelectedList();
+                Spawn(false);
+            }
+        }
+
+        /// <summary>
+        /// Set the ship up to play the game, if it's not in it already.
+        /// </summary>
+        public void PlayGame()
+        {
+            if (!playing)
             {
                 playing = true;
                 score = 0;
@@ -432,7 +467,7 @@ namespace VectorRumble
         /// </summary>
         public void LeaveGame()
         {
-            if (playing == true)
+            if (playing)
             {
                 playing = false;
                 Die(null);
@@ -479,18 +514,18 @@ namespace VectorRumble
             shieldRechargeTimer = 2.5f;
 
             // damage the shield first, then life
-            if (shield <= 0f)
+            if (shieldStrength <= 0f)
             {
                 life -= damageAmount;
             }
             else
             {
-                shield -= damageAmount;
-                if (shield < 0f)
+                shieldStrength -= damageAmount;
+                if (shieldStrength < 0f)
                 {
                     // shield has the overflow value as a negative value, just add it
-                    life += shield;
-                    shield = 0f;
+                    life += shieldStrength;
+                    shieldStrength = 0f;
                 }
             }
 
@@ -583,7 +618,7 @@ namespace VectorRumble
                 velocity = Vector2.Zero;
                 // reset the shield and life values
                 life = 25f;
-                shield = shieldMaximum;
+                shieldStrength = shieldMaximum;
                 // reset the safety timers
                 safeTimer = safeTimerMaximum;
                 // create the default weapons
@@ -597,6 +632,11 @@ namespace VectorRumble
                 // remind the player that we're spawning
                 FireGamepadMotors(0.25f, 0f);
             }
+        }
+
+        internal void ChangeColor()
+        {
+            color = new Color(ParticleSystem.random.Next(256), ParticleSystem.random.Next(256), ParticleSystem.random.Next(256));
         }
         #endregion
 
@@ -621,202 +661,245 @@ namespace VectorRumble
         /// <para
         public virtual void ProcessInput(float elapsedTime, bool overlayPresent)
         {
-            currentGamePadState = GamePad.GetState(playerIndex);
-            currentKeyboardState = Keyboard.GetState();
-
-            if (overlayPresent == false)
+            // If this Ship doesn't have a PlayerIndex set, it is spare
+            if (!string.IsNullOrEmpty(PlayerIndex))
             {
-                if (playing == false)
-                {
-					// trying to join - update the a-button timer
-					if (currentGamePadState.Buttons.A == ButtonState.Pressed) {
-						aButtonTimer += elapsedTime;
-					}
-					else if ((currentKeyboardState.IsKeyDown (Keys.Z) && playerIndex == PlayerIndex.One)
-							 || (currentKeyboardState.IsKeyDown (Keys.M) && playerIndex == PlayerIndex.Two)) {
-						aButtonTimer += aButtonTimer + elapsedTime;
-					}
-					else {
-						aButtonTimer = 0f;
-                    }
+                currentGamePadState = GamePad.GetState(PlayerStringToIndex);
+                currentKeyboardState = Keyboard.GetState();
 
-                    // if the timer has exceeded the expected value, join the game
-                    if (aButtonTimer > aButtonHeldToPlay)
+                if (!overlayPresent)
+                {
+                    if (!selected)
                     {
-                        JoinGame();
+                        // trying to join - update the A/X -button timer
+                        if (currentGamePadState.Buttons.A == ButtonState.Pressed && (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.One || PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Two))
+                        {
+                            aButtonTimer += aButtonTimer + elapsedTime;
+                        }
+                        else if ((currentKeyboardState.IsKeyDown(Keys.W) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
+                                 || (currentKeyboardState.IsKeyDown(Keys.Up) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four))
+                        {
+                            aButtonTimer += aButtonTimer + elapsedTime;
+                        }
+                        else
+                        {
+                            aButtonTimer = 0f;
+                        }
+
+                        // if the timer has exceeded the expected value, join the game
+                        if (aButtonTimer > aButtonHeldToPlay)
+                        {
+                            JoinGame();
+                        }
+                    }
+                    else if (playing)
+                    {
+                        // check if we're trying to leave. pressing B/O on controllers
+                        if ((currentGamePadState.Buttons.B == ButtonState.Pressed)
+                            || (currentKeyboardState.IsKeyDown(Keys.X) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
+                            || (currentKeyboardState.IsKeyDown(Keys.N) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four))
+                        {
+                            bButtonTimer += elapsedTime;
+                        }
+                        else
+                        {
+                            bButtonTimer = 0f;
+                        }
+
+                        // if the timer has exceeded the expected value, leave the game
+                        if (bButtonTimer > bButtonHeldToLeave)
+                        {
+                            LeaveGame();
+                        }
+                        else if (!dead)
+                        {
+                            //
+                            // the ship is alive, so process movement and firing
+                            //
+                            // calculate the current forward vector
+                            Vector2 forward = new Vector2((float)Math.Sin(Rotation),
+                                -(float)Math.Cos(Rotation));
+                            Vector2 right = new Vector2(-forward.Y, forward.X);
+                            // calculate the current left stick value
+                            Vector2 leftStick = currentGamePadState.ThumbSticks.Left;
+                            leftStick.Y *= -1f;
+
+                            if (leftStick.LengthSquared() > 0f)
+                            {
+                                Vector2 wantedForward = Vector2.Normalize(leftStick);
+                                float angleDiff = (float)Math.Acos(
+                                    Vector2.Dot(wantedForward, forward));
+                                float facing = (Vector2.Dot(wantedForward, right) > 0f) ?
+                                    1f : -1f;
+                                if (angleDiff > 0f)
+                                {
+                                    Rotation += Math.Min(angleDiff, facing * elapsedTime *
+                                        rotationRadiansPerSecond);
+                                }
+                                // add velocity
+                                Velocity += leftStick * (elapsedTime * speed);
+                                if (Velocity.Length() > velocityLengthMaximum)
+                                {
+                                    Velocity = Vector2.Normalize(Velocity) *
+                                        velocityLengthMaximum;
+                                }
+
+                            }
+                            else if (currentKeyboardState != null)
+                            {
+                                if (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
+                                {
+                                    // Rotate Left            
+                                    if (currentKeyboardState.IsKeyDown(Keys.A))
+                                    {
+                                        Rotation -= elapsedTime * rotationRadiansPerSecond;
+                                    }
+
+                                    // Rotate Right
+                                    if (currentKeyboardState.IsKeyDown(Keys.D))
+                                    {
+                                        Rotation += elapsedTime * rotationRadiansPerSecond;
+                                    }
+
+                                    //create some velocity if the right trigger is down
+                                    Vector2 shipVelocityAdd = Vector2.Zero;
+
+                                    //now scale our direction by how hard/long the trigger/keyboard is down
+                                    if (currentKeyboardState.IsKeyDown(Keys.W))
+                                    {
+                                        //find out what direction we should be thrusting, using rotation
+                                        shipVelocityAdd.X = (float)Math.Sin(Rotation);
+                                        shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
+
+                                        shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
+                                    }
+
+                                    //finally, add this vector to our velocity.
+                                    Velocity += shipVelocityAdd;
+
+                                    // Lets fire our weapon
+                                    if (currentKeyboardState.IsKeyDown(Keys.Tab))
+                                    {
+                                        // fire ahead of us
+                                        weapon.Fire(Vector2.Normalize(forward));
+                                    }
+
+                                    // Lets drop some Mines
+                                    if (currentKeyboardState.IsKeyDown(Keys.S))
+                                    {
+                                        // fire behind the ship
+                                        mineWeapon.Fire(-forward);
+                                    }
+                                }
+
+                                if (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four)
+                                {
+                                    // Rotate Left            
+                                    if (currentKeyboardState.IsKeyDown(Keys.Left))
+                                    {
+                                        Rotation -= elapsedTime * rotationRadiansPerSecond;
+                                    }
+
+                                    // Rotate Right
+                                    if (currentKeyboardState.IsKeyDown(Keys.Right))
+                                    {
+                                        Rotation += elapsedTime * rotationRadiansPerSecond;
+                                    }
+
+                                    //create some velocity if the right trigger is down
+                                    Vector2 shipVelocityAdd = Vector2.Zero;
+
+                                    //now scale our direction by how hard/long the trigger/keyboard is down
+                                    if (currentKeyboardState.IsKeyDown(Keys.Up))
+                                    {
+                                        //find out what direction we should be thrusting, using rotation
+                                        shipVelocityAdd.X = (float)Math.Sin(Rotation);
+                                        shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
+
+                                        shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
+                                    }
+
+                                    //finally, add this vector to our velocity.
+                                    Velocity += shipVelocityAdd;
+
+                                    // Lets drop some Mines
+                                    if (currentKeyboardState.IsKeyDown(Keys.RightControl) || currentKeyboardState.IsKeyDown(Keys.RightAlt))
+                                    {
+                                        // fire ahead of us
+                                        weapon.Fire(Vector2.Normalize(forward));
+                                    }
+
+                                    // Lets drop some Mines
+                                    if (currentKeyboardState.IsKeyDown(Keys.Down))
+                                    {
+                                        // fire behind the ship
+                                        mineWeapon.Fire(-forward);
+                                    }
+                                }
+                            }
+
+                            if (WorldRules.ControllersCanShootInAllDirections)
+                            {
+                                // check for firing with the right stick
+                                Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
+                                rightStick.Y *= -1f;
+                                if (rightStick.LengthSquared() > fireThresholdSquared)
+                                {
+                                    weapon.Fire(Vector2.Normalize(rightStick));
+                                }
+                            }
+
+                            if (currentGamePadState.Buttons.RightShoulder == ButtonState.Pressed)
+                            {
+                                // fire ahead of us
+                                weapon.Fire(Vector2.Normalize(forward));
+                            }
+
+                            // check for laying mines
+                            if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&
+                                (lastGamePadState.Buttons.B == ButtonState.Released))
+                            {
+                                // fire behind the ship
+                                mineWeapon.Fire(-forward);
+                            }
+                        }
                     }
                 }
-                else
+
+                // update the gamepad state
+                lastGamePadState = currentGamePadState;
+                lastKeyboardState = currentKeyboardState;
+                return;
+            }
+        }
+        #endregion
+
+        #region Loading
+        internal static Ship Load(XElement root)
+        {
+            var result = new Ship
+            {
+                Color = Helper.ColorParse(root.Element("Color").Value),
+                Mass = int.Parse(root.Element("Mass").Value),
+                Name = root.Element("Name").Value,
+                PlayerIndex = root.Element("PlayerIndex").Value,
+                Radius = int.Parse(root.Element("Radius").Value),
+            };
+
+            var points = root.XPathSelectElement("./Shape/Points").Value;
+            var p = points.Split(' ');
+            var plist = new List<Vector2>();
+            for (int i = 0; i < p.Length; i += 2)
+            {
+                plist.Add(new Vector2
                 {
-                    // check if we're trying to leave
-                    if ((currentGamePadState.Buttons.B == ButtonState.Pressed) 
-						|| (currentKeyboardState.IsKeyDown(Keys.X) && playerIndex == PlayerIndex.One)
-						|| (currentKeyboardState.IsKeyDown(Keys.N) && playerIndex == PlayerIndex.Two))
-                    {
-                        bButtonTimer += elapsedTime;
-                    }
-                    else
-                    {
-                        bButtonTimer = 0f;
-                    }
-                    // if the timer has exceeded the expected value, leave the game
-                    if (bButtonTimer > bButtonHeldToLeave)
-                    {
-                        LeaveGame();
-                    }
-                    else if (dead == false)
-                    {
-                        //
-                        // the ship is alive, so process movement and firing
-                        //
-                        // calculate the current forward vector
-                        Vector2 forward = new Vector2((float)Math.Sin(Rotation),
-                            -(float)Math.Cos(Rotation));
-                        Vector2 right = new Vector2(-forward.Y, forward.X);
-                        // calculate the current left stick value
-                        Vector2 leftStick = currentGamePadState.ThumbSticks.Left;
-                        leftStick.Y *= -1f;
-                        if (leftStick.LengthSquared() > 0f)
-                        {
-                            Vector2 wantedForward = Vector2.Normalize(leftStick);
-                            float angleDiff = (float)Math.Acos(
-                                Vector2.Dot(wantedForward, forward));
-                            float facing = (Vector2.Dot(wantedForward, right) > 0f) ?
-                                1f : -1f;
-                            if (angleDiff > 0f)
-                            {
-                                Rotation += Math.Min(angleDiff, facing * elapsedTime *
-                                    rotationRadiansPerSecond);
-                            }
-                            // add velocity
-                            Velocity += leftStick * (elapsedTime * speed);
-                            if (Velocity.Length() > velocityLengthMaximum)
-                            {
-                                Velocity = Vector2.Normalize(Velocity) *
-                                    velocityLengthMaximum;
-                            }
-
-                        }
-                        else if (currentKeyboardState != null)
-                        {
-							if ( playerIndex == PlayerIndex.One )
-							{
-	                            // Rotate Left            
-	                            if (currentKeyboardState.IsKeyDown(Keys.A))
-	                            {
-	                                Rotation -= elapsedTime * rotationRadiansPerSecond;	
-	                            }
-	
-	                            // Rotate Right
-	                            if (currentKeyboardState.IsKeyDown(Keys.D))
-	                            {
-	                                Rotation += elapsedTime * rotationRadiansPerSecond;
-	                            }
-	
-	                            //create some velocity if the right trigger is down
-	                            Vector2 shipVelocityAdd = Vector2.Zero;
-	
-	                            //now scale our direction by how hard/long the trigger/keyboard is down
-	                            if (currentKeyboardState.IsKeyDown(Keys.W))
-	                            {
-	                                //find out what direction we should be thrusting, using rotation
-	                                shipVelocityAdd.X = (float)Math.Sin(Rotation);
-	                                shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
-	
-	                                shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
-	                            }
-	
-	                            //finally, add this vector to our velocity.
-	                            Velocity += shipVelocityAdd;
-	
-	                            // Lets fire our weapon
-	                            if (currentKeyboardState.IsKeyDown(Keys.Tab))
-	                            {
-	                                // fire ahead of us
-	                                weapon.Fire(Vector2.Normalize(forward));
-	                            }
-
-	                            // Lets drop some Mines
-	                            if (currentKeyboardState.IsKeyDown(Keys.S))
-	                            {
-	                                // fire behind the ship
-	                                mineWeapon.Fire(-forward);
-	                            }
-							}
-							
-							if ( playerIndex == PlayerIndex.Two )
-							{
-	                            // Rotate Left            
-	                            if (currentKeyboardState.IsKeyDown(Keys.Left))
-	                            {
-	                                Rotation -= elapsedTime * rotationRadiansPerSecond;
-	                            }
-	
-	                            // Rotate Right
-	                            if (currentKeyboardState.IsKeyDown(Keys.Right))
-	                            {
-	                                Rotation += elapsedTime * rotationRadiansPerSecond;
-	                            }
-	
-	                            //create some velocity if the right trigger is down
-	                            Vector2 shipVelocityAdd = Vector2.Zero;
-	
-	                            //now scale our direction by how hard/long the trigger/keyboard is down
-	                            if (currentKeyboardState.IsKeyDown(Keys.Up))
-	                            {
-	                                //find out what direction we should be thrusting, using rotation
-	                                shipVelocityAdd.X = (float)Math.Sin(Rotation);
-	                                shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
-	
-	                                shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
-	                            }
-	
-	                            //finally, add this vector to our velocity.
-	                            Velocity += shipVelocityAdd;
-	
-	                            // Lets drop some Mines
-								if (currentKeyboardState.IsKeyDown(Keys.RightControl) || currentKeyboardState.IsKeyDown (Keys.RightAlt))
-	                            {
-	                                // fire ahead of us
-	                                weapon.Fire(Vector2.Normalize(forward));
-	                            }
-	
-	                            // Lets drop some Mines
-	                            if (currentKeyboardState.IsKeyDown(Keys.Down))
-	                            {
-	                                // fire behind the ship
-	                                mineWeapon.Fire(-forward);
-	                            }
-							}
-                        }
-
-                        // check for firing with the right stick
-                        Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
-                        rightStick.Y *= -1f;
-                        if (rightStick.LengthSquared() > fireThresholdSquared)
-                        {
-                            weapon.Fire(Vector2.Normalize(rightStick));
-                        }
-	                            if (currentGamePadState.Buttons.RightShoulder == ButtonState.Pressed)
-	                            {
-	                                // fire ahead of us
-	                                weapon.Fire(Vector2.Normalize(forward));
-	                            }
-                        // check for laying mines
-                        if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&
-                            (lastGamePadState.Buttons.B == ButtonState.Released))
-                        {
-                            // fire behind the ship
-                            mineWeapon.Fire(-forward);
-                        }
-                    }
-                }
+                    X = float.Parse(p[i]),
+                    Y = float.Parse(p[i + 1]),
+                });
             }
 
-            // update the gamepad state
-            lastGamePadState = currentGamePadState;
-            lastKeyboardState = currentKeyboardState;
-            return;
+            result.Shape = new VectorPolygon (plist.ToArray ());
+            return result;
         }
         #endregion
     }

@@ -54,6 +54,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Simulation\World.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Simulation\WorldActor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Simulation\WorldRules.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ArenaSelectionScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ShipSelectionScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\ShipManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\ArenaManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Gameplay\Arena.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\AboutMenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />

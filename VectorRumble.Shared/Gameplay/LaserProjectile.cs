@@ -59,8 +59,9 @@ namespace VectorRumble
         {
             if (lineBatch == null)
             {
-                throw new ArgumentNullException("lineBatch");
+                throw new ArgumentNullException(nameof(lineBatch));
             }
+
             // draw a simple line
             lineBatch.DrawLine(position, 
                 position - velocity * lineLengthVelocityPercent, Color.Yellow);

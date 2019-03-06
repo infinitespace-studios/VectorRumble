@@ -32,18 +32,30 @@ namespace VectorRumble
         {
 			MenuEntry playGameMenuEntry = new MenuEntry(Strings.Play_Game);
             MenuEntry optionsMenuEntry = new MenuEntry(Strings.Options);
+            MenuEntry aboutMenuEntry = new MenuEntry(Strings.About);
             MenuEntry exitMenuEntry = new MenuEntry(Strings.Exit);
 
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
+            aboutMenuEntry.Selected += AboutMenuEntrySelected;
             exitMenuEntry.Selected += ExitMenuEntrySelected;
 
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
+            MenuEntries.Add(aboutMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
 
+        /// <summary>
+        /// Load all content.
+        /// </summary>
+        public override void LoadContent()
+        {
+            base.Initialize(); // TODO Move this somewhere better
 
+            World.ArenaManager.LoadContent(ScreenManager.Game.Content);
+            base.LoadContent();
+        }
         #endregion
 
         #region Handle Input
@@ -54,21 +66,21 @@ namespace VectorRumble
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, EventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, LoadGameplayScreen, true);
+            foreach (var screen in ScreenManager.Screens)
+            {
+                if (screen is BackgroundScreen bgScreen)
+                {
+                    bgScreen.ShowParticles = false;
+                    break;
+                }
+            }
+
+            var shipSelection = new ShipSelectionScreen {
+                ScreenManager = this.ScreenManager
+            };
+            shipSelection.Initialize();
+            ScreenManager.AddScreen(shipSelection);
         }
-
-
-        /// <summary>
-        /// Loading screen callback for activating the gameplay screen.
-        /// </summary>
-        void LoadGameplayScreen(object sender, EventArgs e)
-        {
-            GameplayScreen gameplayScreen = new GameplayScreen();
-            gameplayScreen.ScreenManager = this.ScreenManager;
-            gameplayScreen.Initialize();
-            ScreenManager.AddScreen(gameplayScreen);
-        }
-
 
         /// <summary>
         /// Event handler for when the Options menu entry is selected.
@@ -98,7 +110,6 @@ namespace VectorRumble
             ScreenManager.AddScreen(messageBox);
         }
 
-
         /// <summary>
         /// Event handler for when the user selects ok on the "are you sure
         /// you want to exit" message box.
@@ -108,7 +119,10 @@ namespace VectorRumble
             ScreenManager.Game.Exit();
         }
 
-
+        private void AboutMenuEntrySelected(object sender, EventArgs e)
+        {
+            ScreenManager.AddScreen(new AboutMenuScreen());
+        }
         #endregion
     }
 }

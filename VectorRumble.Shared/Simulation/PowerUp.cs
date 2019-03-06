@@ -83,8 +83,9 @@ namespace VectorRumble
             {
                 if (lineBatch == null)
                 {
-                    throw new ArgumentNullException("lineBatch");
+                    throw new ArgumentNullException(nameof(lineBatch));
                 }
+
                 // calculate the transformation
                 Matrix scaleMatrix = Matrix.CreateScale(0.8f + 
                     0.1f * (float)Math.Cos(scalePeriodElapsed));

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:VectorRumble="VectorRumble">
+  <Asset Type="VectorRumble:Ship">
+    <Mass>20</Mass>
+    <Radius>15</Radius>
+    <Color>FFFF0000</Color>
+    <Shape>
+      <Points>1.03 4.99 0.00 3.02 -1.00 4.99 -2.99 0.96 -7.99 4.04 -8.98 8.00 -10.03 4.02 -10.05 -4.02 -9.04 -8.05 -7.98 -4.02 -2.98 -1.02 -1.02 -1.02 -0.03 -5.04 1.01 -1.00 3.05 -0.97 8.00 -4.12 9.00 -7.97 10.02 -4.02 9.97 3.99 8.96 8.00 7.97 4.02 3.01 1.00</Points>
+    </Shape>
+    <Name>Bat-ter Up</Name>
+    <PlayerIndex></PlayerIndex>
+  </Asset>
+</XnaContent>

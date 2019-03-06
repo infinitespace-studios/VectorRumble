@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
@@ -50,6 +51,7 @@ namespace VectorRumble
         public World World
         {
             get { return world; }
+            set { world = value; }
         }
 
         public bool Dead
@@ -79,14 +81,12 @@ namespace VectorRumble
             set { rotation = value; }
         }
 
-        public bool Collidable
-        {
-            get { return collidable; }
-        }
+        public bool Collidable => collidable;
 
         public float Mass
         {
             get { return mass; }
+            set { mass = value; }
         }
 
         public bool CollidedThisFrame
@@ -98,11 +98,19 @@ namespace VectorRumble
         public float Radius
         {
             get { return radius; }
+            set { radius = value; }
         }
 
         public Color Color
         {
             get { return color; }
+            set { color = value; }
+        }
+
+        public VectorPolygon Shape
+        {
+            get { return polygon; }
+            set { polygon = value; }
         }
         #endregion
 
@@ -113,11 +121,14 @@ namespace VectorRumble
         /// <param name="world">The world that this actor belongs to.</param>
         public Actor(World world)
         {
-            if (world == null)
-            {
-                throw new ArgumentNullException("world");
-            }
-            this.world = world;
+            this.world = world ?? throw new ArgumentNullException(nameof(world));
+        }
+
+        /// <summary>
+        /// Constructs a new actor.
+        /// </summary>
+        protected Actor()
+        {
         }
         #endregion
 
@@ -144,14 +155,15 @@ namespace VectorRumble
             {
                 if (lineBatch == null)
                 {
-                    throw new ArgumentNullException("lineBatch");
+                    throw new ArgumentNullException(nameof(lineBatch));
                 }
+
                 // create the transformation
                 Matrix rotationMatrix = Matrix.CreateRotationZ(rotation);
-                Matrix world =  rotationMatrix *
+                Matrix worldMatrix =  rotationMatrix *
                     Matrix.CreateTranslation(position.X, position.Y, 0f);
                 // transform the polygon
-                polygon.Transform(world);
+                polygon.Transform(worldMatrix);
                 // draw the polygon
                 lineBatch.DrawPolygon(polygon, color);
 

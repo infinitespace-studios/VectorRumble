@@ -119,12 +119,14 @@ namespace VectorRumble
         {
             if (spriteBatch == null)
             {
-                throw new ArgumentNullException("spriteBatch");
+                throw new ArgumentNullException(nameof(spriteBatch));
             }
+
             if (spriteTexture == null)
             {
-                throw new ArgumentNullException("spriteTexture");
+                throw new ArgumentNullException(nameof(spriteTexture));
             }
+
             for (int i = 0; i < starPositions.Length; i++)
             {
                 Color starColor = new Color(starDepths[i], starDepths[i],

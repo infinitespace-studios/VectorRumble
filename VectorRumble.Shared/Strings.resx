@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<resheader name="resmimetype">
 		<value>text/microsoft-resx</value>
@@ -13,7 +13,7 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="Play Game" xml:space="preserve">
-		<value>Play Game</value>
+		<value>Play</value>
 	</data>
 	<data name="Options" xml:space="preserve">
 		<value>Options</value>
@@ -22,44 +22,45 @@
 		<value>Exit</value>
 	</data>
 	<data name="Exit_Prompt" xml:space="preserve">
-		<value>Exit VectorRumble?</value>
+		<value>Exit?</value>
 	</data>
 	<data name="MessageBox_Usage" xml:space="preserve">
-		<value>A button, Space, Enter = ok
-B button, Esc = cancel</value>
+		<value>Pressing...
+A/X Button, Space, Enter = OK
+B/O Button, Esc = Cancel</value>
 	</data>
 	<data name="Resume Game" xml:space="preserve">
-		<value>Resume Game</value>
+		<value>Resume</value>
 	</data>
 	<data name="Quit Game" xml:space="preserve">
-		<value>Quit Game</value>
+		<value>Quit</value>
 	</data>
 	<data name="Are_You_Sure" xml:space="preserve">
-		<value>Are you sure?</value>
+		<value>Sure?</value>
 	</data>
 	<data name="Play_Again" xml:space="preserve">
-		<value>Play Again</value>
+		<value>Again?</value>
 	</data>
 	<data name="Return_to_Menu" xml:space="preserve">
 		<value>Return to Menu</value>
 	</data>
 	<data name="Player_X_Wins" xml:space="preserve">
-		<value>Player {0} wins the game!</value>
+		<value>{0} Wins!</value>
 	</data>
 	<data name="Score" xml:space="preserve">
-		<value>Player {0} : {1}</value>
+		<value>{0} : {1}</value>
 	</data>
 	<data name="Hold_A_To_Join" xml:space="preserve">
-		<value>Hold  A  to  Join</value>
+		<value>Hold A/X to Join</value>
 	</data>
-	<data name="Press_Z_To_Join" xml:space="preserve">
-		<value>Press  Z  to  Join</value>
+	<data name="Press_W_To_Join" xml:space="preserve">
+		<value>Press W to Join</value>
 	</data>
-	<data name="Press_M_To_Join" xml:space="preserve">
-		<value>Press  M  to  Join</value>
+	<data name="Press_Up_To_Join" xml:space="preserve">
+		<value>Press Up to Join</value>
 	</data>
 	<data name="Connect_Gamepad" xml:space="preserve">
-		<value>Connect  GamePad</value>
+		<value>Connect GamePad</value>
 	</data>
 	<data name="Loading" xml:space="preserve">
 		<value>Loading...</value>
@@ -70,8 +71,8 @@ B button, Esc = cancel</value>
 	<data name="Asteroid_Density" xml:space="preserve">
 		<value>Asteroid Density : {0}</value>
 	</data>
-	<data name="Wall_Style" xml:space="preserve">
-		<value>Wall Style : {0}</value>
+	<data name="Arena" xml:space="preserve">
+		<value>Arena : {0}</value>
 	</data>
 	<data name="Motion_Blur" xml:space="preserve">
 		<value>Motion Blur : {0}</value>
@@ -94,19 +95,7 @@ B button, Esc = cancel</value>
 	<data name="Asteroid_Density_High" xml:space="preserve">
 		<value>High</value>
 	</data>
-	<data name="Wall_Style_None" xml:space="preserve">
-		<value>None</value>
-	</data>
-	<data name="Wall_Style_One" xml:space="preserve">
-		<value>One</value>
-	</data>
-	<data name="Wall_Style_Two" xml:space="preserve">
-		<value>Two</value>
-	</data>
-	<data name="Wall_Style_Three" xml:space="preserve">
-		<value>Three</value>
-	</data>
-	<data name="Wall_Style_Random" xml:space="preserve">
+	<data name="Arena_Random" xml:space="preserve">
 		<value>Random</value>
 	</data>
 	<data name="Windowed" xml:space="preserve">
@@ -118,4 +107,40 @@ B button, Esc = cancel</value>
 	<data name="Display_Mode" xml:space="preserve">
 		<value>Display Mode : {0}</value>
 	</data>	
+     <data name="Choose_Your_Ship" xml:space="preserve">
+        <value>Choose Your Ship</value>
+     </data>
+     <data name="Battle_Arena_Is" xml:space="preserve">
+        <value>Battle Arena Is : {0}</value>
+     </data>
+     <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
+        <value>Press Up to change colour. Press Fire to change Ship.</value>
+     </data>
+     <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
+        <value>Controllers Can Shoot In All Directions: {0}</value>
+     </data>
+     <data name="About" xml:space="preserve">
+        <value>About</value>
+     </data>
+     <data name="Move" xml:space="preserve">
+        <value>Move</value>
+     </data>
+     <data name="Fire" xml:space="preserve">
+        <value>Fire</value>
+     </data>
+     <data name="Mine" xml:space="preserve">
+        <value>Mine</value>
+     </data>
+     <data name="Built_With_MonoGame" xml:space="preserve">
+        <value>Built With MonoGame</value>
+     </data>
+     <data name="Font_By" xml:space="preserve">
+        <value>Font: {0}, Created By: {1}</value>
+     </data>
+     <data name="Github_Repo" xml:space="preserve">
+        <value>Github Repo: {0}</value>
+     </data>
+     <data name="Game_Enhancements" xml:space="preserve">
+        <value>Game Enhancements: {0}</value>
+     </data>
 </root>

@@ -133,17 +133,14 @@ namespace VectorRumble
             Vector2 usageTextSize = smallFont.MeasureString(usageText);
             Vector2 usageTextPosition = (viewportSize - usageTextSize) / 2;
             usageTextPosition.Y = textPosition.Y + 
-                ScreenManager.Font.LineSpacing * 1.1f;
-
-            // Fade the popup alpha during transitions.
-			Color color = new Color(255, 255, 255, (int)TransitionAlpha);
+                ScreenManager.Font.LineSpacing * 2.2f;
 
             // Draw the background rectangles
             Rectangle rect = new Rectangle(
                 (int)(Math.Min(usageTextPosition.X, textPosition.X)),
                 (int)(textPosition.Y),
                 (int)(Math.Max(usageTextSize.X, textSize.X)),
-                (int)(ScreenManager.Font.LineSpacing * 1.1f+ usageTextSize.Y)
+                (int)(ScreenManager.Font.LineSpacing * 2.2f + usageTextSize.Y)
                 );
             rect.X -= (int)(0.1f * rect.Width);
             rect.Y -= (int)(0.1f * rect.Height);
@@ -151,11 +148,14 @@ namespace VectorRumble
             rect.Height += (int)(0.2f * rect.Height);
 
             Rectangle rect2 = new Rectangle(rect.X - 1, rect.Y - 1, 
-                rect.Width + 2, rect.Height + 2);
-            ScreenManager.DrawRectangle(rect2, new Color(255, 255, 0, 
+                rect.Width + 2, rect.Height + 2); 
+            ScreenManager.DrawRectangle(rect2, new Color(World.SelectedArena.Color.R, World.SelectedArena.Color.G, World.SelectedArena.Color.B, 
                 (int)(192.0f * (float)TransitionAlpha / 255.0f)));
             ScreenManager.DrawRectangle(rect, new Color(0, 0, 0, 
                 (int)(232.0f * (float)TransitionAlpha / 255.0f)));
+
+            // Fade the popup alpha during transitions.
+            Color color = new Color(255, 255, 255, (int)TransitionAlpha);
 
             // Draw the message box text.
             ScreenManager.SpriteBatch.Begin();
