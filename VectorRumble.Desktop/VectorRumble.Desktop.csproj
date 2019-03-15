@@ -11,6 +11,7 @@
     <AssemblyName>VectorRumble</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <PackageTargetPlatforms>MacOS;Steam;Itchio</PackageTargetPlatforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -100,6 +101,6 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
-  <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.0.6-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
+  <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets')" />
 </Project>
