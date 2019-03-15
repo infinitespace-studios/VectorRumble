@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "InfinitespaceStudios.Pipeline": "1.0.8",
+    "InfinitespaceStudios.Pipeline": "1.0.9",
     "Microsoft.NETCore.UniversalWindowsPlatform": "6.1.9",
     "MonoGame.Framework.WindowsUniversal": "3.7.1.189"
   },
