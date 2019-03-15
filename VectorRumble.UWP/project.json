@@ -1,10 +1,11 @@
 ﻿{
   "dependencies": {
-    "InfinitespaceStudios.Pipeline": "1.0.7",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
+    "InfinitespaceStudios.Pipeline": "1.0.8",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.1.9",
+    "MonoGame.Framework.WindowsUniversal": "3.7.1.189"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10240": {}
   },
   "runtimes": {
     "win10-arm": {},

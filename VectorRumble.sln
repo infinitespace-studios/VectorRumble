@@ -14,6 +14,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		VectorRumble.Shared\VectorRumble.Shared.projitems*{24b7d6c0-0ed3-4689-9846-078bfaf5bdc2}*SharedItemsImports = 4
 		VectorRumble.Shared\VectorRumble.Shared.projitems*{63a1d505-1512-4469-93d3-87fcaf4618ef}*SharedItemsImports = 4
+		VectorRumble.Shared\VectorRumble.Shared.projitems*{73b21c9f-c17e-4908-a726-408f36353bac}*SharedItemsImports = 4
 		VectorRumble.Shared\VectorRumble.Shared.projitems*{8c4932c0-be33-47fa-835e-601e3e69e924}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
