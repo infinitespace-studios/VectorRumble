@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace VectorRumble
@@ -24,9 +25,14 @@ namespace VectorRumble
         /// The raw set of points, in "model space".
         /// </summary>
         private Vector2[] points;
+        [ContentSerializer]
         public Vector2[] Points
         {
             get { return points; }
+            set { 
+                points = value;
+                transformedPoints = (Vector2[])points.Clone();
+            }
         }
 
         /// <summary>
@@ -40,6 +46,13 @@ namespace VectorRumble
         #endregion
 
         #region Initialization
+        /// <summary>
+        /// Constructs a new VectorPolygon object.
+        /// </summary>
+        public VectorPolygon()
+        {
+        }
+
         /// <summary>
         /// Constructs a new VectorPolygon object from the given points.
         /// </summary>
@@ -89,30 +102,6 @@ namespace VectorRumble
 
             return new VectorPolygon(points);
         }
-
-
-        /// <summary>
-        /// Create a polygon shaped like a player.
-        /// </summary>
-        /// <returns>A new VectorPolygon object in the shape of a player.</returns>
-		public static VectorPolygon CreatePlayer(PlayerIndex index)
-        {
-            Vector2[] points = new Vector2[10];
-
-            points[0] = new Vector2(-15, -2);
-            points[1] = new Vector2(-11, -6);
-            points[2] = new Vector2(-7, -2);
-            points[3] = new Vector2(0, -9);
-            points[4] = new Vector2(7, -2);
-            points[5] = new Vector2(11, -6);
-            points[6] = new Vector2(15, -2);
-            points[7] = new Vector2(4, 9);
-            points[8] = new Vector2(0, 5);
-            points[9] = new Vector2(-4, 9);
-
-            return new VectorPolygon(points);
-        }
-        
         
         /// <summary>
         /// Create a polygon shaped like a rocket.

@@ -38,6 +38,8 @@ namespace VectorRumble
             };
         LineBatch lineBatch;
         Texture2D titleTexture;
+
+        public bool ShowParticles { get; set; }
         #endregion
 
         #region Initialization
@@ -53,6 +55,8 @@ namespace VectorRumble
 
 			random = new Random();
             particleSystems = new CollectCollection<ParticleSystem>(null);
+
+            ShowParticles = true;
         }
 
 
@@ -104,26 +108,28 @@ namespace VectorRumble
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                        bool coveredByOtherScreen)
         {
-            addTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (addTimer > 0.25f)
+            if (ShowParticles)
             {
-                addTimer -= 0.15f;
-                particleSystems.Add(new ParticleSystem(
-                   new Vector2(random.Next(ScreenManager.GraphicsDevice.Viewport.Width),
-                       random.Next(ScreenManager.GraphicsDevice.Viewport.Height)),
-                   Vector2.Zero, 64, 256, 128,
-                   1f + 2f * (float)random.NextDouble(), 0.05f, explosionColors));
-            }
-
-            for (int i = 0; i < particleSystems.Count; i++)
-            {
-                particleSystems[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-                if (particleSystems[i].IsActive == false)
+                addTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (addTimer > 0.25f)
                 {
-                    particleSystems.Garbage.Add(particleSystems[i]);
+                    addTimer -= 0.15f;
+                    particleSystems.Add(new ParticleSystem(
+                       new Vector2(random.Next(ScreenManager.GraphicsDevice.Viewport.Width),
+                           random.Next(ScreenManager.GraphicsDevice.Viewport.Height)),
+                       Vector2.Zero, 64, 256, 128,
+                       1f + 2f * (float)random.NextDouble(), 0.05f, explosionColors));
                 }
+                for (int i = 0; i < particleSystems.Count; i++)
+                {
+                    particleSystems[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    if (particleSystems[i].IsActive == false)
+                    {
+                        particleSystems.Garbage.Add(particleSystems[i]);
+                    }
+                }
+                particleSystems.Collect();
             }
-            particleSystems.Collect();
 
             base.Update(gameTime, otherScreenHasFocus, false);
         }
@@ -137,17 +143,20 @@ namespace VectorRumble
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
-			// Apply bloom to the explosions 
-			ScreenManager.BloomComponent.BeginDraw ();
-
-            lineBatch.Begin();
-            for (int i = 0; i < particleSystems.Count; i++)
+            if (ShowParticles)
             {
-                particleSystems[i].Draw(lineBatch);
-            }
-            lineBatch.End();
+                // Apply bloom to the explosions 
+                ScreenManager.BloomComponent.BeginDraw();
 
-			ScreenManager.BloomComponent.Draw (gameTime);
+                lineBatch.Begin();
+                for (int i = 0; i < particleSystems.Count; i++)
+                {
+                    particleSystems[i].Draw(lineBatch);
+                }
+                lineBatch.End();
+
+                ScreenManager.BloomComponent.Draw(gameTime);
+            }
 
             // title
             Vector2 titlePosition = new Vector2(

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:VectorRumble="VectorRumble">
+  <Asset Type="VectorRumble:Ship">
+    <Mass>32</Mass>
+    <Radius>20</Radius>
+    <Color>FF6495ED</Color>
+    <Shape>
+      <Points>-15 -2 -11 -6 -7 -2 0 -9 7 -2 11 -6 15 -2 4 9 0 5 -4 9</Points>
+    </Shape>
+    <Name>Defender</Name>
+    <PlayerIndex>Two</PlayerIndex>
+  </Asset>
+</XnaContent>

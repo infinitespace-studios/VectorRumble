@@ -293,10 +293,7 @@ namespace VectorRumble
         /// than the real master list, because screens should only ever be added
         /// or removed using the AddScreen and RemoveScreen methods.
         /// </summary>
-        public GameScreen[] GetScreens()
-        {
-            return screens.ToArray();
-        }
+        public GameScreen[] Screens => screens.ToArray();
 
 
         /// <summary>

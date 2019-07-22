@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:VectorRumble="VectorRumble">
+  <Asset Type="VectorRumble:Ship">
+    <Mass>32</Mass>
+    <Radius>20</Radius>
+    <Color>FF00FF00</Color>
+    <Shape>
+      <Points>-2.00 -2.00 -13.00 0.00 -15.00 -10.00 -15.00 2.00 0.00 15.00 15.00 2.00 15.00 -10.00 13.00 0.00 2.00 -2.00 2.00 -10.00 0.00 -15.00 -2.00 -10.00</Points>
+    </Shape>
+    <Name>Blaster</Name>
+    <PlayerIndex>One</PlayerIndex>
+  </Asset>
+</XnaContent>

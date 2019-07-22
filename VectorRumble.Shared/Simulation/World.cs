@@ -10,7 +10,9 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
@@ -54,7 +56,7 @@ namespace VectorRumble
         /// <summary>
         /// The safe dimensions of the game board.
         /// </summary>
-        Rectangle safeDimensions;
+        private Rectangle safeDimensions;
 
         /// <summary>
         /// The timer to see if another power-up can arrive.
@@ -65,16 +67,6 @@ namespace VectorRumble
         /// The audio manager that all objects in the world will use.
         /// </summary>
         private AudioManager audioManager;
-
-        /// <summary>
-        /// All ships that might enter the game.
-        /// </summary>
-        Ship[] ships;
-
-        /// <summary>
-        /// The walls in the game.
-        /// </summary>
-        Vector2[] walls;
 
         /// <summary>
         /// The starfield effect behind the game-board.
@@ -95,6 +87,19 @@ namespace VectorRumble
         /// Cached list of collision results, for more optimal collision detection.
         /// </summary>
         List<CollisionResult> collisionResults = new List<CollisionResult>();
+
+        /// <summary>
+        /// Which Arena are we playing on
+        /// </summary>
+        private Arena selectedArena;
+        public Arena SelectedArena {
+            get {
+                if (selectedArena == null)
+                    CreateWalls();
+                return selectedArena; 
+            }
+            set { selectedArena = value; } 
+        }
         #endregion
 
         #region Properties
@@ -109,11 +114,17 @@ namespace VectorRumble
             get { return starfield; }
         }
 
-        public Ship[] Ships
-        {
-            get { return ships; }
-        }
 
+        /// <summary>
+        /// All ships that might enter the game.
+        /// </summary>
+        [ContentSerializer(SharedResource = true)]
+        public Ship[] Ships => ShipManager.Ships.ToArray();
+
+        public ShipManager ShipManager { get; set; }
+        public ArenaManager ArenaManager { get; set; }
+
+        [ContentSerializer(SharedResource = true)]
         public CollectCollection<Actor> Actors
         {
             get { return actors; }
@@ -123,53 +134,71 @@ namespace VectorRumble
         {
             get { return particleSystems; }
         }
+
+        public Rectangle SafeDimensions { get => safeDimensions; set => safeDimensions = value; }
         #endregion
 
         #region Initialization
         /// <summary>
         /// Construct a new World object, holding the game simulation.
         /// </summary>
+        /// <param name="dimensions">The size of the world to create.</param>
         public World(Vector2 dimensions)
         {
             this.dimensions = dimensions;
-            safeDimensions = new Rectangle(
+            SafeDimensions = new Rectangle(
                 (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f), 
                 (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
-            // create the players
-            ships = new Ship[4];
-            ships[0] = new Ship(this, PlayerIndex.One);
-            ships[1] = new Ship(this, PlayerIndex.Two);
-            ships[2] = new Ship(this, PlayerIndex.Three);
-            ships[3] = new Ship(this, PlayerIndex.Four);
+
             // create the starfield
             starfield = new Starfield(starCount, new Rectangle(
                 starfieldBuffer * -1,
                 starfieldBuffer  * -1,
                 (int)this.dimensions.X + starfieldBuffer * 2,
                 (int)this.dimensions.Y + starfieldBuffer * 2));
+
             // create a new list of actors
             actors = new CollectCollection<Actor>(this);
+
             // create a new list of particle systems
             particleSystems = new CollectCollection<ParticleSystem>(this);
+
+
+            // Get our ShipManager ready
+            ShipManager = new ShipManager(this);
+            ArenaManager = new ArenaManager(this);
+        }
+
+        public void AddCastOfAvailableShips()
+        {
+            for (int i = 0; i < ShipManager.AvailableShips.Length; i++)
+            {
+                actors.Add(ShipManager.AvailableShips[i]);
+            }
+        }
+
+        public void AddCastOfPlayableShips()
+        {
+            for (int i = 0; i < ShipManager.SelectedPlayers.Count; i++)
+            {
+                ShipManager.SelectedPlayers[i].PlayGame();
+                actors.Add(ShipManager.SelectedPlayers[i]);
+            }
         }
         #endregion
 
         #region New Game
         public void StartNewGame()
         {
-            // create the walls
-            CreateWalls();
-
             // clear out the actors list
             actors.Clear();
+
             // add the world actor
             WorldActor worldActor = new WorldActor(this);
             actors.Add(worldActor);
+
             // add the players to the actor list - they won't be removed
-            for (int i = 0; i < ships.Length; i++)
-            {
-                actors.Add(ships[i]);
-            }
+            AddCastOfPlayableShips();
 
             // spawn asteroids
             switch (WorldRules.AsteroidDensity)
@@ -200,82 +229,11 @@ namespace VectorRumble
         /// </summary>
         private void CreateWalls()
         {
-            var ws = WorldRules.WallStyle;
-			if (ws == WallStyle.Random) {
-				ws = (WallStyle)random.Next (0, 3);
+            var ws = WorldRules.DefaultArena;
+			if (ws == Strings.Arena_Random) {
+                ws = ArenaManager.Arenas.ToArray()[random.Next(0, ArenaManager.Arenas.Length - 1)].Name;
 			}
-
-			switch (ws)
-            {
-                case WallStyle.None:
-                    walls = new Vector2[8];
-                    break;
-                case WallStyle.One:
-                    walls = new Vector2[10];
-                    break;
-                case WallStyle.Two:
-                    walls = new Vector2[12];
-                    break;
-                case WallStyle.Three:
-                    walls = new Vector2[14];
-					break;
-            }
-
-            // The outer boundaries
-            walls[0] = new Vector2(safeDimensions.X, safeDimensions.Y);
-            walls[1] = new Vector2(safeDimensions.X, 
-                safeDimensions.Y + safeDimensions.Height);
-            walls[2] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y);
-            walls[3] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y + safeDimensions.Height);
-            walls[4] = new Vector2(safeDimensions.X, safeDimensions.Y);
-            walls[5] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y);
-            walls[6] = new Vector2(safeDimensions.X,
-                safeDimensions.Y + safeDimensions.Height);
-            walls[7] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y + safeDimensions.Height);
-
-            int quarterX = safeDimensions.Width / 4;
-            int quarterY = safeDimensions.Height / 4;
-            int halfY = safeDimensions.Height / 2;
-
-			switch (ws)
-            {
-                case WallStyle.One:
-                    // Cross line
-                    walls[8] = new Vector2(safeDimensions.X + quarterX, 
-                        safeDimensions.Y + halfY);
-                    walls[9] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + halfY);
-                    break;
-                case WallStyle.Two:
-                    walls[8] = new Vector2(safeDimensions.X + quarterX, 
-                        safeDimensions.Y + quarterY);
-                    walls[9] = new Vector2(safeDimensions.X + quarterX, 
-                        safeDimensions.Y + 3 * quarterY);
-                    walls[10] = new Vector2(safeDimensions.X + 3 * quarterX, 
-                        safeDimensions.Y + quarterY);
-                    walls[11] = new Vector2(safeDimensions.X + 3 * quarterX, 
-                        safeDimensions.Y + 3 * quarterY);
-                    break;
-                case WallStyle.Three:
-                    // Cross line
-                    walls[8] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + halfY);
-                    walls[9] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + halfY);
-                    walls[10] = new Vector2(safeDimensions.X + quarterX, 
-                        safeDimensions.Y + quarterY);
-                    walls[11] = new Vector2(safeDimensions.X + quarterX, 
-                        safeDimensions.Y + 3 * quarterY);
-                    walls[12] = new Vector2(safeDimensions.X + 3 * quarterX, 
-                        safeDimensions.Y + quarterY);
-                    walls[13] = new Vector2(safeDimensions.X + 3 * quarterX, 
-                        safeDimensions.Y + 3 * quarterY);
-                    break;
-            }
+            selectedArena = ArenaManager.Arenas.First(a => a.Name == ws);
         }
 
 
@@ -376,11 +334,11 @@ namespace VectorRumble
             // update the starfield
             Vector2 starfieldTarget = Vector2.Zero;
             int playingPlayers = 0;
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < Ships.Length; i++)
             {
-                if (ships[i].Playing)
+                if (Ships[i].Playing)
                 {
-                    starfieldTarget += ships[i].Position;
+                    starfieldTarget += Ships[i].Position;
                     playingPlayers++;
                 }
             }
@@ -395,7 +353,7 @@ namespace VectorRumble
             {
                 powerUpTimer = Math.Max(powerUpTimer - elapsedTime, 0f);
             }
-            if (powerUpTimer <= 0.0f)
+            if (powerUpTimer <= 0.0f && Ships.Any(s => s.Playing))
             {
                 SpawnPowerUp();
                 powerUpTimer = powerUpDelay;
@@ -404,24 +362,6 @@ namespace VectorRumble
             // clean up the lists
             actors.Collect();
             particleSystems.Collect();
-        }
-
-
-        /// <summary>
-        /// Draw the walls.
-        /// </summary>
-        /// <param name="lineBatch">The LineBatch to render to.</param>
-        public void DrawWalls(LineBatch lineBatch)
-        {
-            if (lineBatch == null)
-            {
-                throw new ArgumentNullException("lineBatch");
-            }
-            // draw each wall-line
-            for (int wall = 0; wall < walls.Length / 2; wall++)
-            {
-                lineBatch.DrawLine(walls[wall * 2], walls[wall * 2 + 1], Color.Yellow);
-            }
         }
         #endregion
 
@@ -450,24 +390,25 @@ namespace VectorRumble
                 }
                 // determine the new position
                 actors[i].Position += movement;
-                // determine if their new position taks them through a wall
-                for (int w = 0; w < walls.Length / 2; ++w)
+
+                // determine if their new position takes them through a wall
+                for (int w = 0; w < SelectedArena?.Walls?.Length / 2; ++w)
                 {
                     if (actors[i] is Projectile)
                     {
-                        if (Collision.LineLineIntersect(actors[i].Position, 
-                            actors[i].Position - movement, walls[w * 2], 
-                            walls[w * 2 + 1], out point))
+                        if (Collision.LineLineIntersect(actors[i].Position,
+                            actors[i].Position - movement, SelectedArena.Walls[w * 2],
+                            SelectedArena.Walls[w * 2 + 1], out point))
                         {
                             actors[i].Touch(actors[0]);
                         }
                     }
                     else
                     {
-                        Collision.CircleLineCollisionResult result = 
+                        Collision.CircleLineCollisionResult result =
                             new Collision.CircleLineCollisionResult();
-                        if (Collision.CircleLineCollide(actors[i].Position, 
-                            actors[i].Radius, walls[w * 2], walls[w * 2 + 1], 
+                        if (Collision.CircleLineCollide(actors[i].Position,
+                            actors[i].Radius, SelectedArena.Walls[w * 2], SelectedArena.Walls[w * 2 + 1],
                             ref result))
                         {
                             // if a non-projectile hits a wall, bounce slightly
@@ -492,8 +433,9 @@ namespace VectorRumble
         {
             if (actor == null)
             {
-                throw new ArgumentNullException("actor");
+                throw new ArgumentNullException(nameof(actor));
             }
+
             // make sure we care about where this actor goes
             if (actor.Dead || (actor.Collidable == false))
             {
@@ -542,8 +484,9 @@ namespace VectorRumble
 
             if (actor == null)
             {
-                throw new ArgumentNullException("actor");
+                throw new ArgumentNullException(nameof(actor));
             }
+
             if (actor.Dead || (actor.Collidable == false))
             {
                 return;
@@ -650,7 +593,7 @@ namespace VectorRumble
         {
             if (actor == null)
             {
-                throw new ArgumentNullException("actor");
+                throw new ArgumentNullException(nameof(actor));
             }
 
             Vector2 spawnPoint;
@@ -668,11 +611,11 @@ namespace VectorRumble
             radius = (float)Math.Ceiling(radius);
 
             Vector2 spawnMinimum = new Vector2(
-                safeDimensions.X + radius, 
-                safeDimensions.Y + radius);
+                SafeDimensions.X + radius, 
+                SafeDimensions.Y + radius);
             Vector2 spawnDimensions = new Vector2(
-                (float)Math.Floor(safeDimensions.Width - 2f * radius),
-                (float)Math.Floor(safeDimensions.Height - 2f * radius));
+                (float)Math.Floor(SafeDimensions.Width - 2f * radius),
+                (float)Math.Floor(SafeDimensions.Height - 2f * radius));
             Vector2 spawnMaximum = spawnMinimum + spawnDimensions;
 
             Collision.CircleLineCollisionResult result = 
@@ -681,6 +624,7 @@ namespace VectorRumble
             while (true)
             {
                 valid = true;
+
                 // generate a new spawn point
                 spawnPoint = new Vector2(
                     spawnMinimum.X + spawnDimensions.X * (float)random.NextDouble(),
@@ -692,24 +636,27 @@ namespace VectorRumble
                 {
                     continue;
                 }
+
                 // if we don't collide, then one is good enough
                 if (actor.Collidable == false)
                 {
                     break; 
                 }
+
                 // check against the walls
-                if (valid == true)
+                if (valid == true && SelectedArena?.Walls != null)
                 {
-                    for (int wall = 0; wall < walls.Length / 2; wall++)
+                    for (int wall = 0; wall < SelectedArena.Walls.Length / 2; wall++)
                     {
-                        if (Collision.CircleLineCollide(spawnPoint, radius, 
-                            walls[wall * 2], walls[wall * 2 + 1], ref result))
+                        if (Collision.CircleLineCollide(spawnPoint, radius,
+                            SelectedArena.Walls[wall * 2], SelectedArena.Walls[wall * 2 + 1], ref result))
                         {
                             valid = false;
                             break;
                         }
                     }
                 }
+
                 // check against all other actors
                 if (valid == true)
                 {
@@ -727,6 +674,7 @@ namespace VectorRumble
                         }
                     }
                 }
+
                 // if we have gotten this far, then the spawn point is good
                 if (valid == true)
                 {

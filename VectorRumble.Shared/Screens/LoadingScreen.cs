@@ -63,7 +63,7 @@ namespace VectorRumble
                                 bool loadingIsSlow)
         {
             // Tell all the current screens to transition off.
-            foreach (GameScreen screen in screenManager.GetScreens())
+            foreach (GameScreen screen in screenManager.Screens)
                 screen.ExitScreen();
 
             // Create and activate the loading screen.
@@ -111,7 +111,7 @@ namespace VectorRumble
             // screens to be gone: in order for the transition to look good we must
             // have actually drawn a frame without them before we perform the load.
             if ((ScreenState == ScreenState.Active) &&
-                (ScreenManager.GetScreens().Length == 1))
+                (ScreenManager.Screens.Length == 1))
             {
                 otherScreensAreGone = true;
             }

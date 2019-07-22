@@ -33,7 +33,7 @@ namespace VectorRumble
         #endregion
 
         #region Fields
-        static Random random = new Random();
+        internal static Random random = new Random();
 
         /// <summary>
         /// The amount of time left before this particle system disappears.
@@ -220,8 +220,9 @@ namespace VectorRumble
             {
                 if (lineBatch == null)
                 {
-                    throw new ArgumentNullException("lineBatch");
+                    throw new ArgumentNullException(nameof(lineBatch));
                 }
+
                 for (int i = 0; i < particles.Length; i++)
                 {
                     lineBatch.DrawLine(particles[i].Position,

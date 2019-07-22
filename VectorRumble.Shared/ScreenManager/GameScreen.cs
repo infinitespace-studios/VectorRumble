@@ -160,12 +160,30 @@ namespace VectorRumble
             internal set { screenManager = value; }
         }
 
+        /// <summary>
+        /// The world within which this screen will exist
+        /// </summary>
+        internal static World World { get; set; }
+
         ScreenManager screenManager;
 
 
         #endregion
 
         #region Initialization
+
+        public virtual void Initialize()
+        {
+            // create the world
+            if (World == null)
+            {
+                World = new World(new Vector2(ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height))
+                {
+                    // retrieve the audio manager
+                    AudioManager = (AudioManager)ScreenManager.Game.Services.GetService(typeof(AudioManager))
+                };
+            }
+        }
 
 
         /// <summary>

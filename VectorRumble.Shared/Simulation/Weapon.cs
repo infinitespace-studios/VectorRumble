@@ -48,11 +48,7 @@ namespace VectorRumble
         /// <param name="owner">The ship that owns this weapon.</param>
         public Weapon(Ship owner)
         {
-            if (owner == null)
-            {
-                throw new ArgumentNullException("owner");
-            }
-            this.owner = owner;
+            this.owner = owner ?? throw new ArgumentNullException(nameof(owner));
         }
         #endregion
 

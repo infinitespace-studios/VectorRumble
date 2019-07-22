@@ -71,13 +71,7 @@ namespace VectorRumble
         #region Initialization
         public LineBatch(GraphicsDevice graphicsDevice)
         {
-            // assign the graphics device parameter after safety-checking
-            if (graphicsDevice == null)
-            {
-                throw new ArgumentNullException("graphicsDevice");
-            }
-            this.graphicsDevice = graphicsDevice;
-			
+            this.graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
 
             // create and configure the effect
             this.effect = new BasicEffect(graphicsDevice);
@@ -193,8 +187,9 @@ namespace VectorRumble
         {
             if (polygon == null)
             {
-                throw new ArgumentNullException("polygon");
+                throw new ArgumentNullException(nameof(polygon));
             }
+
             int step = (dashed == true) ? 2 : 1;
             for (int i = 0; i < polygon.TransformedPoints.Length; i += step)
             {
@@ -231,8 +226,9 @@ namespace VectorRumble
         {
             if (aPolygon == null || aEndSeg > aPolygon.TransformedPoints.Length)
             {
-                throw new ArgumentNullException("polygon");
+                throw new ArgumentNullException(nameof(aPolygon));
             }
+
             int step = (aDashed == true) ? 2 : 1;
             for (int i = aStartSeg; i < aEndSeg; i += step)
             {
