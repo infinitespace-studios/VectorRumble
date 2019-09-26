@@ -8,6 +8,10 @@ env:
 install:
 - wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
 - sudo installer -pkg "MonoGame.pkg" -target /
+- wget -O butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
+- unzip butler.zip
+- chmod +x butler
+- ./butler -V
 script:
 - nuget restore VectorRumble.sln
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build
