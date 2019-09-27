@@ -74,7 +74,10 @@ deploy:
     repo: infinitespace-studios/VectorRumble
     tags: true
 - provider: script
-  script: ./butler -V
+  script:
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-MacOS.zip infinitespace-studios/vector-rumble:osx-alpha
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Linux.zip infinitespace-studios/vector-rumble:linux-alpha
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Windows.zip infinitespace-studios/vector-rumble:windows-alpha
   skip_cleanup: true 
   on:
     repo: infinitespace-studios/VectorRumble
