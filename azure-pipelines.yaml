@@ -20,4 +20,4 @@ stages:
         inputs:
           solution: VectorRumble.Desktop/VectorRumble.Desktop.csproj
           configuration: Release
-          msbuildArguments: /restore
+          msbuildArguments: /restore /v:diag

@@ -144,6 +144,19 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
+  <Target Name="GetBuildVersion">
+    <GetAssemblyIdentity
+        AssemblyFiles="$(OutputPath)$(AssemblyName).exe">
+      <Output
+          TaskParameter="Assemblies"
+          ItemName="AppVersion"/>
+    </GetAssemblyIdentity>
+    <WriteLinesToFile
+            File="appversion.txt"
+            Lines="%(AppVersion.Version)"
+            Overwrite="true"
+            Encoding="ASCII"/>
+  </Target>
   <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets')" />
 </Project>

@@ -16,6 +16,7 @@ install:
 script:
 - nuget restore VectorRumble.sln
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build
+- msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:GetBuildVersion
 deploy:
 - provider: releases
   api_key:
@@ -75,9 +76,9 @@ deploy:
     tags: true
 - provider: script
   script:
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-MacOS.zip infinitespace-studios/vector-rumble:osx-alpha
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Linux.zip infinitespace-studios/vector-rumble:linux-alpha
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Windows.zip infinitespace-studios/vector-rumble:windows-alpha
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-MacOS.zip infinitespace-studios/vector-rumble:osx-alpha --userversion-file VectorRumble.Desktop/appversion.txt
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Linux.zip infinitespace-studios/vector-rumble:linux-alpha --userversion-file VectorRumble.Desktop/appversion.txt
+  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Windows.zip infinitespace-studios/vector-rumble:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt
   skip_cleanup: true 
   on:
     repo: infinitespace-studios/VectorRumble
