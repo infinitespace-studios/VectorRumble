@@ -15,8 +15,8 @@ stages:
           wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
           sudo installer -pkg "MonoGame.pkg" -target /
       - task: MSBuild@1
-          displayName: 'Build solution VectorRumble.Desktop/VectorRumble.Desktop.csproj'
-          inputs:
-            solution: VectorRumble.Desktop/VectorRumble.Desktop.csproj
-            configuration: Release
-            msbuildArguments: /restore
+        displayName: 'Build solution VectorRumble.Desktop/VectorRumble.Desktop.csproj'
+        inputs:
+          solution: VectorRumble.Desktop/VectorRumble.Desktop.csproj
+          configuration: Release
+          msbuildArguments: /restore
