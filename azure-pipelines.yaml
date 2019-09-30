@@ -12,8 +12,14 @@ stages:
         vmImage: xcode9-macos10.13
       steps:
       - bash: |
+          ls -la /Library/Frameworks/Mono.framework/Versions
           wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
           sudo installer -pkg "MonoGame.pkg" -target /
+          SYMLINK=6_0_0
+          MONOPREFIX=/Library/Frameworks/Mono.framework/Versions/$SYMLINK
+          echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
+          echo "##vso[task.setvariable variable=PKG_CONFIG_PATH;]$MONOPREFIX/lib/pkgconfig:$MONOPREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
+          echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
           nuget restore VectorRumble.sln
       - task: MSBuild@1
         displayName: 'Build solution VectorRumble.Desktop/VectorRumble.Desktop.csproj'
