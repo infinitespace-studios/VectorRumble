@@ -20,7 +20,6 @@ namespace VectorRumble
             smallFont = ScreenManager.Game.Content.Load<SpriteFont>("Fonts/retroSmall");
             mediumFont = ScreenManager.Game.Content.Load<SpriteFont>("Fonts/retroMedium");
 
-            //world.ShipManager.SaveContent(ScreenManager.Game.Content);
             World.ShipManager.LoadContent(ScreenManager.Game.Content);
             World.AddCastOfAvailableShips();
 

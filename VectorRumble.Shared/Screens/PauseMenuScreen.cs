@@ -101,6 +101,9 @@ namespace VectorRumble
         /// </summary>
         void QuitMessageBoxAccepted(object sender, EventArgs e)
         {
+            // If we are exiting, we no longer need these
+            World.Actors.Clear();
+
             LoadingScreen.Load(ScreenManager, LoadMainMenuScreen, false);
         }
 
