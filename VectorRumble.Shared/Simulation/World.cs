@@ -535,10 +535,12 @@ namespace VectorRumble
                     continue;
                 }
 
-                CollisionResult result = new CollisionResult();
-                result.Distance = distanceBetween;
-                result.Normal = Vector2.Normalize(checkVector);
-                result.Actor = checkActor;
+                CollisionResult result = new CollisionResult
+                {
+                    Distance = distanceBetween,
+                    Normal = Vector2.Normalize(checkVector),
+                    Actor = checkActor
+                };
 
                 collisionResults.Add(result);
             }
