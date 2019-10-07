@@ -107,40 +107,43 @@ B/O Button, Esc = Cancel</value>
 	<data name="Display_Mode" xml:space="preserve">
 		<value>Display Mode : {0}</value>
 	</data>	
-     <data name="Choose_Your_Ship" xml:space="preserve">
+    <data name="Choose_Your_Ship" xml:space="preserve">
         <value>Choose Your Ship</value>
-     </data>
-     <data name="Battle_Arena_Is" xml:space="preserve">
+    </data>
+    <data name="Battle_Arena_Is" xml:space="preserve">
         <value>Battle Arena Is : {0}</value>
-     </data>
-     <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
+    </data>
+    <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
         <value>Press Up to change colour. Press Fire to change Ship.</value>
-     </data>
-     <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
+    </data>
+    <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
         <value>Controllers Can Shoot In All Directions: {0}</value>
-     </data>
-     <data name="About" xml:space="preserve">
+    </data>
+    <data name="About" xml:space="preserve">
         <value>About</value>
-     </data>
-     <data name="Move" xml:space="preserve">
+    </data>
+    <data name="Move" xml:space="preserve">
         <value>Move</value>
-     </data>
-     <data name="Fire" xml:space="preserve">
+    </data>
+    <data name="Fire" xml:space="preserve">
         <value>Fire</value>
-     </data>
-     <data name="Mine" xml:space="preserve">
+    </data>
+    <data name="Mine" xml:space="preserve">
         <value>Mine</value>
-     </data>
-     <data name="Built_With_MonoGame" xml:space="preserve">
+    </data>
+    <data name="Built_With_MonoGame" xml:space="preserve">
         <value>Built With MonoGame</value>
-     </data>
-     <data name="Font_By" xml:space="preserve">
+    </data>
+    <data name="Font_By" xml:space="preserve">
         <value>Font: {0}, Created By: {1}</value>
-     </data>
-     <data name="Github_Repo" xml:space="preserve">
+    </data>
+    <data name="Github_Repo" xml:space="preserve">
         <value>Github Repo: {0}</value>
-     </data>
-     <data name="Game_Enhancements" xml:space="preserve">
+    </data>
+    <data name="Game_Enhancements" xml:space="preserve">
         <value>Game Enhancements: {0}</value>
-     </data>
+    </data>
+    <data name="No_Input_Device_Connected" xml:space="preserve">
+        <value>No input device connected. Plug in a Keyboard or Controller to Play.</value>
+    </data>
 </root>

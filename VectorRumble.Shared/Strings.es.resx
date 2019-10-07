@@ -143,4 +143,7 @@ Botón B/O, Tecla Esc = Cancelar</value>
     <data name="Game_Enhancements" xml:space="preserve">
         <value>Juego mejorado por: {0}</value>
     </data>
+    <data name="No_Input_Device_Connected" xml:space="preserve">
+        <value>"No hay conectado ningún dispositivo de entrada. Conecte un Teclado o un Mando para Jugar.</value>
+    </data>
 </root>

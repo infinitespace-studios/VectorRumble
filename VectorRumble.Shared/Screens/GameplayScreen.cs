@@ -184,7 +184,7 @@ namespace VectorRumble
                             message = Strings.Press_Up_To_Join;
                             break;
                         default:
-                            message = "No input device connected. Plug in a Keyboard or Controller to Play.";
+                            message = Strings.No_Input_Device_Connected;
                             break;
                     }
                 }

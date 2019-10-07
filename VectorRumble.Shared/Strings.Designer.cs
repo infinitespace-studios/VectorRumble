@@ -304,5 +304,11 @@ namespace VectorRumble {
                 return ResourceManager.GetString("Game_Enhancements", resourceCulture);
             }
         }
+        
+        internal static string No_Input_Device_Connected {
+            get {
+                return ResourceManager.GetString("No_Input_Device_Connected", resourceCulture);
+            }
+        }
     }
 }

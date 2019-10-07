@@ -184,6 +184,9 @@ namespace VectorRumble
                 ShipManager.SelectedPlayers[i].PlayGame();
                 actors.Add(ShipManager.SelectedPlayers[i]);
             }
+
+            // Once selected players become actors, they are no longer needed.
+            ShipManager.SelectedPlayers.Clear();
         }
         #endregion
 
