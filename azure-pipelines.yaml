@@ -33,9 +33,10 @@ stages:
         vmImage: windows-latest
       steps:
       - bash: |
-          curl -o $(System.ArtifactsDirectory)\MonoGameSetup.exe -L https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
+          curl -o MonoGameSetup.exe -L https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
       - script: |
-          $(System.ArtifactsDirectory)\MonoGameSetup.exe /S
+          dir
+          MonoGameSetup.exe /S
       - task: NuGetCommand@2
         inputs:
           command: 'restore'
