@@ -5,7 +5,6 @@ os:
 env:
   global:
   - Configuration=Release
-  - secure: IZMfnkwbbAUs4SK3Fng6pMEqQlQABYrYejli1OtlU4m7LCM0QtoQjsaXgP81bIQypRoldmE1Is5q/MU/0j+XEzYGvGL1uZ4w1mSbLn4eepHb1BpmzepHE776xYK+G0JubT8LHHApIrb1Ung8jykGgr1nEzwP3klyGmUvGDlx3EHoiitw/Ji9f/UkwLvYTBuHxi27/0ENygu4/Nm8PLIOcMPE1OvqthDNSvCq+36OEv5v73XAeN3JoiatMgoXAflQW+AfygfQQg+HiaFwtMBl5pRaUMm8nUgqN7/b+3ZYmix0Vgeu7d0MDgXeMtIaANFFxzbSE9NayJEdAwlReyEFyu3eQlN6Ifa7mhszRWmUrm/eZiifvfnZCqnGDr3bcXddHd2PULN4UDcBhIdhrOpI2jWr8czJHM3psi+wblCd7+/L73PKDZBD1OkgVg4/Cy1Bl/0cXCUqkvklU94xG44tTKskU1ZMsIKaVvkR7RLxbGFvFZXtkUT06m1IiEDFfhu5WAMI0YiMKh4gpv4mryGuDQjTJ2R2XtZ3a84T7BysPP6uhmRkIqHs7FNvr3Phz45N/v7x8dE8daCRbEjHVKs7W9Ff/3apigja8NErKl6tk1KXDNfpqRjoSBJ1/TeuS6WFHxTStox6RCTwnZWQn2g7HNu66x+MzFjpnXdDJ2NLqeI= 
 install:
 - wget -O MonoGame.pkg https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGame.pkg
 #- wget -O MonoGame.pkg "http://teamcity.monogame.net/guestAuth/repository/download/MonoGame_PackageMacAndLinux/.lastSuccessful/MonoGame.pkg?branch_MonoGame=%3Cdefault%3E"
