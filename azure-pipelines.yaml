@@ -35,8 +35,11 @@ stages:
       - bash: |
           curl -o $(System.ArtifactsDirectory)\MonoGameSetup.exe -L https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
       - script: |
-          $(System.ArtifactsDirectory)\MonoGame.exe /S
-          nuget restore VectorRumble.sln
+          $(System.ArtifactsDirectory)\MonoGameSetup.exe /S
+      - task: NuGetCommand@2
+        inputs:
+          command: 'restore'
+          restoreSolution: 'VectorRumble.sln'
       - task: MSBuild@1
         displayName: 'Build solution VectorRumble.UWP/VectorRumble.UWP.csproj'
         inputs:
