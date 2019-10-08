@@ -27,3 +27,19 @@ stages:
           solution: VectorRumble.Desktop/VectorRumble.Desktop.csproj
           configuration: Release
           msbuildArguments: /restore /v:diag
+    - job: BuildUWP
+      displayName: Build UWP
+      pool:
+        vmImage: windows-latest
+      steps:
+      - bash: |
+          wget -O $(System.ArtifactsDirectory)\MonoGameSetup.exe https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
+      - script: |
+          $(System.ArtifactsDirectory)\MonoGame.exe /S
+          nuget restore VectorRumble.sln
+      - task: MSBuild@1
+        displayName: 'Build solution VectorRumble.UWP/VectorRumble.UWP.csproj'
+        inputs:
+          solution: VectorRumble.UWP/VectorRumble.UWP.csproj
+          configuration: Release
+          msbuildArguments: /restore /v:diag
