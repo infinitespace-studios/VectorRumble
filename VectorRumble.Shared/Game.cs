@@ -11,7 +11,7 @@
 using System;
 using System.Collections.Generic;
 
-#if ANDROID
+#if __ANDROID__
 using Android.App;
 #endif
 
@@ -20,7 +20,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-#if WINDOWS_PHONE || IOS || ANDROID // WP7, iPad or Tablets only
+#if __IOS__ || __ANDROID__ // iPad or Tablets only
 using Microsoft.Xna.Framework.Input.Touch;
 #endif
 #endregion
@@ -46,7 +46,7 @@ namespace VectorRumble
 
 #if USE_DEFAULT_DEVICE_SETTINGS
             // Use default device settings defined by platform.
-#elif WINDOWS_PHONE || IOS || ANDROID // WP7, iPad or Tablets only
+#elif  __IOS__ || __ANDROID__ // iPad or Tablets only
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 480;
 			graphics.IsFullScreen = true;

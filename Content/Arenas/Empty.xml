@@ -3,6 +3,6 @@
   <Asset Type="VectorRumble:Arena">
     <Name>Empty</Name>
     <Color>FFFFFF00</Color>
-    <Walls>64 36 64 684 1216 36 1216 684 64 36 1216 36 64 684 1216 684</Walls>
+    <Walls>0.05 0.05 0.05 0.95 0.95 0.05 0.95 0.95 0.05 0.05 0.95 0.05 0.05 0.95 0.95 0.95</Walls>
   </Asset>
 </XnaContent>

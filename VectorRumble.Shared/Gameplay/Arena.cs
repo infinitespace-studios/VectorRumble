@@ -37,9 +37,17 @@ namespace VectorRumble
             // draw each wall-line
             if (Walls != null)
             {
+                int viewportWidth = lineBatch.GraphicsDevice.Viewport.Width;
+                int viewportHeight = lineBatch.GraphicsDevice.Viewport.Height;
+
+                Vector2 startLine;
+                Vector2 endLine;
+
                 for (int wall = 0; wall < Walls.Length / 2; wall++)
                 {
-                    lineBatch.DrawLine(Walls[wall * 2], Walls[wall * 2 + 1], Color);
+                    startLine = new Vector2(Walls[wall * 2].X * viewportWidth, Walls[wall * 2].Y * viewportHeight);
+                    endLine = new Vector2(Walls[wall * 2 + 1].X * viewportWidth, Walls[wall * 2 + 1].Y * viewportHeight);
+                    lineBatch.DrawLine(startLine, endLine, Color);
                 }
             }
         }

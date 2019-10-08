@@ -376,6 +376,10 @@ namespace VectorRumble
         private void MoveWorld(float elapsedTime)
         {
             Vector2 point = Vector2.Zero;
+
+            Vector2 startLine;
+            Vector2 endLine;
+
             // move each actor
             for (int i = 0; i < actors.Count; ++i)
             {
@@ -395,24 +399,22 @@ namespace VectorRumble
                 actors[i].Position += movement;
 
                 // determine if their new position takes them through a wall
-                for (int w = 0; w < SelectedArena?.Walls?.Length / 2; ++w)
+                for (int wall = 0; wall < SelectedArena?.Walls?.Length / 2; ++wall)
                 {
+                    startLine = new Vector2(SelectedArena.Walls[wall * 2].X * this.dimensions.X, SelectedArena.Walls[wall * 2].Y * this.dimensions.Y);
+                    endLine = new Vector2(SelectedArena.Walls[wall * 2 + 1].X * this.dimensions.X, SelectedArena.Walls[wall * 2 + 1].Y * this.dimensions.Y);
+
                     if (actors[i] is Projectile)
                     {
-                        if (Collision.LineLineIntersect(actors[i].Position,
-                            actors[i].Position - movement, SelectedArena.Walls[w * 2],
-                            SelectedArena.Walls[w * 2 + 1], out point))
+                        if (Collision.LineLineIntersect(actors[i].Position, actors[i].Position - movement, startLine, endLine, out point))
                         {
                             actors[i].Touch(actors[0]);
                         }
                     }
                     else
                     {
-                        Collision.CircleLineCollisionResult result =
-                            new Collision.CircleLineCollisionResult();
-                        if (Collision.CircleLineCollide(actors[i].Position,
-                            actors[i].Radius, SelectedArena.Walls[w * 2], SelectedArena.Walls[w * 2 + 1],
-                            ref result))
+                        Collision.CircleLineCollisionResult result = new Collision.CircleLineCollisionResult();
+                        if (Collision.CircleLineCollide(actors[i].Position, actors[i].Radius, startLine, endLine, ref result))
                         {
                             // if a non-projectile hits a wall, bounce slightly
                             float vn = Vector2.Dot(actors[i].Velocity, result.Normal);
@@ -651,10 +653,14 @@ namespace VectorRumble
                 // check against the walls
                 if (valid == true && SelectedArena?.Walls != null)
                 {
+                    Vector2 startLine;
+                    Vector2 endLine;
+
                     for (int wall = 0; wall < SelectedArena.Walls.Length / 2; wall++)
                     {
-                        if (Collision.CircleLineCollide(spawnPoint, radius,
-                            SelectedArena.Walls[wall * 2], SelectedArena.Walls[wall * 2 + 1], ref result))
+                        startLine = new Vector2(SelectedArena.Walls[wall * 2].X * this.dimensions.X, SelectedArena.Walls[wall * 2].Y * this.dimensions.Y);
+                        endLine = new Vector2(SelectedArena.Walls[wall * 2 + 1].X * this.dimensions.X, SelectedArena.Walls[wall * 2 + 1].Y * this.dimensions.Y);
+                        if (Collision.CircleLineCollide(spawnPoint, radius, startLine, endLine, ref result))
                         {
                             valid = false;
                             break;

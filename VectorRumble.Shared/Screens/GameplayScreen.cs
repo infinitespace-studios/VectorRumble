@@ -32,7 +32,7 @@ namespace VectorRumble
         protected Texture2D player3Controls;
         protected Texture2D player4Controls;
         protected Texture2D gamepadControls;
-#if ANDROID || IOS
+#if __IOS__ || __ANDROID__
         Texture2D gamePadTexture;
 #endif
         Texture2D starTexture;
@@ -72,7 +72,7 @@ namespace VectorRumble
                 ScreenManager.GraphicsDevice.Viewport.Width,
                 ScreenManager.GraphicsDevice.Viewport.Height, 0.0f, 0.0f, 1.0f));
 
-#if ANDROID || IOS
+#if __IOS__ || __ANDROID__
             gamePadTexture = content.Load<Texture2D>("Textures/gamepad");
             
             ThumbStickDefinition thumbStickLeft = new ThumbStickDefinition();
@@ -135,7 +135,7 @@ namespace VectorRumble
 
             DrawHud(elapsedTime);
 
-#if ANDROID || IOS
+#if __IOS__ || __ANDROID__
             GamePad.Draw(gameTime, spriteBatch);
 #endif
             // draw the stars
@@ -154,13 +154,17 @@ namespace VectorRumble
         /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>
         private void DrawHud(float elapsedTime)
         {
-            spriteBatch.Begin();
-
-            Vector2 position = new Vector2(128, 64);
-            int offset = (1280) / 5;
+            Vector2 position = new Vector2(0.48f * ScreenManager.GraphicsDevice.Viewport.Width, 0.09f * ScreenManager.GraphicsDevice.Viewport.Height);
+            int offset = (int)(ScreenManager.GraphicsDevice.Viewport.Width / 5);
             float scale = 1.0f;
 
             var playerIndexes = (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex));
+
+            spriteBatch.Begin();
+
+            Ship[] ships = null;
+            Vector2 size;
+
             foreach (var index in playerIndexes)
             {
                 string message = string.Empty;
@@ -189,17 +193,21 @@ namespace VectorRumble
                     }
                 }
 
-                if (World.ShipManager.SelectedPlayers.Any())
-                {
-                    var player = World.ShipManager.SelectedPlayers.Where(p => p.PlayerStringToIndex == index).ToArray();
-                    if (player != null && player.Length > 0)
-                        message = string.Format(Strings.Score, player[0].Name, player[0].Score);
+                if (World.ShipManager.SelectedPlayers.Any()) {
+                    ships = World.ShipManager.SelectedPlayers.Where(p => p.PlayerStringToIndex == index).ToArray();
                 }
 
-                Vector2 size = spriteFont.MeasureString(message) * scale;
+                if (World.ShipManager.Players.Any()) {
+                    ships = World.ShipManager.Players.Where(p => p.PlayerStringToIndex == index).ToArray();
+                }
+
+                if (ships != null && ships.Length > 0) {
+                    message = string.Format(Strings.Score, ships[0].Name, ships[0].Score);
+                }
+
+                size = spriteFont.MeasureString(message) * scale;
                 position.X = ((int)index + 1) * offset - size.X / 2;
                 spriteBatch.DrawString(spriteFont, message, position, Color.Yellow, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 1.0f);
-
             }
 
             spriteBatch.End();

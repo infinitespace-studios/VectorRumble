@@ -10,7 +10,7 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-#if ANDROID
+#if __IOS__ || __ANDROID__
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 #endif
@@ -36,11 +36,11 @@ namespace VectorRumble
 
         public readonly KeyboardState[] LastKeyboardStates;
         public readonly GamePadState[] LastGamePadStates;
-		
-#if ANDROID
+
+#if __IOS__ || __ANDROID__
 		public TouchCollection CurrentTouchState;
 		public List<GestureSample> Gestures = new List<GestureSample>();
-#endif		
+#endif
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace VectorRumble
 
             LastKeyboardStates = new KeyboardState[MaxInputs];
             LastGamePadStates = new GamePadState[MaxInputs];
-#if ANDROID
+#if __IOS__ || __ANDROID__
 			
 #endif			
         }
@@ -162,8 +162,9 @@ namespace VectorRumble
                 CurrentKeyboardStates[i] = Keyboard.GetState();
                 CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
             }
-#if ANDROID			
-			CurrentTouchState = TouchPanel.GetState();
+
+#if __IOS__ || __ANDROID__
+            CurrentTouchState = TouchPanel.GetState();
 			Gestures.Clear();
 			while(TouchPanel.IsGestureAvailable)
 			{

@@ -52,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;AUDIO;SHADER_EFFECTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;SHADER_EFFECTS;AUDIO</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -62,7 +62,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;AUDIO;SHADER_EFFECTS</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;SHADER_EFFECTS;AUDIO</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -96,18 +96,6 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\VectorRumble.Shared\Strings.es.Designer.cs">
-      <Link>Strings.es.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.es.resx</DependentUpon>
-    </Compile>
-    <Compile Include="..\VectorRumble.Shared\Strings.Designer.cs">
-      <Link>Strings.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -134,7 +122,6 @@
     <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
       <Link>Strings.es.resx</Link>
     </EmbeddedResource>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
@@ -169,17 +156,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
-      <Link>Strings.es.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.resx">
-      <Link>Strings.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\VectorRumble.Shared\VectorRumble.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

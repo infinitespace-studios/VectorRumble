@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if ANDROID
+#if __IOS__ || __ANDROID__
 using Microsoft.Xna.Framework.Input.Touch;
 #endif
 #endregion
@@ -85,8 +85,8 @@ namespace VectorRumble
         /// or cancelling the menu.
         /// </summary>
         public override void HandleInput(InputState input)
-        {		
-#if ANDROID
+        {
+#if __IOS__ || __ANDROID__
 			var touch = input.CurrentTouchState;
 			if (touch.Count > 0)
 			{
@@ -117,7 +117,7 @@ namespace VectorRumble
 					}					
                  }				 
 			}					
-#endif			
+#endif
             // Move to the previous menu entry?
             if (input.MenuUp)
             {
