@@ -75,10 +75,19 @@ deploy:
     repo: infinitespace-studios/VectorRumble
     tags: true
 - provider: script
-  script:
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-MacOS.zip infinitespace-studios/vector-rumble:osx-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Linux.zip infinitespace-studios/vector-rumble:linux-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
-  - ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Windows.zip infinitespace-studios/vector-rumble:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
+  script: ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-MacOS.zip infinitespace-studios/vector-rumble:osx-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
+  skip_cleanup: true 
+  on:
+    repo: infinitespace-studios/VectorRumble
+    tags: true
+- provider: script
+  script: ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Linux.zip infinitespace-studios/vector-rumble:linux-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
+  skip_cleanup: true 
+  on:
+    repo: infinitespace-studios/VectorRumble
+    tags: true
+- provider: script
+  script: ./butler push VectorRumble.Desktop/bin/Release/VectorRumble-Windows.zip infinitespace-studios/vector-rumble:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
   skip_cleanup: true 
   on:
     repo: infinitespace-studios/VectorRumble
