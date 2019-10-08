@@ -33,7 +33,7 @@ stages:
         vmImage: windows-latest
       steps:
       - bash: |
-          wget -O $(System.ArtifactsDirectory)\MonoGameSetup.exe https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
+          curl -o $(System.ArtifactsDirectory)\MonoGameSetup.exe -L https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
       - script: |
           $(System.ArtifactsDirectory)\MonoGame.exe /S
           nuget restore VectorRumble.sln
