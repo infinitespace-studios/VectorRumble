@@ -15,7 +15,7 @@ install:
 - ./butler -V
 script:
 - nuget restore VectorRumble.sln
-- msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build
+- msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build /p:AutoBuildPackages=false
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:BuildGamePackages /p:AutoBuildPackages=true
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:GetBuildVersion
 deploy:
