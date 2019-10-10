@@ -16,6 +16,7 @@ install:
 script:
 - nuget restore VectorRumble.sln
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:Build
+- msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:BuildGamePackages
 - msbuild VectorRumble.Desktop/VectorRumble.Desktop.csproj /p:Configuration=Release /v:d /t:GetBuildVersion
 deploy:
 - provider: releases
