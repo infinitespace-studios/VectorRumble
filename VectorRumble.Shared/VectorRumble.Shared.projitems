@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Gameplay\Arena.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\AboutMenuScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
