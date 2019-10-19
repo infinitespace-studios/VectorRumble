@@ -23,7 +23,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
     <AutoBuildPackages>false</AutoBuildPackages>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -78,12 +77,6 @@
       <DesignTime>True</DesignTime>      
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="..\VectorRumble.Shared\Strings.es.Designer.cs">
-      <Link>Strings.es.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>      
-      <DependentUpon>Strings.es.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
@@ -109,7 +102,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
       <Link>Strings.es.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -145,17 +137,10 @@
         </PropertyGroup>
   </Target>
   <Target Name="GetBuildVersion">
-    <GetAssemblyIdentity
-        AssemblyFiles="$(OutputPath)$(AssemblyName).exe">
-      <Output
-          TaskParameter="Assemblies"
-          ItemName="AppVersion"/>
+    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).exe">
+      <Output TaskParameter="Assemblies" ItemName="AppVersion" />
     </GetAssemblyIdentity>
-    <WriteLinesToFile
-            File="appversion.txt"
-            Lines="%(AppVersion.Version)"
-            Overwrite="true"
-            Encoding="ASCII"/>
+    <WriteLinesToFile File="appversion.txt" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
   </Target>
   <Import Project="..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets" Condition="Exists('..\packages\InfinitespaceStudios.MonoGame.Packaging.0.1.10-alpha\build\InfinitespaceStudios.MonoGame.Packaging.targets')" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\build\MonoGame.Framework.DesktopGL.targets')" />
