@@ -83,18 +83,18 @@ B/O Button, Esc = Cancel</value>
 	<data name="Blur_Intesity" xml:space="preserve">
 		<value>Blur Intesity : {0}</value>
 	</data>
-	<data name="Asteroid_Density_None" xml:space="preserve">
-		<value>None</value>
-	</data>
-	<data name="Asteroid_Density_Low" xml:space="preserve">
-		<value>Low</value>
-	</data>
-	<data name="Asteroid_Density_Medium" xml:space="preserve">
-		<value>Medium</value>
-	</data>
-	<data name="Asteroid_Density_High" xml:space="preserve">
-		<value>High</value>
-	</data>
+    <data name="Asteroid_Density_None" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="Asteroid_Density_Low" xml:space="preserve">
+        <value>Low</value>
+    </data>
+    <data name="Asteroid_Density_Medium" xml:space="preserve">
+        <value>Medium</value>
+    </data>
+    <data name="Asteroid_Density_High" xml:space="preserve">
+        <value>High</value>
+    </data>>
 	<data name="Arena_Random" xml:space="preserve">
 		<value>Random</value>
 	</data>

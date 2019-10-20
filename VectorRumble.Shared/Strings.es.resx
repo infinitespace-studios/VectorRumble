@@ -54,7 +54,7 @@ Botón B/O, Tecla Esc = Cancelar</value>
 		<value>Mantén pulsado el botón A/X para unirte</value>
 	</data>
 	<data name="Press_W_To_Join" xml:space="preserve">
-		<value>Pulsa la tecla W para unirte</value>
+		<value>Pulsa W para unirte</value>
 	</data>
 	<data name="Press_Up_To_Join" xml:space="preserve">
 		<value>Pulsa fletcha arriba para unirte</value>
@@ -83,18 +83,18 @@ Botón B/O, Tecla Esc = Cancelar</value>
 	<data name="Blur_Intesity" xml:space="preserve">
 		<value>Incrementar Efecto Desenfoque : {0}</value>
 	</data>
-	<data name="Asteroid_Density_None" xml:space="preserve">
-		<value>Ninguno</value>
-	</data>
-	<data name="Asteroid_Density_Low" xml:space="preserve">
-		<value>Baja</value>
-	</data>
-	<data name="Asteroid_Density_Medium" xml:space="preserve">
-		<value>Media</value>
-	</data>
-	<data name="Asteroid_Density_High" xml:space="preserve">
-		<value>Alta</value>
-	</data>
+    <data name="Asteroid_Density_None" xml:space="preserve">
+        <value>Ninguno</value>
+    </data>
+    <data name="Asteroid_Density_Low" xml:space="preserve">
+        <value>Baja</value>
+    </data>
+    <data name="Asteroid_Density_Medium" xml:space="preserve">
+        <value>Media</value>
+    </data>
+    <data name="Asteroid_Density_High" xml:space="preserve">
+        <value>Alta</value>
+    </data>
 	<data name="Arena_Random" xml:space="preserve">
 		<value>Aleatorio</value>
 	</data>
@@ -114,7 +114,7 @@ Botón B/O, Tecla Esc = Cancelar</value>
         <value>El Lugar de Combate es : {0}</value>
     </data>
     <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
-        <value>Pulsa fletcha arriba para cambiar de color. Press Fire to change Ship.</value>
+        <value>Pulsa fletcha arriba para cambiar de color. Dispara para cambiar de nave.</value>
     </data>
     <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
         <value>Los mandos pueden disparar en todas las direcciones: {0}</value>

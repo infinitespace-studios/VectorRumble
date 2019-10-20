@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;AUDIO;CODE_ANALYSIS;CODE_ANALYSIS;SHADER_EFFECTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UAP;CODE_ANALYSIS;AUDIO;SHADER_EFFECTS;</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -102,7 +102,26 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Strings.Designer.cs" />
+    <Compile Include="..\VectorRumble.Shared\Strings.Designer.cs">
+      <Link>Strings.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.resx">
+      <Link>Strings.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.de.resx">
+      <Link>Strings.de.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
+      <Link>Strings.es.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
@@ -114,7 +133,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <PRIResource Include="Strings.resw" />
     <None Include="VectorRumble.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

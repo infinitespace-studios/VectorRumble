@@ -9,7 +9,12 @@ namespace VectorRumble.Desktop
 		[STAThread]
 		static void Main (string [] args)
 		{
-			using (var game = new VectorRumbleGame ()) {
+#if DEBUG // Purely for testing purposes
+            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
+            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("es-ES");
+#endif
+
+            using (var game = new VectorRumbleGame ()) {
 				game.Run ();
 			}
 		}

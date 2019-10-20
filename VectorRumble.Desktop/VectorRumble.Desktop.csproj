@@ -102,8 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
       <Link>Strings.es.resx</Link>
-      <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.de.resx">
+      <Link>Strings.de.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
