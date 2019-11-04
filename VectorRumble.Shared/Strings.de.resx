@@ -25,7 +25,7 @@
 		<value>Spiel beenden?</value>
 	</data>
 	<data name="MessageBox_Usage" xml:space="preserve">
-		<value>Druecke...
+		<value>Drücke...
 A/X Button, Leertaste, Enter = OK
 B/O Button, Esc = abbrechen</value>
 	</data>
@@ -42,7 +42,7 @@ B/O Button, Esc = abbrechen</value>
 		<value>Nochmal?</value>
 	</data>
 	<data name="Return_to_Menu" xml:space="preserve">
-		<value>Zurueck ins Menue</value>
+		<value>Zurück ins Menü</value>
 	</data>
 	<data name="Player_X_Wins" xml:space="preserve">
 		<value>{0} gewinnt!</value>
@@ -51,19 +51,19 @@ B/O Button, Esc = abbrechen</value>
 		<value>{0} : {1}</value>
 	</data>
 	<data name="Hold_A_To_Join" xml:space="preserve">
-		<value>Druecke A zum Beitreten</value>
+		<value>Drücke A zum Beitreten</value>
 	</data>
 	<data name="Press_W_To_Join" xml:space="preserve">
-		<value>Druecke W zum Beitreten</value>
+		<value>Drücke W zum Beitreten</value>
 	</data>
 	<data name="Press_Up_To_Join" xml:space="preserve">
-		<value>Druecke Hoch zum Beitreten</value>
+		<value>Drücke Hoch zum Beitreten</value>
 	</data>
 	<data name="Connect_Gamepad" xml:space="preserve">
-		<value>GamePad anschliessen</value>
+		<value>GamePad anschließen</value>
 	</data>
 	<data name="Loading" xml:space="preserve">
-		<value>Laedt...</value>
+		<value>Lädt...</value>
 	</data>
 	<data name="Score_Limit" xml:space="preserve">
 		<value>Punktelimit : {0}</value>
@@ -75,13 +75,13 @@ B/O Button, Esc = abbrechen</value>
 		<value>Arena : {0}</value>
 	</data>
 	<data name="Motion_Blur" xml:space="preserve">
-		<value>Motion Blur : {0}</value>
+		<value>Bewegungsunschärfe : {0}</value>
 	</data>
 	<data name="Neon_Effect" xml:space="preserve">
 		<value>Neoneffekt : {0}</value>
 	</data>
 	<data name="Blur_Intesity" xml:space="preserve">
-		<value>Blurintensitaet : {0}</value>
+		<value>Unschärfeintensität : {0}</value>
 	</data>
     <data name="Asteroid_Density_None" xml:space="preserve">
         <value>Keine</value>
@@ -96,7 +96,7 @@ B/O Button, Esc = abbrechen</value>
         <value>Hoch</value>
     </data>
 	<data name="Arena_Random" xml:space="preserve">
-		<value>Zufaellig</value>
+		<value>Zufällig</value>
 	</data>
 	<data name="Windowed" xml:space="preserve">
 		<value>Im Fenster</value>
@@ -108,19 +108,19 @@ B/O Button, Esc = abbrechen</value>
 		<value>Anzeigemodus : {0}</value>
 	</data>	
     <data name="Choose_Your_Ship" xml:space="preserve">
-        <value>Waehle dein Raumschiff</value>
+        <value>Wähle dein Raumschiff</value>
     </data>
     <data name="Battle_Arena_Is" xml:space="preserve">
         <value>Die Arena ist : {0}</value>
     </data>
     <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
-        <value>Druecke Hoch um die Farbe zu wechseln. Druecke Feuern um das Schiff zu wechseln.</value>
+        <value>Drücke Hoch um die Farbe zu wechseln. Drücke Feuern um das Schiff zu wechseln.</value>
     </data>
     <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
-        <value>Controller koennen in alle Richtungen feuern: {0}</value>
+        <value>Controller können in alle Richtungen feuern: {0}</value>
     </data>
     <data name="About" xml:space="preserve">
-        <value>Ueber</value>
+        <value>Über</value>
     </data>
     <data name="Move" xml:space="preserve">
         <value>Bewegen</value>
@@ -144,6 +144,6 @@ B/O Button, Esc = abbrechen</value>
         <value>Spielverbesserungen: {0}</value>
     </data>
     <data name="No_Input_Device_Connected" xml:space="preserve">
-        <value>"Kein Eingabegerät gefunden. Schliesse eine Tastatur oder Gamepad an um zu spielen.</value>
+        <value>"Kein Eingabegerät gefunden. Schließe eine Tastatur oder Gamepad an um zu spielen.</value>
     </data>
 </root>
