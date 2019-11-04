@@ -90,12 +90,6 @@
       <DesignTime>True</DesignTime>      
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="..\VectorRumble.Shared\Strings.es.Designer.cs">
-      <Link>Strings.es.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>      
-      <DependentUpon>Strings.es.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -117,11 +111,11 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Shared\Strings.de.resx">
+      <Link>Strings.de.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\VectorRumble.Shared\Strings.es.resx">
       <Link>Strings.es.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

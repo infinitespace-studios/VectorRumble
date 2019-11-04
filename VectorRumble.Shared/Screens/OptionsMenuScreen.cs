@@ -27,12 +27,11 @@ namespace VectorRumble
     {
         #region Fields
 
-
-		static string[] asteroidDensity = { 
-				Strings.Asteroid_Density_None,
-				Strings.Asteroid_Density_Low,
-				Strings.Asteroid_Density_Medium,
-				Strings.Asteroid_Density_High,
+		static string[] asteroidDensity = {
+                Strings.Asteroid_Density_None,
+                Strings.Asteroid_Density_Low,
+                Strings.Asteroid_Density_Medium,
+                Strings.Asteroid_Density_High,
 			};
         static int currentAsteroidDensity = 2;
 
@@ -196,7 +195,7 @@ namespace VectorRumble
         /// </summary>
         protected override void OnCancel()
         {
-            WorldRules.AsteroidDensity =  (AsteroidDensity)Enum.Parse(typeof(AsteroidDensity), asteroidDensity[currentAsteroidDensity], true);
+            WorldRules.AsteroidDensity = (AsteroidDensity)currentAsteroidDensity;
             WorldRules.BlurIntensity = blurIntensity;
             WorldRules.ControllersCanShootInAllDirections = controllersCanShootInAllDirections;
             WorldRules.MotionBlur = motionBlur;
