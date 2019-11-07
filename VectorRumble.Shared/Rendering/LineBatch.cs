@@ -19,7 +19,7 @@ namespace VectorRumble
     /// <summary>
     /// Batches line "draw" calls from the game, and renders them at one time.
     /// </summary>
-    class LineBatch
+    internal class LineBatch
     {
         #region Constants
         /// <summary>
@@ -32,7 +32,7 @@ namespace VectorRumble
         /// <summary>
         /// The graphics device that renders the lines.
         /// </summary>
-        GraphicsDevice graphicsDevice;
+        internal GraphicsDevice GraphicsDevice { get; set; }
         
         /// <summary>
         /// The effect applied to the lines.
@@ -71,7 +71,7 @@ namespace VectorRumble
         #region Initialization
         public LineBatch(GraphicsDevice graphicsDevice)
         {
-            this.graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
+            GraphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
 
             // create and configure the effect
             this.effect = new BasicEffect(graphicsDevice);
@@ -265,13 +265,13 @@ namespace VectorRumble
             }
 
             // configure the graphics device to render our lines			
-            graphicsDevice.BlendState = LineBlendState;
+            GraphicsDevice.BlendState = LineBlendState;
 
             // run the effect
 			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
 			{
 				pass.Apply();
-				graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertices, 0, lineCount);
+                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertices, 0, lineCount);
 			}
         }
         #endregion

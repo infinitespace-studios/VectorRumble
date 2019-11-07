@@ -7,7 +7,7 @@ stages:
   - stage: Build
     jobs:
     - job: BuildDesktopGL
-      displayName: Build Desktop GL
+      displayName: Desktop GL
       pool:
         vmImage: xcode9-macos10.13
       steps:
@@ -27,3 +27,23 @@ stages:
           solution: VectorRumble.Desktop/VectorRumble.Desktop.csproj
           configuration: Release
           msbuildArguments: /restore /v:diag
+    - job: BuildUWP
+      displayName: UWP
+      pool:
+        vmImage: vs2017-win2016
+      steps:
+      - bash: |
+          curl -o MonoGameSetup.exe -L https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGameSetup.exe
+      - script: |
+          dir
+          MonoGameSetup.exe /S
+      - task: NuGetCommand@2
+        inputs:
+          command: 'restore'
+          restoreSolution: 'VectorRumble.sln'
+      - task: MSBuild@1
+        displayName: 'Build solution VectorRumble.UWP/VectorRumble.UWP.csproj'
+        inputs:
+          solution: VectorRumble.UWP/VectorRumble.UWP.csproj
+          configuration: Release
+          msbuildArguments: /restore /v:diag /p:AppxPackage=false

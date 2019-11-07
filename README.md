@@ -9,7 +9,8 @@ MonoGame port of the XNA VectorRumble Sample, but enhanced to be a more complete
 * Multi-language support (English and Spanish for now)
 
 ## Build Status
-[![Build Status](https://travis-ci.org/infinitespace-studios/VectorRumble.svg?branch=master)](https://travis-ci.org/infinitespace-studios/VectorRumble)
+[![Travis Status](https://travis-ci.org/infinitespace-studios/VectorRumble.svg?branch=master)](https://travis-ci.org/infinitespace-studios/VectorRumble)
+[![Azure Pipeline Status](https://devdiv.visualstudio.com/Personal/_apis/build/status/infinitespace-studios.VectorRumble?branchName=master)](https://devdiv.visualstudio.com/Personal/_build/latest?definitionId=12106&branchName=master)
 
 ## Released Platforms
 * Desktop PCs

@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 #endregion
 
@@ -26,6 +27,10 @@ namespace VectorRumble
         MenuEntry fontBy = new MenuEntry(string.Format(Strings.Font_By, "Just My Type", "Chequered Ink"));
         MenuEntry gameEnhancements = new MenuEntry(string.Format(Strings.Game_Enhancements, "Dean Ellis & Dominique Louis"));
         MenuEntry githubRepo = new MenuEntry(string.Format(Strings.Github_Repo, "infinitespace-studios/VectorRumble"));
+
+        const string MonoGameUri = "http://monogame.dev";
+        const string FontUri = "http://www.fontspace.com/chequered-ink/just-my-type";
+        const string GitHubUri = "https://github.com/infinitespace-studios/VectorRumble";
         #endregion
 
         #region Initialization
@@ -68,7 +73,7 @@ namespace VectorRumble
         /// </summary>
         void BuiltWithMonoGameMenuEntrySelected(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://monogame.dev");
+            ProcessStart(MonoGameUri);
         }
 
         /// <summary>
@@ -76,7 +81,7 @@ namespace VectorRumble
         /// </summary>
         void FontByMenuEntrySelected(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.fontspace.com/chequered-ink/just-my-type");
+            ProcessStart(FontUri);
         }
 
         /// <summary>
@@ -92,7 +97,7 @@ namespace VectorRumble
         /// </summary>
         private void GithubRepoMenuEntrySelected(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/infinitespace-studios/VectorRumble");
+            ProcessStart(GitHubUri);
         }
 
         /// <summary>
@@ -102,6 +107,16 @@ namespace VectorRumble
         {
             ExitScreen();
         }
-#endregion
+
+
+        private async void ProcessStart(string uri)
+        {
+#if WINDOWS_UAP
+            var success = await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
+#else
+            await Task.Run(() => System.Diagnostics.Process.Start(uri));
+#endif
+        }
+        #endregion
     }
 }

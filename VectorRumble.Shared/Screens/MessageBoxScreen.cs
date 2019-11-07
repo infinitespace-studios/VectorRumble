@@ -11,7 +11,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if ANDROID
+#if __IOS__ || __ANDROID__
 using Microsoft.Xna.Framework.Input.Touch;
 #endif
 #endregion
@@ -98,7 +98,8 @@ namespace VectorRumble
 
                 ExitScreen();
             }
-#if ANDROID
+
+#if __IOS__ || __ANDROID__
 			foreach (var g in input.Gestures)
 			{
 				if (g.GestureType == GestureType.Tap)
