@@ -6,7 +6,10 @@ MonoGame port of the XNA VectorRumble Sample, but enhanced to be a more complete
    * Custom ship loading
    * Custom level loading
 * Custom font to suit Look & Feel
-* Multi-language support (English and Spanish for now)
+* Multi-language support
+   * English
+   * German
+   * Spanish
 
 ## Build Status
 [![Travis Status](https://travis-ci.org/infinitespace-studios/VectorRumble.svg?branch=master)](https://travis-ci.org/infinitespace-studios/VectorRumble)
