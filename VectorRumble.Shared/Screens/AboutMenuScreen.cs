@@ -18,7 +18,7 @@ namespace VectorRumble
 {
     /// <summary>
     /// The About screen is brought up over the top of the main menu
-    /// screen and gives credit where credit is due.
+    /// screen and tell you a bit about the game.
     /// </summary>
     class AboutMenuScreen : MenuScreen
     {
@@ -109,7 +109,7 @@ namespace VectorRumble
         }
 
 
-        private async void ProcessStart(string uri)
+        public static async void ProcessStart(string uri)
         {
 #if WINDOWS_UAP
             var success = await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));

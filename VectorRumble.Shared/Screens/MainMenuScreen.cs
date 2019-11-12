@@ -33,16 +33,19 @@ namespace VectorRumble
 			MenuEntry playGameMenuEntry = new MenuEntry(Strings.Play_Game);
             MenuEntry optionsMenuEntry = new MenuEntry(Strings.Options);
             MenuEntry aboutMenuEntry = new MenuEntry(Strings.About);
+            MenuEntry creditsMenuEntry = new MenuEntry(Strings.Credits);
             MenuEntry exitMenuEntry = new MenuEntry(Strings.Exit);
 
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             aboutMenuEntry.Selected += AboutMenuEntrySelected;
+            creditsMenuEntry.Selected += CreditsMenuEntrySelected;
             exitMenuEntry.Selected += ExitMenuEntrySelected;
 
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(aboutMenuEntry);
+            MenuEntries.Add(creditsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
 
@@ -123,6 +126,13 @@ namespace VectorRumble
         {
             ScreenManager.AddScreen(new AboutMenuScreen());
         }
+
+        private void CreditsMenuEntrySelected(object sender, EventArgs e)
+        {
+            ScreenManager.AddScreen(new CreditsMenuScreen());
+        }
+
+        
         #endregion
     }
 }
