@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework.Content;
@@ -27,11 +26,8 @@ namespace VectorRumble
             arenas = new Arena[arenaLength + 1]; // Adding an extra slot for the Random Arena later.
             for (int i = 0; i < arenaLength; i++)
             {
-                using (XmlReader reader = XmlReader.Create(arenaFiles[i]))
-                {
-                    var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                    arenas[i] = arena;
-                }
+                var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
+                arenas[i] = arena;
             }
 
             // Add an extra element for our Random option.
@@ -48,11 +44,8 @@ namespace VectorRumble
                 Array.Resize(ref arenas, arenas.Length + arenaFiles.Length);
                 for (int i = arenas.Length; i < arenas.Length + arenaFiles.Length; i++)
                 {
-                    using (XmlReader reader = XmlReader.Create(arenaFiles[i]))
-                    {
-                        var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                        arenas[i] = arena;
-                    }
+                    var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
+                    arenas[i] = arena;
                 }
             }
         }
