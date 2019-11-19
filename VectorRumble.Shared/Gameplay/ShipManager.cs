@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework.Content;
@@ -31,12 +30,9 @@ namespace VectorRumble
             ships = new Ship[shipFiles.Length];
             for (int i = 0; i < shipFiles.Length; i++)
             {
-                using (XmlReader reader = XmlReader.Create(shipFiles[i]))
-                {
-                    var ship = Ship.Load(XDocument.Load(shipFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                    ship.World = world;
-                    ships[i] = ship;
-                }
+                var ship = Ship.Load(XDocument.Load(shipFiles[i]).XPathSelectElement("/XnaContent/Asset"));
+                ship.World = world;
+                ships[i] = ship;
             }
 
             // Once our app is signed, we can't change it, so let's look in the Special "MyDocuments" folder for user created data
@@ -46,12 +42,9 @@ namespace VectorRumble
                 Array.Resize(ref ships, ships.Length + shipFiles.Length);
                 for (int i = ships.Length; i < ships.Length + shipFiles.Length; i++)
                 {
-                    using (XmlReader reader = XmlReader.Create(shipFiles[i]))
-                    {
-                        var ship = Ship.Load(XDocument.Load(shipFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                        ship.World = world;
-                        ships[i] = ship;
-                    }
+                    var ship = Ship.Load(XDocument.Load(shipFiles[i]).XPathSelectElement("/XnaContent/Asset"));
+                    ship.World = world;
+                    ships[i] = ship;
                 }
             }
         }
