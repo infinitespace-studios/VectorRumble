@@ -146,4 +146,7 @@ B/O Button, Esc = Cancel</value>
     <data name="No_Input_Device_Connected" xml:space="preserve">
         <value>No input device connected. Plug in a Keyboard or Controller to Play.</value>
     </data>
+    <data name="Credits" xml:space="preserve">
+        <value>Credits</value>
+    </data>
 </root>

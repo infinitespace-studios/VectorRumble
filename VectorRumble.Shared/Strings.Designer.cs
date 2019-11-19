@@ -310,5 +310,11 @@ namespace VectorRumble {
                 return ResourceManager.GetString("No_Input_Device_Connected", resourceCulture);
             }
         }
+        
+        internal static string Credits {
+            get {
+                return ResourceManager.GetString("Credits", resourceCulture);
+            }
+        }
     }
 }
