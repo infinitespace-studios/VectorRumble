@@ -36,6 +36,8 @@ namespace VectorRumble
         Texture2D gamePadTexture;
 #endif
         Texture2D starTexture;
+
+        private const float lineBreakWidth = 210f;
         #endregion
 
         #region Initialization
@@ -58,7 +60,7 @@ namespace VectorRumble
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             }
             spriteBatch = new SpriteBatch(ScreenManager.GraphicsDevice);
-            spriteFont = content.Load<SpriteFont>("Fonts/retroMedium");
+            spriteFont = content.Load<SpriteFont>("Fonts/retroSmall");
             starTexture = content.Load<Texture2D>("Textures/blank");
             player3Controls = content.Load<Texture2D>("Textures/player1-controls");
             player4Controls = content.Load<Texture2D>("Textures/player2-controls");
@@ -176,19 +178,19 @@ namespace VectorRumble
                     switch (index)
                     {
                         case PlayerIndex.One:
-                            message = caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad;
+                            message = WrapText(caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad, lineBreakWidth);
                             break;
                         case PlayerIndex.Two:
-                            message = caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad;
+                            message = WrapText(caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad, lineBreakWidth);
                             break;
                         case PlayerIndex.Three:
-                            message = Strings.Press_W_To_Join;
+                            message = WrapText(Strings.Press_W_To_Join, lineBreakWidth);
                             break;
                         case PlayerIndex.Four:
-                            message = Strings.Press_Up_To_Join;
+                            message = WrapText(Strings.Press_Up_To_Join, lineBreakWidth);
                             break;
                         default:
-                            message = Strings.No_Input_Device_Connected;
+                            message = WrapText(Strings.No_Input_Device_Connected, lineBreakWidth);
                             break;
                     }
                 }
@@ -211,6 +213,32 @@ namespace VectorRumble
             }
 
             spriteBatch.End();
+        }
+
+        public string WrapText(string text, float maxLineWidth)
+        {
+            string[] words = text.Split(' ');
+            float lineWidth = 0f;
+            float spaceWidth = spriteFont.MeasureString(" ").X;
+
+            string returnString = string.Empty;
+            foreach (string word in words)
+            {
+                Vector2 size = spriteFont.MeasureString(word);
+
+                if (lineWidth + size.X < maxLineWidth)
+                {
+                    returnString += word + " ";
+                    lineWidth += size.X + spaceWidth;
+                }
+                else
+                {
+                    returnString += "\n" + word + " ";
+                    lineWidth = size.X + spaceWidth;
+                }
+            }
+
+            return returnString;
         }
     }
 

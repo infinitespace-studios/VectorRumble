@@ -11,7 +11,7 @@ with.
     <!--
     Modify this string to change the font that will be imported.
     -->
-    <FontName>Just My Type</FontName>
+    <FontName>honor-medium-1e19</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change
