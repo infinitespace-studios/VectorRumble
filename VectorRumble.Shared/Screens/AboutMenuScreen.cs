@@ -24,12 +24,12 @@ namespace VectorRumble
     {
         #region Fields
         MenuEntry builtWithMonoGame = new MenuEntry(Strings.Built_With_MonoGame);
-        MenuEntry fontBy = new MenuEntry(string.Format(Strings.Font_By, "Just My Type", "Chequered Ink"));
+        MenuEntry fontBy = new MenuEntry(string.Format(Strings.Font_By, "Honor Font", "Jipatype"));
         MenuEntry gameEnhancements = new MenuEntry(string.Format(Strings.Game_Enhancements, "Dean Ellis & Dominique Louis"));
         MenuEntry githubRepo = new MenuEntry(string.Format(Strings.Github_Repo, "infinitespace-studios/VectorRumble"));
 
         const string MonoGameUri = "http://monogame.dev";
-        const string FontUri = "http://www.fontspace.com/chequered-ink/just-my-type";
+        const string FontUri = "https://payhip.com/b/xNA0";
         const string GitHubUri = "https://github.com/infinitespace-studios/VectorRumble";
         #endregion
 
