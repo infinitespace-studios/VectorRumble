@@ -29,14 +29,10 @@ namespace VectorRumble.UWP
         {
             this.InitializeComponent();
 
-			// Create the game.
-			var launchArguments = string.Empty;
+            // Create the game.
+            var launchArguments = string.Empty;
             _game = MonoGame.Framework.XamlGame<VectorRumbleGame>.Create(launchArguments, Window.Current.CoreWindow, swapChainPanel);
-        }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ApplicationView.GetForCurrentView().TryResizeView(new Size(1280, 720));
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
         }
     }
 }
