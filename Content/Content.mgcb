@@ -8,8 +8,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\packages\InfinitespaceStudios.Pipeline.1.0.9\tools\InfinitespaceStudios.Pipeline.dll
-
 #---------------------------------- Content ---------------------------------#
 
 #begin Audio/VectorRumble.xgs
@@ -23,28 +21,19 @@
 
 #begin Effects/BloomCombine.fx
 /importer:EffectImporter
-/processor:RemoteEffectProcessor
-/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
-/processorParam:RemotePort=443
-/processorParam:Protocol=https
+/processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/BloomCombine.fx
 
 #begin Effects/BloomExtract.fx
 /importer:EffectImporter
-/processor:RemoteEffectProcessor
-/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
-/processorParam:RemotePort=443
-/processorParam:Protocol=https
+/processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/BloomExtract.fx
 
 #begin Effects/GaussianBlur.fx
 /importer:EffectImporter
-/processor:RemoteEffectProcessor
-/processorParam:RemoteAddress=pipeline.infinitespace-studios.co.uk
-/processorParam:RemotePort=443
-/processorParam:Protocol=https
+/processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/GaussianBlur.fx
 
