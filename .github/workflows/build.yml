@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            rids: -r win-x64
+            rids: -r win-x64 -r win-arm64
           - os: macos-latest
             rids: -r osx-arm64 -r osx-amd64
           - os: linux-latest
@@ -49,8 +49,10 @@ jobs:
                   brew install wget p7zip curl freetype freeimage && brew install --cask wine-stable
                   wget https://dot.net/v1/dotnet-install.sh
                   chmod +x dotnet-install.sh
-                  ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos
-                  ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
+                  ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
+                  sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
+                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype
+                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libFreeImage
                   sudo mkdir -p /usr/local/lib
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
