@@ -38,8 +38,7 @@ jobs:
                   fc-match Arial
                   wine64 --version
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
-            elif [ "$RUNNER_OS" == "Windows" ]; then
-            else
+            elif [ "$RUNNER_OS" == "MacOS" ]; then
                   dotnet workload install macos
                   brew install wine-stable p7zip
                   sudo mkdir -p /usr/local/lib
