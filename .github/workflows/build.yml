@@ -82,7 +82,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Delete ./publish-${{ matrix.os }}
-      run: rm -rf ./publish-${{ matrix.os }}
+      run: rm -Rf ./publish-${{ matrix.os }}
+      shell: bash
     - name: Build
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
