@@ -40,7 +40,7 @@ jobs:
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
-                  brew install wine-stable p7zip wget
+                  brew install wget p7zip curl freetype freeimage && brew install --cask wine-stable
                   wget https://dot.net/v1/dotnet-install.sh
                   chmod +x dotnet-install.sh
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos
