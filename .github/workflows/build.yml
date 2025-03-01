@@ -17,9 +17,11 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            rid: win-x64
+            rids: [win-x64]
           - os: macos-latest
-            rid: osx-arm64
+            rids: [osx-arm64, osx-amd64]
+          - os: linux-latest
+            rids: [linux-x64, linux-arm64]
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -78,7 +80,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} -r win-x64 -r osx-x64 -r osx-arm64 -r linux-x64 -i ./Info.plist -c ./VectorRumble.icns
+      run: |
+        RIDS=""
+        for rid in ${{ matrix.rids }}; do
+          RIDS="$RIDS -r $rid"
+        done
+        dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} $RIDS -i ./Info.plist -c ./VectorRumble.icns
+      shell: bash
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
@@ -102,6 +110,6 @@ jobs:
         shell: bash
       # - name: Publish
       #   run: |
-      #         ./butler push ./publish ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows
+      #         ./butler push ./publish-${{ matrix.os }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
       #   shell: bash
       
