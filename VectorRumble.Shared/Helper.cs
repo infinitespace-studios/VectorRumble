@@ -46,8 +46,9 @@ namespace VectorRumble
 
         public static string[] GetFilesFromFolders (string [] folders, string extensionFilter)
         {
-            string root = string.Empty;
-            string resourceFolder = Path.Combine ("..", "Resources");
+            var assembly = typeof(Arena).Assembly;
+            string root = Path.GetDirectoryName (assembly.Location);
+            string resourceFolder = Path.Combine (root, "..", "Resources");
             if (Directory.Exists(resourceFolder)) {
                 root = resourceFolder;
             }

@@ -138,7 +138,7 @@ namespace VectorRumble
             //if (Visible)
             {
                 GraphicsDevice.SetRenderTarget(sceneRenderTarget);
-				GraphicsDevice.Clear (Color.TransparentBlack);
+				GraphicsDevice.Clear (Color.Transparent);
             }
         }
 
