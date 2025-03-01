@@ -15,7 +15,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: macos-latest
+            rid: osx-arm64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -67,7 +71,37 @@ jobs:
                   ./butler version
             fi
       shell: bash
+    - name: Install MonoPack
+      run: |
+            dotnet tool install MonoPack
+      shell: bash
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj --no-restore
+      run: monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} -r win-x64 -r osx-x64 -r osx-armd64 -r linux-x64 -i ./Info.plist -c ./VectorRumble.icns
+      #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: publish-${{ matrix.os }}
+        path: ./publish-${{ matrix.os }}
+
+  publish:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-${{ matrix.os }}
+      - name: Install butler
+        run: |
+              curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
+              7z x butler.zip
+              ./butler version
+        shell: bash
+      # - name: Publish
+      #   run: |
+      #         ./butler push ./publish ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows
+      #   shell: bash
+      
