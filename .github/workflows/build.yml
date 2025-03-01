@@ -17,11 +17,11 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            rids: [win-x64]
+            rids: -r win-x64
           - os: macos-latest
-            rids: [osx-arm64, osx-amd64]
+            rids: -r osx-arm64 -r osx-amd64
           - os: linux-latest
-            rids: [linux-x64, linux-arm64]
+            rids: -r linux-x64 -r linux-arm64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -80,13 +80,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: |
-        RIDS=""
-        for rid in ${{ matrix.rids }}; do
-          RIDS="$RIDS -r $rid"
-        done
-        dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} $RIDS -i ./Info.plist -c ./VectorRumble.icns
-      shell: bash
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }}; -i ./Info.plist -c ./VectorRumble.icns
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
