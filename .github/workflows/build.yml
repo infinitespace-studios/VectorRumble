@@ -20,8 +20,8 @@ jobs:
             rids: -r win-x64 -r win-arm64
           - os: macos-latest
             rids: -r osx-arm64 -r osx-amd64
-          - os: linux-latest
-            rids: -r linux-x64 -r linux-arm64
+          # - os: linux-latest
+          #   rids: -r linux-x64 -r linux-arm64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
