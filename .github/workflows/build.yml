@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, macos-latest]
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -40,7 +40,10 @@ jobs:
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
-                  brew install wine-stable p7zip
+                  brew install wine-stable p7zip wget
+                  wget https://dot.net/v1/dotnet-install.sh
+                  chmod +x dotnet-install.sh
+                  ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos
                   ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
                   sudo mkdir -p /usr/local/lib
                   ls -n /Applications/ | grep Xcode*
