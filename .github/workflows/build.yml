@@ -78,7 +78,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} -r win-x64 -r osx-x64 -r osx-armd64 -r linux-x64 -i ./Info.plist -c ./VectorRumble.icns
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} -r win-x64 -r osx-x64 -r osx-arm64 -r linux-x64 -i ./Info.plist -c ./VectorRumble.icns
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4

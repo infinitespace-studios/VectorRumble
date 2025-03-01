@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleName</key>
 	<string>Vector Rumble</string>
+	<key>CFBundleDisplayName</key>
+	<string>Vector Rumble</string>
+	<key>CFBundleExecutable</key>
+	<string>VectorRumble</string>
+	<key>CFBundleIconFile</key>
+	<string>VectorRumble.icns</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>LSMinimumSystemVersion</key>
