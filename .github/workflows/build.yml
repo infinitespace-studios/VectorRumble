@@ -11,15 +11,43 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    name: build-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+    - name: Install Dependencies
+      run: |
+            if [ "$RUNNER_OS" == "Linux" ]; then
+                  dotnet workload install android
+                  sudo apt install p7zip-full curl
+                  sudo dpkg --add-architecture i386 
+                  sudo mkdir -pm755 /etc/apt/keyrings
+                  sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+                  sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+                  sudo apt update && sudo apt install --install-recommends winehq-stable
+                  echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+                  sudo apt install -y ttf-mscorefonts-installer
+                  sudo fc-cache
+                  fc-match Arial
+                  wine64 --version
+                  wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
+            else
+                  dotnet workload install android macos ios
+                  brew install wine-stable p7zip
+                  sudo mkdir -p /usr/local/lib
+                  ls -n /Applications/ | grep Xcode*
+                  sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+                  wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
+            fi
+      shell: bash
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
