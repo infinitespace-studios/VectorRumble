@@ -9,6 +9,15 @@
     <TargetFramework>net9.0</TargetFramework>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
+    <!-- Version information -->
+    <AssemblyVersion>0.1.0.2</AssemblyVersion>
+    <FileVersion>0.1.0.2</FileVersion>
+    <Version>0.1.0</Version>
+    <AssemblyTitle>Vector Rumble</AssemblyTitle>
+    <AssemblyCompany>Infinitespace Studios</AssemblyCompany>
+    <AssemblyProduct>Vector Rumble</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
+    <AssemblyDescription>Vector Rumble</AssemblyDescription>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
@@ -65,10 +74,10 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
-  <Target Name="GetBuildVersion">
-    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).exe">
+  <Target Name="GetBuildVersion" AfterTargets="Build">
+    <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="AppVersion" />
     </GetAssemblyIdentity>
-    <WriteLinesToFile File="appversion.txt" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
+    <WriteLinesToFile File="$(OutputPath)appversion.txt" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
   </Target>
 </Project>
