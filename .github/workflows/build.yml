@@ -41,6 +41,7 @@ jobs:
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
                   brew install wine-stable p7zip
+                  ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
                   sudo mkdir -p /usr/local/lib
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
