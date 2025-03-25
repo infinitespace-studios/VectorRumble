@@ -50,10 +50,10 @@ jobs:
                   wget https://dot.net/v1/dotnet-install.sh
                   chmod +x dotnet-install.sh
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
+                  sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
                   sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype.dylib
-                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libFreeImage.dylib
-                  sudo mkdir -p /usr/local/lib
+                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
@@ -85,7 +85,7 @@ jobs:
       run: rm -Rf ./publish-${{ matrix.os }}
       shell: bash
     - name: Build
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -e VectorRumble -v
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
