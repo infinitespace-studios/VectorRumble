@@ -4,6 +4,7 @@ using System.Linq;
 #endif
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
 namespace VectorRumble
@@ -46,11 +47,16 @@ namespace VectorRumble
 
         public static string[] GetFilesFromFolders (string [] folders, string extensionFilter)
         {
-            var assembly = typeof(Arena).Assembly;
-            string root = Path.GetDirectoryName (assembly.Location);
-            string resourceFolder = Path.Combine (root, "..", "Resources");
-            if (Directory.Exists(resourceFolder)) {
-                root = resourceFolder;
+            string root = Path.GetDirectoryName (System.AppContext.BaseDirectory);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {    
+                string resourceFolder = Path.Combine (root, "..", "..", "Resources");
+                if (Directory.Exists(resourceFolder)) {
+                    root = resourceFolder;
+                }
+                resourceFolder = Path.Combine (root, "..", "Resources");
+                if (Directory.Exists(resourceFolder)) {
+                    root = resourceFolder;
+                }
             }
             var directory = Path.Combine (root, Path.Combine(folders));
             if (Directory.Exists(directory)) {

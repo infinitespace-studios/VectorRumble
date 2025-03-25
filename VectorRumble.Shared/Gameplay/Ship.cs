@@ -745,7 +745,7 @@ namespace VectorRumble
                                 }
 
                             }
-                            else if (currentKeyboardState != null)
+                            else
                             {
                                 if (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
                                 {
