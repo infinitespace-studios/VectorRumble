@@ -17,7 +17,9 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            rids: -r win-x64 -r win-x64
+            rids: -r win-x64
+          - os: windows-latest
+            rids: -r win-arm64
           - os: macos-latest
             rids: -r osx-arm64 -r osx-amd64
           - os: linux-latest
@@ -85,7 +87,7 @@ jobs:
       run: rm -Rf ./publish-${{ matrix.os }}
       shell: bash
     - name: Build
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -e VectorRumble -v
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
