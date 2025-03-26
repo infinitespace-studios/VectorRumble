@@ -18,12 +18,16 @@ jobs:
         include:
           - os: windows-latest
             rids: -r win-x64
+            artifact: publish-win-x64
           - os: windows-latest
             rids: -r win-arm64
+            artifact: publish-win-arm64
           - os: macos-latest
             rids: -r osx-arm64
+            artifact: publish-osx-arm64
           - os: linux-latest
             rids: -r linux-x64
+            artifact: publish-linux-x64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -84,17 +88,19 @@ jobs:
       shell: bash
     - name: Restore dependencies
       run: dotnet restore
-    - name: Delete ./publish-${{ matrix.os }}
-      run: rm -Rf ./publish-${{ matrix.os }}
+    - name: Delete ./publish-${{ matrix.artifact }}
+      run: rm -Rf ./publish-${{ matrix.artifact }}
       shell: bash
     - name: Build
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.os }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./publish-${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
+      env:
+        PATH: /usr/local/lib:${{ env.PATH }}
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./publish-${{ matrix.os }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: publish-${{ matrix.os }}
-        path: ./publish-${{ matrix.os }}
+        name: publish-${{ matrix.artifact }}
+        path: ./publish-${{ matrix.artifact }}
 
   publish:
     runs-on: windows-latest
@@ -103,7 +109,7 @@ jobs:
       - name: Download
         uses: actions/download-artifact@v4
         with:
-          name: publish-${{ matrix.os }}
+          name: publish-${{ matrix.artifact }}
       - name: Install butler
         run: |
               curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
@@ -112,6 +118,6 @@ jobs:
         shell: bash
       # - name: Publish
       #   run: |
-      #         ./butler push ./publish-${{ matrix.os }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
+      #         ./butler push ./publish-${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
       #   shell: bash
 
