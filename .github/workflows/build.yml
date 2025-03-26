@@ -139,8 +139,8 @@ jobs:
         run: |
               echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
         shell: bash
-      # - name: Publish
-      #   run: |
-      #         ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
-      #   shell: bash
+      - name: Publish
+        run: |
+              ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
+        shell: bash
 
