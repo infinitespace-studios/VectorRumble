@@ -138,6 +138,8 @@ jobs:
       - name: Generate appversion.txt
         run: |
               echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
+              cat appversion.txt
+              find .
         shell: bash
       - name: Publish
         run: |
