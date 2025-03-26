@@ -143,4 +143,6 @@ jobs:
         run: |
               ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
         shell: bash
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
