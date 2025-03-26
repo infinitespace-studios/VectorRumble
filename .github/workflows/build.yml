@@ -6,6 +6,7 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
+    tags: [ "*" ]
   pull_request:
     branches: [ "main" ]
 
@@ -101,12 +102,8 @@ jobs:
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
         PATH: /usr/local/lib:${{ env.PATH }}
+        CONFIGURATION: Release
       #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./${{ matrix.artifact }} --no-restore
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: appversion.txt
-        path: ./VectorRumble.Desktop/appversion.txt
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
@@ -114,6 +111,7 @@ jobs:
         path: ./${{ matrix.artifact }}
 
   publish:
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: windows-latest
     strategy:
       matrix:
@@ -131,15 +129,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-      - name: Download
-        uses: actions/download-artifact@v4
-        with:
-          name: appversion.txt
       - name: Install butler
         run: |
               curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
               7z x butler.zip
               ./butler version
+        shell: bash
+      - name: Generate appversion.txt
+        run: |
+              echo ${{  github.ref_name }} > appversion.txt
         shell: bash
       # - name: Publish
       #   run: |
