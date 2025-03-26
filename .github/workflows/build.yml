@@ -54,8 +54,8 @@ jobs:
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
                   sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
-                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype.dylib
-                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libFreeImage.dylib
+                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/lib/libfreetype.dylib
+                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/lib/libfreeimage.dylib
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
