@@ -137,7 +137,7 @@ jobs:
         shell: bash
       - name: Generate appversion.txt
         run: |
-              echo ${{  github.ref_name }} > appversion.txt
+              echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
         shell: bash
       # - name: Publish
       #   run: |

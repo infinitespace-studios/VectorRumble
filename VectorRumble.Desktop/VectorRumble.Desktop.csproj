@@ -20,6 +20,10 @@
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
     <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
