@@ -21,7 +21,7 @@ jobs:
           - os: windows-latest
             rids: -r win-arm64
           - os: macos-latest
-            rids: -r osx-arm64 -r osx-amd64
+            rids: -r osx-arm64 -r osx-x64
           - os: linux-latest
             rids: -r linux-x64
       fail-fast: false
