@@ -22,9 +22,9 @@ jobs:
           - os: windows-latest
             rids: -r win-arm64
             artifact: publish-win-arm64
-          - os: windows-latest
-            rids: -r osx-arm64
-            artifact: publish-osx-arm64
+          # - os: windows-latest
+          #   rids: -r osx-arm64
+          #   artifact: publish-osx-arm64
           - os: windows-latest
             rids: -r linux-x64
             artifact: publish-linux-x64
@@ -105,6 +105,11 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
+        name: appversion.txt
+        path: ./VectorRumble.Desktop/appversion.txt
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
         name: ${{ matrix.artifact }}
         path: ./${{ matrix.artifact }}
 
@@ -113,13 +118,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-latest
+          - os: windows
             artifact: publish-win-x64
-          - os: windows-latest
-            artifact: publish-win-arm64
-          - os: macos-latest
+          - os: macos
             artifact: publish-osx-arm64
-          - os: linux-latest
+          - os: linux
             artifact: publish-linux-x64
       fail-fast: false
     needs: build
@@ -128,6 +131,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.artifact }}
+      - name: Download
+        uses: actions/download-artifact@v4
+        with:
+          name: appversion.txt
       - name: Install butler
         run: |
               curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
@@ -136,6 +143,6 @@ jobs:
         shell: bash
       # - name: Publish
       #   run: |
-      #         ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:windows-alpha --userversion-file VectorRumble.Desktop/appversion.txt -v
+      #         ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
       #   shell: bash
 

@@ -18,6 +18,7 @@
     <AssemblyProduct>Vector Rumble</AssemblyProduct>
     <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
+    <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
@@ -74,10 +75,10 @@
 	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
         </PropertyGroup>
   </Target>
-  <Target Name="GetBuildVersion" AfterTargets="Build">
+  <Target Name="GenerateBuildVersion" AfterTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="AppVersion" />
     </GetAssemblyIdentity>
-    <WriteLinesToFile File="$(OutputPath)appversion.txt" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
+    <WriteLinesToFile File="$(AppVersionFile)" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
   </Target>
 </Project>
