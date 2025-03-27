@@ -99,7 +99,7 @@ jobs:
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
     - name: Build
-      run: dotnet build -c Release -v:diag -tl:off
+      run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
