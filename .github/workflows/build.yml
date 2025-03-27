@@ -106,7 +106,7 @@ jobs:
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
-        PATH: /usr/local/lib:${{ env.PATH }}
+        PATH: /usr/local/lib:${{ runner.home }}/.winemonogame:${{ env.PATH }}
         MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
     - name: Upload
       uses: actions/upload-artifact@v4
