@@ -55,7 +55,7 @@ jobs:
                   sudo apt install -y ttf-mscorefonts-installer
                   sudo fc-cache
                   fc-match Arial
-                  wine64 --version
+                  wine --version
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
@@ -70,6 +70,7 @@ jobs:
                   export PATH="/usr/local/lib:$PATH"
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+                  wine --version
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             fi
       shell: bash
@@ -100,10 +101,13 @@ jobs:
       shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
+      env:
+        MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
         PATH: /usr/local/lib:${{ env.PATH }}
+        MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
