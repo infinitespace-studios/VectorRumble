@@ -99,16 +99,16 @@ jobs:
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
-        echo "/usr/local/lib:/usr/local/bin:${{ runner.home }}/.winemonogame" >> $GITHUB_PATH
+        echo "/usr/local/lib:/usr/local/bin:~/.winemonogame" >> $GITHUB_PATH
       shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       env:
-        MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
+        MGFXC_WINE_PATH: ~/.winemonogame
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
-        MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
+        MGFXC_WINE_PATH: ~/.winemonogame
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
