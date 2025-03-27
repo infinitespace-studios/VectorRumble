@@ -26,15 +26,15 @@ jobs:
           # - os: windows-latest
           #   rids: -r osx-arm64
           #   artifact: publish-osx-arm64
-          # - os: windows-latest
-          #   rids: -r linux-x64
-          #   artifact: publish-linux-x64
+          - os: windows-latest
+            rids: -r linux-x64
+            artifact: publish-linux-x64
           # - os: macos-latest
           #   rids: -r osx-arm64
           #   artifact: publish-osx-arm64
-          - os: ubuntu-latest
-            rids: -r linux-x64
-            artifact: publish-linux-x64
+          # - os: ubuntu-latest
+          #   rids: -r linux-x64
+          #   artifact: publish-linux-x64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -99,6 +99,10 @@ jobs:
     - name: Delete ./${{ matrix.artifact }}
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
+    - name: Test
+      run: echo ${{ env.PATH}}
+      env:
+        PATH: /usr/local/lib:${{ runner.home }}/.winemonogame:${{ env.PATH }}
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       env:
