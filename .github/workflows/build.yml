@@ -99,11 +99,11 @@ jobs:
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
     - name: Build
+      run: dotnet build -c Release -v:diag -tl:off
+    - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
         PATH: /usr/local/lib:${{ env.PATH }}
-        CONFIGURATION: Release
-      #run: dotnet publish VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -r ${{ matrix.rid }} -p:PublishReadyToRun=false -p:TieredCompilation=false -p:PublishSingleFile=true --self-contained -o ./${{ matrix.artifact }} --no-restore
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
@@ -117,18 +117,21 @@ jobs:
       matrix:
         include:
           - os: windows
-            artifact: publish-win-x64
+            rid: win-x64
+            archive: .zip
           - os: macos
-            artifact: publish-osx-arm64
+            rid: osx-arm64
+            archive: .tar.gz
           - os: linux
-            artifact: publish-linux-x64
+            rid: linux-x64
+            archive: .tar.gz
       fail-fast: false
     needs: build
     steps:
       - name: Download
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.artifact }}
+          name: publish-${{ matrix.rid }}
       - name: Install butler
         run: |
               curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
@@ -143,7 +146,7 @@ jobs:
         shell: bash
       - name: Publish
         run: |
-              ./butler push ./${{ matrix.artifact }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
+              ./butler push ./VectorRumble.Desktop-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
         shell: bash
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
