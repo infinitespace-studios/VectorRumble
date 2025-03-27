@@ -143,7 +143,7 @@ jobs:
           name: publish-${{ matrix.rid }}
       - name: Install butler
         run: |
-              curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
+              curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
               7z x butler.zip
               ./butler version
         shell: bash
