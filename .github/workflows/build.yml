@@ -102,6 +102,7 @@ jobs:
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       env:
+        PATH: /usr/local/lib:${{ runner.home }}/.winemonogame:${{ env.PATH }}
         MGFXC_WINE_PATH: ${{ runner.home }}/.winemonogame
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
