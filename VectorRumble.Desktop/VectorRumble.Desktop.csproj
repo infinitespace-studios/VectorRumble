@@ -67,6 +67,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\.itch.toml">
+      <Link>.itch.toml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
 <!--
     <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
@@ -74,11 +80,6 @@
     </ProjectReference>
 -->
   </ItemGroup>
-  <Target Name="_AlterContentHeader" BeforeTargets="RunContentBuilder">
-	<PropertyGroup>
-	  <Header Condition=" '$(OS)' != 'Unix' ">$(Header) /define:BuildEffects=Yes</Header>
-        </PropertyGroup>
-  </Target>
   <Target Name="GenerateBuildVersion" AfterTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="AppVersion" />

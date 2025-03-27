@@ -1,0 +1,14 @@
+[[actions]]
+name = "play"
+path = "VectorRumble.exe"
+platform = "windows"
+
+[[actions]]
+name = "play"
+path = "VectorRumble.app"
+platform = "osx"
+
+[[actions]]
+name = "play"
+path = "VectorRumble"
+platform = "linux"
