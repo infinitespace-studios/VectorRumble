@@ -23,18 +23,15 @@ jobs:
           - os: windows-latest
             rids: -r win-arm64
             artifact: publish-win-arm64
-          # - os: windows-latest
-          #   rids: -r osx-arm64
-          #   artifact: publish-osx-arm64
           - os: windows-latest
             rids: -r linux-x64
             artifact: publish-linux-x64
-          # - os: macos-latest
-          #   rids: -r osx-arm64
-          #   artifact: publish-osx-arm64
-          # - os: ubuntu-latest
-          #   rids: -r linux-x64
-          #   artifact: publish-linux-x64
+          - os: macos-latest
+            rids: -r osx-arm64
+            artifact: publish-osx-arm64
+          - os: ubuntu-latest
+            rids: -r linux-x64
+            artifact: publish-linux-x64
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
