@@ -92,6 +92,8 @@ jobs:
         wine dotnet --info
         wine64 dotnet --info
       shell: bash
+      env:
+        MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       shell: bash
