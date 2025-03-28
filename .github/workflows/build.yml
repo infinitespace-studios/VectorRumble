@@ -86,13 +86,18 @@ jobs:
         brew install libpng libjpeg libtiff
         brew install --cask xquartz
       shell: bash
+    - name: Check Missing Dependencies
+      if: runner.os == 'macOS'
+      run: |
+        otool -L /usr/local/bin/wine64
+        brew doctor
+      shell: bash
     - name: Check Wine
       if: runner.os != 'Windows'
       run: |
         export WINEPREFIX=${{ matrix.wineprefix }}
+        export WINEDEBUG=+all
         wine64 wineboot
-        wine64 --version
-        wine64 dotnet --info
       shell: bash
       env:
         WINEPREFIX: ${{ matrix.wineprefix }}
