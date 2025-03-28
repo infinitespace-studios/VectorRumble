@@ -107,10 +107,12 @@ jobs:
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       env:
         MGFXC_WINE_PATH: /home/runner/.winemonogame
+        DYLD_PRINT_LIBRARIES: 1
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       env:
         MGFXC_WINE_PATH: /home/runner/.winemonogame
+        DYLD_PRINT_LIBRARIES: 1
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
