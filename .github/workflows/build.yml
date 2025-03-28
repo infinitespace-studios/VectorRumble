@@ -80,10 +80,17 @@ jobs:
     - name: Delete ./${{ matrix.artifact }}
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
+    - name: Install Wine Dependencies
+      if: runner.os == 'macOS'
+      run: |
+        brew install libpng libjpeg libtiff
+        brew install --cask xquartz
+      shell: bash
     - name: Check Wine
       if: runner.os != 'Windows'
       run: |
         export WINEPREFIX=${{ matrix.wineprefix }}
+        wine64 wineboot
         wine64 --version
         wine64 dotnet --info
       shell: bash
