@@ -56,6 +56,7 @@ jobs:
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
                   brew install wget p7zip curl freetype freeimage && brew install --cask wine-stable
+                  softwareupdate --install-rosetta --agree-to-license
                   wget https://dot.net/v1/dotnet-install.sh
                   chmod +x dotnet-install.sh
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
