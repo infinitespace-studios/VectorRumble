@@ -60,7 +60,7 @@ jobs:
                   sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
                   sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype.dylib
-                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libFreeImage.dylib
+                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
                   export PATH="/usr/local/lib:$PATH"
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
@@ -96,7 +96,7 @@ jobs:
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
-        echo "/usr/local/lib:/usr/local/bin:/home/runner/.winemonogame" >> $GITHUB_PATH
+        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:/home/runner/.winemonogame" >> $GITHUB_PATH
       shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
