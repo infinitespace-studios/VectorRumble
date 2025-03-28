@@ -42,6 +42,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+    - name: Delete ./${{ matrix.wineprefix }}
+      if: runner.os != 'Windows'
+      run: rm -Rf ./${{ matrix.wineprefix }}
     - name: Install Dependencies
       run: |
             if [ "$RUNNER_OS" == "Linux" ]; then
@@ -65,9 +68,6 @@ jobs:
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
                   sudo ln -sf /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
                   sudo ln -sf /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
-                  export PATH="/usr/local/lib:$PATH"
-                  ls -n /Applications/ | grep Xcode*
-                  sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             fi
       shell: bash
