@@ -61,6 +61,7 @@ jobs:
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
                   sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
+                  sudo chmod u+x /usr/local/bin/wine64
                   sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
                   sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
                   export PATH="/usr/local/lib:$PATH"
@@ -87,9 +88,7 @@ jobs:
     - name: Print Path
       if: runner.os != 'Windows'
       run: |
-        wine --version
         wine64 --version
-        wine dotnet --info
         wine64 dotnet --info
       shell: bash
       env:
@@ -99,12 +98,14 @@ jobs:
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
+        WINEPREFIX: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
+        WINEPREFIX: ${{ matrix.wineprefix }}
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
