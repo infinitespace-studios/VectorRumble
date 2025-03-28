@@ -94,12 +94,12 @@ jobs:
     - name: Check Wine
       if: runner.os != 'Windows'
       run: |
-        export WINEPREFIX=${{ matrix.wineprefix }}
+        export WINEPREFIX=${{ github.workspace }}/.winemonogame
         export WINEDEBUG=+all
         wine64 wineboot
       shell: bash
       env:
-        WINEPREFIX: ${{ matrix.wineprefix }}
+        WINEPREFIX: ${{ github.workspace }}/.winemonogame
     # - name: Update Path
     #   if: runner.os != 'Windows'
     #   run: |
