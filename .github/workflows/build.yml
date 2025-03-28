@@ -61,7 +61,7 @@ jobs:
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
                   sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
-                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype.dylib
+                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
                   sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
                   export PATH="/usr/local/lib:$PATH"
                   ls -n /Applications/ | grep Xcode*
@@ -105,6 +105,7 @@ jobs:
       run: |
         wine --version
         ls -la /opt/homebrew/lib/
+        ls -la /usr/local/lib/
       shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
