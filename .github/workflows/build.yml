@@ -27,6 +27,10 @@ jobs:
             rids: -r osx-arm64
             artifact: publish-osx-arm64
             wineprefix: /Users/runner/.winemonogame
+          - os: macos-13
+            rids: -r osx-x64
+            artifact: publish-osx-x64
+            wineprefix: /Users/runner/.winemonogame
           - os: ubuntu-latest
             rids: -r linux-x64
             artifact: publish-linux-x64
@@ -56,7 +60,6 @@ jobs:
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
                   brew install wget p7zip curl freetype freeimage && brew install --cask wine-stable
-                  softwareupdate --install-rosetta --agree-to-license
                   wget https://dot.net/v1/dotnet-install.sh
                   chmod +x dotnet-install.sh
                   ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
