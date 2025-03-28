@@ -90,7 +90,6 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         otool -L /usr/local/bin/wine64
-        brew doctor
       shell: bash
     - name: Check Wine
       if: runner.os != 'Windows'
