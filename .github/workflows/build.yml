@@ -59,18 +59,15 @@ jobs:
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             elif [ "$RUNNER_OS" == "macOS" ]; then
                   dotnet workload install macos
-                  brew install wget p7zip curl freetype freeimage && brew install --cask wine-stable
-                  wget https://dot.net/v1/dotnet-install.sh
-                  chmod +x dotnet-install.sh
-                  ./dotnet-install.sh --runtime dotnet --architecture amd64 --os macos --install-dir ./dotnet64
+                  brew install wget p7zip curl freetype freeimage
+                  brew install --cask wine-stable
                   sudo mkdir -p /usr/local/lib
                   sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
-                  sudo ln -s /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
-                  sudo ln -s /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
+                  sudo ln -sf /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
+                  sudo ln -sf /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
                   export PATH="/usr/local/lib:$PATH"
                   ls -n /Applications/ | grep Xcode*
                   sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
-                  wine --version
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             fi
       shell: bash
@@ -92,18 +89,18 @@ jobs:
       shell: bash
       env:
         WINEPREFIX: ${{ matrix.wineprefix }}
-    - name: Update Path
-      if: runner.os != 'Windows'
-      run: |
-        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
-      shell: bash
+    # - name: Update Path
+    #   if: runner.os != 'Windows'
+    #   run: |
+    #     echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
+    #   shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         WINEPREFIX: ${{ matrix.wineprefix }}
-        DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin
+        DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
