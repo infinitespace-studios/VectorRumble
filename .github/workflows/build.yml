@@ -26,9 +26,11 @@ jobs:
           - os: macos-latest
             rids: -r osx-arm64
             artifact: publish-osx-arm64
+            wineprefix: /Users/runner/.winemonogame
           - os: ubuntu-latest
             rids: -r linux-x64
             artifact: publish-linux-x64
+            wineprefix: /home/runner/.winemonogame
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -68,22 +70,22 @@ jobs:
                   wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             fi
       shell: bash
-    - name: Install butler
-      run: |
-            if [ "$RUNNER_OS" == "Linux" ]; then
-                  curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
-                  7z x butler.zip
-                  ./butler version
-            elif [ "$RUNNER_OS" == "Windows" ]; then
-                  curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
-                  7z x butler.zip
-                  ./butler version
-            elif [ "$RUNNER_OS" == "macOS" ]; then
-                  curl -L https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
-                  7z x butler.zip
-                  ./butler version
-            fi
-      shell: bash
+    # - name: Install butler
+    #   run: |
+    #         if [ "$RUNNER_OS" == "Linux" ]; then
+    #               curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
+    #               7z x butler.zip
+    #               ./butler version
+    #         elif [ "$RUNNER_OS" == "Windows" ]; then
+    #               curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
+    #               7z x butler.zip
+    #               ./butler version
+    #         elif [ "$RUNNER_OS" == "macOS" ]; then
+    #               curl -L https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
+    #               7z x butler.zip
+    #               ./butler version
+    #         fi
+    #   shell: bash
     - name: Install MonoPack
       run: |
             dotnet tool install MonoPack
@@ -96,27 +98,25 @@ jobs:
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
-        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:/home/runner/.winemonogame" >> $GITHUB_PATH
+        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
       shell: bash
     - name: Print Path
       if: runner.os != 'Windows'
       run: |
-        echo $GITHUB_PATH
-        echo $PATH
-        echo $DYLD_LIBRARY_PATH
+        wine --version
+        ls -la /opt/homebrew/lib/
       shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       shell: bash
       env:
-        MGFXC_WINE_PATH: /home/runner/.winemonogame
-        DYLD_PRINT_LIBRARIES: 1
+        MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
+        DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
-        MGFXC_WINE_PATH: /home/runner/.winemonogame
-        DYLD_PRINT_LIBRARIES: 1
+        MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
