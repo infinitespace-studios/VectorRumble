@@ -89,6 +89,8 @@ jobs:
       run: |
         wine --version
         wine64 --version
+        wine dotnet --info
+        wine64 dotnet --info
       shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
