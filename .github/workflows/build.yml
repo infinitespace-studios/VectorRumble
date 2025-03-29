@@ -66,7 +66,6 @@ jobs:
                   sudo mkdir -p /usr/local/lib
                   sudo ln -sf /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
                   sudo ln -sf /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
-                  wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
             fi
       shell: bash
       #https://dl.winehq.org/wine-builds/macosx/pool/portable-winehq-stable-5.0-osx64.tar.gz
@@ -85,6 +84,7 @@ jobs:
         brew install libpng libjpeg libtiff
         brew install --cask xquartz wine-stable
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
+        wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
       shell: bash
     - name: Check Missing Dependencies
       if: runner.os == 'macOS'
