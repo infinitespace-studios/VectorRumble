@@ -89,7 +89,9 @@ jobs:
       run: |
         brew install libpng libjpeg libtiff
         brew install --cask xquartz wine-stable
-        xattr -dr com.apple.quarantine "/Applications/Wine Stable.app" 
+        xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
+        wine --version
+        which wine
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
@@ -118,14 +120,12 @@ jobs:
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
-        WINEPREFIX: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
       run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
-        WINEPREFIX: ${{ matrix.wineprefix }}
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
