@@ -97,6 +97,7 @@ jobs:
       if: runner.os != 'Windows'
       run: |
         export WINEPREFIX=${{ github.workspace }}/.winemonogame
+        export PATH=/usr/local/bin:$PATH
         mkdir -p $WINEPREFIX
         export WINEDEBUG=+all
         export WINEARCH=win64
