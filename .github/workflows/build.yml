@@ -81,6 +81,11 @@ jobs:
     - name: Install Wine Dependencies
       if: runner.os == 'macOS'
       run: |
+        softwareupdate --install-rosetta --agree-to-license
+        /usr/bin/pgrep oahd >/dev/null && echo "Rosetta is installed" || echo "Rosetta is not installed"
+    - name: Install Wine Dependencies
+      if: runner.os == 'macOS'
+      run: |
         brew install libpng libjpeg libtiff
         brew install --cask xquartz wine-stable
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
