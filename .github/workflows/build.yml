@@ -92,11 +92,6 @@ jobs:
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
       shell: bash
-    - name: Check Missing Dependencies
-      if: runner.os == 'macOS'
-      run: |
-        otool -L /usr/local/bin/wine64
-      shell: bash
     - name: Check Wine
       if: runner.os != 'Windows'
       run: |
