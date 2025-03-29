@@ -96,6 +96,7 @@ jobs:
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
         ls -la /usr/local/bin/
+        export WINEPREFIX=${{ matrix.wineprefix }}
         wine64 dotnet --info
       shell: bash
     - name: Update Path
