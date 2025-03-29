@@ -93,6 +93,11 @@ jobs:
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
       shell: bash
+    - name: Update Path
+      if: runner.os != 'Windows'
+      run: |
+        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
+      shell: bash
     - name: Check Wine
       if: runner.os != 'Windows'
       run: |
@@ -106,11 +111,6 @@ jobs:
       shell: bash
       env:
         WINEPREFIX: ${{ github.workspace }}/.winemonogame
-    # - name: Update Path
-    #   if: runner.os != 'Windows'
-    #   run: |
-    #     echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
-    #   shell: bash
     - name: Build
       run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       shell: bash
