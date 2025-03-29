@@ -93,6 +93,7 @@ jobs:
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
+        ls -la /usr/local/bin/
       shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
