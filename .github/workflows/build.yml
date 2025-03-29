@@ -17,12 +17,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-latest
-            rids: -r win-x64
-            artifact: publish-win-x64
-          - os: windows-latest
-            rids: -r win-arm64
-            artifact: publish-win-arm64
+          # - os: windows-latest
+          #   rids: -r win-x64
+          #   artifact: publish-win-x64
+          # - os: windows-latest
+          #   rids: -r win-arm64
+          #   artifact: publish-win-arm64
           # - os: macos-latest
           #   rids: -r osx-arm64
           #   artifact: publish-osx-arm64
@@ -31,10 +31,10 @@ jobs:
             rids: -r osx-x64
             artifact: publish-osx-x64
             wineprefix: /Users/runner/.winemonogame
-          - os: ubuntu-latest
-            rids: -r linux-x64
-            artifact: publish-linux-x64
-            wineprefix: /home/runner/.winemonogame
+          # - os: ubuntu-latest
+          #   rids: -r linux-x64
+          #   artifact: publish-linux-x64
+          #   wineprefix: /home/runner/.winemonogame
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -95,7 +95,7 @@ jobs:
         sudo ln -s /usr/local/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
-        ls -la /usr/local/bin/
+        find ${{ matrix.wineprefix }}
         export WINEPREFIX=${{ matrix.wineprefix }}
         wine64 dotnet --info
       shell: bash
