@@ -78,7 +78,7 @@ jobs:
     - name: Delete ./${{ matrix.artifact }}
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
-    - name: Install Wine Dependencies
+    - name: Install Rosetta
       if: runner.os == 'macOS'
       continue-on-error: true
       run: |
@@ -92,7 +92,7 @@ jobs:
         xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
         wine --version
         which wine
-        sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
+        sudo ln -s /usr/local/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
         ls -la /usr/local/bin/
