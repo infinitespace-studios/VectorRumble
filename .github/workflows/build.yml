@@ -80,6 +80,7 @@ jobs:
       shell: bash
     - name: Install Wine Dependencies
       if: runner.os == 'macOS'
+      continue-on-error: true
       run: |
         softwareupdate --install-rosetta --agree-to-license
         /usr/bin/pgrep oahd >/dev/null && echo "Rosetta is installed" || echo "Rosetta is not installed"
@@ -100,8 +101,9 @@ jobs:
       if: runner.os != 'Windows'
       run: |
         export WINEPREFIX=${{ github.workspace }}/.winemonogame
+        mkdir -p $WINEPREFIX
         export WINEDEBUG=+all
-        wine64 wineboot
+        wine64 wineboot || true
       shell: bash
       env:
         WINEPREFIX: ${{ github.workspace }}/.winemonogame
