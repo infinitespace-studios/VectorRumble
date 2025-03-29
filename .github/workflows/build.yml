@@ -96,6 +96,7 @@ jobs:
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         rm -f ${{ matrix.wineprefix }}/wine64
         ls -la /usr/local/bin/
+        wine64 dotnet --info
       shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
@@ -116,7 +117,9 @@ jobs:
     #   env:
     #     WINEPREFIX: ${{ github.workspace }}/.winemonogame
     - name: Build
-      run: dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
+      run: |
+        echo $DYLD_LIBRARY_PATH
+        dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
