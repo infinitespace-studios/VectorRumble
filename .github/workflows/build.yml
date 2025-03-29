@@ -104,6 +104,7 @@ jobs:
         mkdir -p $WINEPREFIX
         export WINEDEBUG=+all
         wine64 wineboot || true
+        find $WINEPREFIX
       shell: bash
       env:
         WINEPREFIX: ${{ github.workspace }}/.winemonogame
