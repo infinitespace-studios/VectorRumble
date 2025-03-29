@@ -23,10 +23,10 @@ jobs:
           - os: windows-latest
             rids: -r win-arm64
             artifact: publish-win-arm64
-          - os: macos-latest
-            rids: -r osx-arm64
-            artifact: publish-osx-arm64
-            wineprefix: /Users/runner/.winemonogame
+          # - os: macos-latest
+          #   rids: -r osx-arm64
+          #   artifact: publish-osx-arm64
+          #   wineprefix: /Users/runner/.winemonogame
           - os: macos-13
             rids: -r osx-x64
             artifact: publish-osx-x64
@@ -92,11 +92,12 @@ jobs:
         xattr -dr com.apple.quarantine "/Applications/Wine Stable.app" 
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
+        rm -f ${{ matrix.wineprefix }}/wine64
       shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
-        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin:${{ matrix.wineprefix }}" >> $GITHUB_PATH
+        echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin" >> $GITHUB_PATH
       shell: bash
     # - name: Check Wine
     #   if: runner.os != 'Windows'
