@@ -103,6 +103,7 @@ jobs:
         export WINEPREFIX=${{ github.workspace }}/.winemonogame
         mkdir -p $WINEPREFIX
         export WINEDEBUG=+all
+        export WINEARCH=win64
         wine64 wineboot || true
         find $WINEPREFIX
       shell: bash
