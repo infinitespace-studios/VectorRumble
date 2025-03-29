@@ -89,6 +89,7 @@ jobs:
       run: |
         brew install libpng libjpeg libtiff
         brew install --cask xquartz wine-stable
+        xattr -dr com.apple.quarantine "/Applications/Wine Stable.app" 
         sudo ln -s /opt/homebrew/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
       shell: bash
