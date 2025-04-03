@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\VectorRumble.Shared\VectorRumble.Shared.projitems" Label="Shared" Condition="Exists('..\VectorRumble.Shared\VectorRumble.Shared.projitems')" />
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>VectorRumble</RootNamespace>
     <AssemblyName>VectorRumble</AssemblyName>
     <ApplicationIcon>..\VectorRumble.Shared\Icon.ico</ApplicationIcon>
@@ -19,6 +19,7 @@
     <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
     <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
+    <SatelliteResourceLanguages>de;es</SatelliteResourceLanguages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>
