@@ -24,7 +24,7 @@ MonoGame port of the XNA VectorRumble Sample, but enhanced to be a more complete
 We have quite a few issues that are ripe for community contributions. This project accepts PRs :)
 
 * A community written cross-platform [vector point editor](https://github.com/infinitespace-studios/VectorRumble/issues/15)
-   * Maybe using Xamarin.Forms, built into the game itself or webbased?
+   * Maybe using Avalonia, built into the game itself or webbased?
    * Supports Level loading and editing
    * Support Ship loading and editing
 * Extensible [weapons system](https://github.com/infinitespace-studios/VectorRumble/issues/16)
