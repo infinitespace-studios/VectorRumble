@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      # Only allow updates for MonoGame.Framework packages
+      - dependency-name: "MonoGame.Framework*"
+      - dependency-name: "MonoGame.Content.Builder*"
+    open-pull-requests-limit: 10

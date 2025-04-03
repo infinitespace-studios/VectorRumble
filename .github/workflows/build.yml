@@ -17,24 +17,27 @@ jobs:
     strategy:
       matrix:
         include:
-          # - os: windows-latest
-          #   rids: -r win-x64
-          #   artifact: publish-win-x64
-          # - os: windows-latest
-          #   rids: -r win-arm64
-          #   artifact: publish-win-arm64
+          - os: windows-latest
+            rids: -r win-x64
+            artifact: publish-win-x64
+          - os: windows-latest
+            rids: -r win-arm64
+            artifact: publish-win-arm64
+          - os: windows-latest
+            rids: -r osx-arm64 -r osx-x64
+            artifact: publish-universal-arm64
           # - os: macos-latest
           #   rids: -r osx-arm64
           #   artifact: publish-osx-arm64
           #   wineprefix: /Users/runner/.winemonogame
-          - os: macos-13
-            rids: -r osx-x64
-            artifact: publish-osx-x64
-            wineprefix: /Users/runner/.winemonogame
-          # - os: ubuntu-latest
-          #   rids: -r linux-x64
-          #   artifact: publish-linux-x64
-          #   wineprefix: /home/runner/.winemonogame
+          # - os: macos-13
+          #   rids: -r osx-x64
+          #   artifact: publish-osx-x64
+          #   wineprefix: /Users/runner/.winemonogame
+          - os: ubuntu-latest
+            rids: -r linux-x64
+            artifact: publish-linux-x64
+            wineprefix: /home/runner/.winemonogame
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -147,10 +150,10 @@ jobs:
             archive: .zip
           - os: macos
             rid: osx-arm64
-            archive: .tar.gz
+            archive: .zip
           - os: linux
             rid: linux-x64
-            archive: .tar.gz
+            archive: .zip
       fail-fast: false
     needs: build
     steps:
@@ -180,10 +183,10 @@ jobs:
               cat appversion.txt
               find .
         shell: bash
-      - name: Publish
-        run: |
-              ./butler push ./VectorRumble.Desktop-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
-        shell: bash
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      # - name: Publish
+      #   run: |
+      #         ./butler push ./VectorRumble.Desktop-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
+      #   shell: bash
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
