@@ -26,7 +26,7 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.3" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +34,7 @@
     <Compile Include="..\VectorRumble.Shared\Strings.Designer.cs">
       <Link>Strings.Designer.cs</Link>
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>      
+      <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -74,17 +74,32 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-<!--
+    <!--
     <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
       <Name>MonoGame.Framework.Linux</Name>
     </ProjectReference>
 -->
+    <Reference Include="MonoGame.Framework, Version=3.8.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.8.3\lib\net8.0\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.10.5.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\NVorbis.0.10.5\lib\netstandard2.0\NVorbis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Target Name="GenerateBuildVersion" AfterTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="AppVersion" />
     </GetAssemblyIdentity>
     <WriteLinesToFile File="$(AppVersionFile)" Lines="%(AppVersion.Version)" Overwrite="true" Encoding="ASCII" />
+  </Target>
+  <Import Project="../packages/MonoGame.Framework.DesktopGL.3.8.3/build/MonoGame.Framework.DesktopGL.targets" Condition="Exists('../packages/MonoGame.Framework.DesktopGL.3.8.3/build/MonoGame.Framework.DesktopGL.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('../packages/MonoGame.Framework.DesktopGL.3.8.3/build/MonoGame.Framework.DesktopGL.targets')" Text="$([System.String]::Format('$(ErrorText)', '../packages/MonoGame.Framework.DesktopGL.3.8.3/build/MonoGame.Framework.DesktopGL.targets'))" />
   </Target>
 </Project>
