@@ -129,7 +129,7 @@ jobs:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -e VectorRumble -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
