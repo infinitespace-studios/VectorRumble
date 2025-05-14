@@ -10,8 +10,8 @@
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
     <!-- Version information -->
-    <AssemblyVersion>0.1.0.3</AssemblyVersion>
-    <FileVersion>0.1.0.3</FileVersion>
+    <AssemblyVersion>0.1.0.4</AssemblyVersion>
+    <FileVersion>0.1.0.4</FileVersion>
     <Version>0.1.0</Version>
     <AssemblyTitle>Vector Rumble</AssemblyTitle>
     <AssemblyCompany>Infinitespace Studios</AssemblyCompany>
