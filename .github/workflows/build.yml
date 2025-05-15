@@ -24,8 +24,8 @@ jobs:
             rids: -r win-arm64
             artifact: publish-win-arm64
           - os: windows-latest
-            rids: -r osx-arm64
-            artifact: publish-osx-arm64
+            rids: -r osx-arm64 --runtime-identifier osx-x64
+            artifact: publish-osx-universal
           # - os: macos-latest
           #   rids: -r osx-arm64
           #   artifact: publish-osx-arm64
@@ -149,7 +149,7 @@ jobs:
             rid: win-x64
             archive: .zip
           - os: macos
-            rid: osx-arm64
+            rid: osx-universal
             archive: .zip
           - os: linux
             rid: linux-x64
