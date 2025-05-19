@@ -17,7 +17,6 @@ MonoGame port of the XNA VectorRumble Sample, but enhanced to be a more complete
 ## Released Platforms
 * Desktop PCs
    * [Itch.IO](https://infinitespace-studios.itch.io/vector-rumble) (Linux, MacOS and Windows binaries)
-   * [Mac App Store](https://apps.apple.com/gb/app/vector-rumble/id1142799488?mt=12)
 
 ## Contributions Opportunities
 
