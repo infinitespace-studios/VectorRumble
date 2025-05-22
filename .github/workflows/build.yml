@@ -74,6 +74,8 @@ jobs:
       shell: bash
     - name: Restore dependencies
       run: dotnet restore
+    - name: Restore tools
+      run: dotnet tool restore
     - name: Delete ./${{ matrix.artifact }}
       run: rm -Rf ./${{ matrix.artifact }}
       shell: bash
