@@ -93,7 +93,7 @@ jobs:
         which wine
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
         export WINEPREFIX=${{ matrix.wineprefix }}
-        wine64 dotnet --info
+        wine dotnet --info
       shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
