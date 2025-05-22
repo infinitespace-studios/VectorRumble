@@ -91,10 +91,7 @@ jobs:
         xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
         wine --version
         which wine
-        sudo ln -s /usr/local/bin/wine /usr/local/bin/wine64
         wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
-        rm -f ${{ matrix.wineprefix }}/wine64
-        find ${{ matrix.wineprefix }}
         export WINEPREFIX=${{ matrix.wineprefix }}
         wine64 dotnet --info
       shell: bash
