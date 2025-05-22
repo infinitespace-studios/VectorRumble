@@ -24,16 +24,12 @@ jobs:
             rids: -r win-arm64
             artifact: publish-win-arm64
           - os: windows-latest
-            rids: -r osx-arm64 --runtime-identifier osx-x64
+            rids: -rids osx-arm64,osx-x64
+            artifact: publish-osx-universal-win
+          - os: macos-latest
+            rids: -rids osx-arm64,osx-x64
             artifact: publish-osx-universal
-          # - os: macos-latest
-          #   rids: -r osx-arm64
-          #   artifact: publish-osx-arm64
-          #   wineprefix: /Users/runner/.winemonogame
-          # - os: macos-13
-          #   rids: -r osx-x64
-          #   artifact: publish-osx-x64
-          #   wineprefix: /Users/runner/.winemonogame
+            wineprefix: /Users/runner/.winemonogame
           - os: ubuntu-latest
             rids: -r linux-x64
             artifact: publish-linux-x64
@@ -150,6 +146,9 @@ jobs:
             archive: .zip
           - os: macos
             rid: osx-universal
+            archive: .zip
+          - os: macos
+            rid: osx-universal-win
             archive: .zip
           - os: linux
             rid: linux-x64
