@@ -84,7 +84,7 @@ Bouton B/O, Échap = Annuler</value>
 		<value>Intensité du flou : {0}</value>
 	</data>
     <data name="Asteroid_Density_None" xml:space="preserve">
-        <value>Aucune</value>
+        <value>Nulle</value>
     </data>
     <data name="Asteroid_Density_Low" xml:space="preserve">
         <value>Faible</value>
