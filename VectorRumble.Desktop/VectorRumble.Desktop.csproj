@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\VectorRumble.Core\VectorRumble.Shared.projitems" Label="Shared" Condition="Exists('..\VectorRumble.Core\VectorRumble.Shared.projitems')" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <RootNamespace>VectorRumble</RootNamespace>
@@ -31,18 +30,17 @@
   </ItemGroup>
   <ItemGroup>
     <!-- <Compile Include="Program.cs" /> -->
-    <Compile Include="..\VectorRumble.Core\Strings.Designer.cs">
+    <!-- <Compile Include="..\VectorRumble.Core\Strings.Designer.cs">
       <Link>Strings.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>      
       <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
+    </Compile> -->
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
-    <None Include="packages.config" />
     <EmbeddedResource Include="..\VectorRumble.Core\Icon.bmp">
       <Link>Icon.bmp</Link>
     </EmbeddedResource>
@@ -54,7 +52,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\VectorRumble.Core\Strings.resx">
+    <!-- <EmbeddedResource Include="..\VectorRumble.Core\Strings.resx">
       <Link>Strings.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -68,7 +66,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\VectorRumble.Core\Strings.fr.resx">
       <Link>Strings.fr.resx</Link>
-    </EmbeddedResource>
+    </EmbeddedResource> -->
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\.itch.toml">
@@ -77,6 +75,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VectorRumble.Core\VectorRumble.Core.csproj">
+      <Project>{A4F1D3E0-8C5B-4D2A-8F7C-6E9B5F1A0E2D}</Project>
+      <Name>VectorRumble.Core</Name>
+    </ProjectReference>
 <!--
     <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
