@@ -6,7 +6,7 @@
     <RootNamespace>VectorRumble</RootNamespace>
     <AssemblyName>VectorRumble</AssemblyName>
     <ApplicationIcon>..\VectorRumble.Core\Icon.ico</ApplicationIcon>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
     <!-- Version information -->
