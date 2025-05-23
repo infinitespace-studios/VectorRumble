@@ -126,12 +126,15 @@ jobs:
         include:
           - os: windows
             rid: win-x64
+            artifact: publish-win-x64
             archive: .zip
           - os: macos
-            rid: osx-universal
+            rid: universal
+            artifact: publish-osx-universal
             archive: .zip
           - os: linux
             rid: linux-x64
+            artifact: publish-linux-x64
             archive: .zip
       fail-fast: false
     needs: build
@@ -139,7 +142,7 @@ jobs:
       - name: Download
         uses: actions/download-artifact@v4
         with:
-          name: publish-${{ matrix.rid }}
+          name: ${{ matrix.artifact }}
       - name: Install butler
         run: |
               if [ "$RUNNER_OS" == "Linux" ]; then
@@ -160,6 +163,7 @@ jobs:
         run: |
               echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
               cat appversion.txt
+              7z x ./VectorRumble-${{ matrix.rid }}.zip -o./${{ matrix.rid }} -y
               find .
         shell: bash
       # - name: Publish
