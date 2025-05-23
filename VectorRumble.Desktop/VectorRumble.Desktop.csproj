@@ -19,7 +19,7 @@
     <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
     <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
-    <SatelliteResourceLanguages>de;es</SatelliteResourceLanguages>
+    <SatelliteResourceLanguages>de;es;fr</SatelliteResourceLanguages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>
@@ -65,6 +65,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\VectorRumble.Core\Strings.de.resx">
       <Link>Strings.de.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VectorRumble.Core\Strings.fr.resx">
+      <Link>Strings.fr.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
