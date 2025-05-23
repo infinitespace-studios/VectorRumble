@@ -163,13 +163,15 @@ jobs:
         run: |
               echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
               cat appversion.txt
-              7z x ./VectorRumble-${{ matrix.rid }}.zip -o./${{ matrix.rid }} -y
+      - name: Extract
+        run: |
+              7z x ./VectorRumble-${{ matrix.rid }}${{ matrix.archive }} -o./${{ matrix.rid }} -y
               find .
         shell: bash
-      # - name: Publish
-      #   run: |
-      #         ./butler push ./VectorRumble.Desktop-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
-      #   shell: bash
-      #   env:
-      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      - name: Publish
+        run: |
+              ./butler push ./VectorRumble-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
+        shell: bash
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
