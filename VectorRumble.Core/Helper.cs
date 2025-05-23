@@ -1,7 +1,4 @@
 ﻿using System;
-#if WINDOWS_UAP
-using System.Linq;
-#endif
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -16,9 +13,6 @@ namespace VectorRumble
         public static string GetMyDocumentsFolder ()
         {
             // Once our app is signed, we can't change it, so let's look in the Special "MyDocuments" folder for user created data
-#if WINDOWS_UAP
-            return String.Empty; // TODO Find correct UWP folder we can use for user created data
-#else
             var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             if (!myDocuments.ToLower().Contains("documents")) {
@@ -26,17 +20,12 @@ namespace VectorRumble
             }
 
             return myDocuments;
-#endif
         }
 
         public static string GetAssemblyTitle ()
         {
-#if WINDOWS_UAP
-            var assemblyAttributes = typeof(Arena).GetTypeInfo().GetCustomAttributes<AssemblyTitleAttribute>(true).ToArray();
-#else
             var assembly = typeof(Arena).Assembly;
             var assemblyAttributes = (AssemblyTitleAttribute[])assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), true);
-#endif
             if (assemblyAttributes.Length > 0) {
                 return assemblyAttributes[0].Title;
             }

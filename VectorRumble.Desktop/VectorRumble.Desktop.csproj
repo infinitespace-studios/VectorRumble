@@ -29,15 +29,6 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4-preview.4" />
   </ItemGroup>
   <ItemGroup>
-    <!-- <Compile Include="Program.cs" /> -->
-    <!-- <Compile Include="..\VectorRumble.Core\Strings.Designer.cs">
-      <Link>Strings.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>      
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile> -->
-  </ItemGroup>
-  <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
@@ -50,23 +41,6 @@
     <EmbeddedResource Include="..\VectorRumble.Core\Icon.png">
       <Link>Icon.png</Link>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <!-- <EmbeddedResource Include="..\VectorRumble.Core\Strings.resx">
-      <Link>Strings.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VectorRumble.Core\Strings.es.resx">
-      <Link>Strings.es.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VectorRumble.Core\Strings.de.resx">
-      <Link>Strings.de.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VectorRumble.Core\Strings.fr.resx">
-      <Link>Strings.fr.resx</Link>
-    </EmbeddedResource> -->
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\.itch.toml">

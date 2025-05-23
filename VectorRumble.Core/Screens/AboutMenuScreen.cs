@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 #endregion
@@ -28,7 +29,7 @@ namespace VectorRumble
         MenuEntry gameEnhancements = new MenuEntry(string.Format(Strings.Game_Enhancements, "Dean Ellis & Dominique Louis"));
         MenuEntry githubRepo = new MenuEntry(string.Format(Strings.Github_Repo, "infinitespace-studios/VectorRumble"));
 
-        const string MonoGameUri = "http://monogame.dev";
+        const string MonoGameUri = "https://monogame.net";
         const string FontUri = "https://payhip.com/b/xNA0";
         const string GitHubUri = "https://github.com/infinitespace-studios/VectorRumble";
         #endregion
@@ -51,6 +52,8 @@ namespace VectorRumble
             MenuEntries.Add(fontBy);
             MenuEntries.Add(gameEnhancements);
             MenuEntries.Add(githubRepo);
+            var assembly = typeof(Arena).Assembly;
+            MenuEntries.Add(new MenuEntry(assembly.GetName().Version.ToString()));
         }
         #endregion
 
@@ -111,11 +114,7 @@ namespace VectorRumble
 
         public static async void ProcessStart(string uri)
         {
-#if WINDOWS_UAP
-            var success = await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
-#else
-            await Task.Run(() => System.Diagnostics.Process.Start(uri));
-#endif
+            await Task.Run(() => { try { System.Diagnostics.Process.Start(uri); } catch { } });
         }
         #endregion
     }
