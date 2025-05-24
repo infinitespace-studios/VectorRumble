@@ -8,15 +8,6 @@
     <TargetFramework>net9.0</TargetFramework>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
-    <!-- Version information -->
-    <AssemblyVersion>0.1.0.4</AssemblyVersion>
-    <FileVersion>0.1.0.4</FileVersion>
-    <Version>0.1.0</Version>
-    <AssemblyTitle>Vector Rumble</AssemblyTitle>
-    <AssemblyCompany>Infinitespace Studios</AssemblyCompany>
-    <AssemblyProduct>Vector Rumble</AssemblyProduct>
-    <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
-    <AssemblyDescription>Vector Rumble</AssemblyDescription>
     <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
     <SatelliteResourceLanguages>de;es;fr</SatelliteResourceLanguages>
   </PropertyGroup>
