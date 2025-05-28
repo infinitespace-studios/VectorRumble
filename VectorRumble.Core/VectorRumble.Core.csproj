@@ -26,5 +26,8 @@
     <EmbeddedResource Update="Strings.fr.resx">
       <Link>Strings.fr.resx</Link>
     </EmbeddedResource>
+    <EmbeddedResource Update="Strings.zh-CN.resx">
+      <Link>Strings.zh-CN.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
