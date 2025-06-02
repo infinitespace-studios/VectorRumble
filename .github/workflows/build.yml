@@ -38,33 +38,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-    - name: Delete ./${{ matrix.wineprefix }}
-      if: runner.os != 'Windows'
-      run: rm -Rf ./${{ matrix.wineprefix }}
-    - name: Install Dependencies
-      run: |
-            if [ "$RUNNER_OS" == "Linux" ]; then
-                  sudo apt install p7zip-full curl
-                  sudo dpkg --add-architecture i386 
-                  sudo mkdir -pm755 /etc/apt/keyrings
-                  sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-                  sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
-                  sudo apt update && sudo apt install --install-recommends winehq-stable
-                  echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
-                  sudo apt install -y ttf-mscorefonts-installer
-                  sudo fc-cache
-                  fc-match Arial
-                  wine --version
-                  wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
-            elif [ "$RUNNER_OS" == "macOS" ]; then
-                  dotnet workload install macos
-                  brew install wget p7zip curl freetype freeimage
-                  sudo mkdir -p /usr/local/lib
-                  sudo ln -sf /opt/homebrew/lib/libfreetype.6.dylib /usr/local/lib/libfreetype6.dylib
-                  sudo ln -sf /opt/homebrew/lib/libfreeimage.3.dylib /usr/local/lib/libfreeimage.dylib
-            fi
-      shell: bash
-      #https://dl.winehq.org/wine-builds/macosx/pool/portable-winehq-stable-5.0-osx64.tar.gz
+    - name: Setup for MonoGame
+      uses: infinitespace-studios/monogame-actions/install-wine@v1.0
     - name: Install MonoPack
       run: |
             dotnet tool install MonoPack
@@ -73,27 +48,27 @@ jobs:
       run: dotnet restore
     - name: Restore tools
       run: dotnet tool restore
-    - name: Delete ./${{ matrix.artifact }}
-      run: rm -Rf ./${{ matrix.artifact }}
-      shell: bash
-    - name: Install Rosetta
-      if: runner.os == 'macOS'
-      continue-on-error: true
-      run: |
-        softwareupdate --install-rosetta --agree-to-license
-        /usr/bin/pgrep oahd >/dev/null && echo "Rosetta is installed" || echo "Rosetta is not installed"
-    - name: Install Wine Dependencies
-      if: runner.os == 'macOS'
-      run: |
-        brew install libpng libjpeg libtiff
-        brew install --cask xquartz wine-stable
-        xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
-        wine --version
-        which wine
-        wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
-        export WINEPREFIX=${{ matrix.wineprefix }}
-        wine dotnet --info
-      shell: bash
+    # - name: Delete ./${{ matrix.artifact }}
+    #   run: rm -Rf ./${{ matrix.artifact }}
+    #   shell: bash
+    # - name: Install Rosetta
+    #   if: runner.os == 'macOS'
+    #   continue-on-error: true
+    #   run: |
+    #     softwareupdate --install-rosetta --agree-to-license
+    #     /usr/bin/pgrep oahd >/dev/null && echo "Rosetta is installed" || echo "Rosetta is not installed"
+    # - name: Install Wine Dependencies
+    #   if: runner.os == 'macOS'
+    #   run: |
+    #     brew install libpng libjpeg libtiff
+    #     brew install --cask xquartz wine-stable
+    #     xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
+    #     wine --version
+    #     which wine
+    #     wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
+    #     export WINEPREFIX=${{ matrix.wineprefix }}
+    #     wine dotnet --info
+    #   shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
