@@ -16,8 +16,8 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4-preview.4" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4-preview.4" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\Content\Content.mgcb">
