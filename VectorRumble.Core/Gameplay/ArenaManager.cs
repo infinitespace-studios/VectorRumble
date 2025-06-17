@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework.Content;
