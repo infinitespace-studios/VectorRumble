@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -893,8 +894,8 @@ namespace VectorRumble
             {
                 plist.Add(new Vector2
                 {
-                    X = float.Parse(p[i]),
-                    Y = float.Parse(p[i + 1]),
+                    X = float.Parse(p[i], CultureInfo.InvariantCulture.NumberFormat),
+                    Y = float.Parse(p[i + 1], CultureInfo.InvariantCulture.NumberFormat),
                 });
             }
 
