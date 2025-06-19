@@ -9,4 +9,7 @@
     <AssemblyCopyright>Copyright © 2025 Infinitespace Studios</AssemblyCopyright>
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
   </PropertyGroup>
+  <PropertyGroup>
+    <MonoGameVersion>3.8.4</MonoGameVersion>
+  </PropertyGroup>
 </Project>
