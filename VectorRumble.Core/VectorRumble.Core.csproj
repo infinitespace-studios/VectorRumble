@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
     <AssemblyDescription>Vector Rumble Core</AssemblyDescription>
   </PropertyGroup>
@@ -28,6 +28,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Strings.zh-CN.resx">
       <Link>Strings.zh-CN.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ja.resx">
+      <Link>Strings.ja.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
