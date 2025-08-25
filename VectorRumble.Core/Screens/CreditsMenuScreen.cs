@@ -25,6 +25,8 @@ namespace VectorRumble
         #region Fields
         MenuEntry thodeC = new MenuEntry("Christian Thode");
         const string thodeCGithub = "https://github.com/ThodeC";
+        MenuEntry yuanZzzz = new MenuEntry("Translation: Yuan-Zzzz");
+        const string yuanZzzzGithub = "https://github.com/Yuan-Zzzz";
         #endregion
 
         #region Initialization
@@ -38,11 +40,19 @@ namespace VectorRumble
         {
             thodeC.Selected += ThodeCMenuEntrySelected;
             MenuEntries.Add(thodeC);
+            
+            yuanZzzz.Selected += YuanZzzzMenuEntrySelected;
+            MenuEntries.Add(yuanZzzz);
         }
 
         private void ThodeCMenuEntrySelected(object sender, EventArgs e)
         {
             AboutMenuScreen.ProcessStart(thodeCGithub);
+        }
+
+        private void YuanZzzzMenuEntrySelected(object sender, EventArgs e)
+        {
+            AboutMenuScreen.ProcessStart(yuanZzzzGithub);
         }
         #endregion
 
