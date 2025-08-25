@@ -75,7 +75,7 @@ B/O 按钮, Esc = 取消</value>
 		<value>竞技场 : {0}</value>
 	</data>
 	<data name="Motion_Blur" xml:space="preserve">
-		<value>运动模糊 : {0}</value>
+		<value>动态模糊 : {0}</value>
 	</data>
 	<data name="Neon_Effect" xml:space="preserve">
 		<value>霓虹效果 : {0}</value>
