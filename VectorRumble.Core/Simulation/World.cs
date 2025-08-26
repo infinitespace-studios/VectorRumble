@@ -181,6 +181,8 @@ namespace VectorRumble
         {
             for (int i = 0; i < ShipManager.SelectedPlayers.Count; i++)
             {
+                // Reset score to ensure clean start when retrying/restarting game
+                ShipManager.SelectedPlayers[i].Score = 0;
                 ShipManager.SelectedPlayers[i].PlayGame();
                 actors.Add(ShipManager.SelectedPlayers[i]);
             }
