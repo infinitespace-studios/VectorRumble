@@ -17,28 +17,13 @@ show_help() {
     echo "  copilot    - Setup for CoPilot environment (full Wine-based effect compilation)"
     echo "  wine       - Setup Wine for full effect compilation"
     echo "  auto       - Auto-detect environment and choose best mode"
-    echo "  restore    - Restore original Content.mgcb file"
     echo ""
     echo "The CoPilot mode installs Wine and sets up full effect compilation"
     echo "capability for CoPilot environments."
 }
 
-backup_content_file() {
-    if [[ ! -f "$CONTENT_DIR/Content.mgcb.original" ]]; then
-        echo "Creating backup of original Content.mgcb..."
-        cp "$CONTENT_DIR/Content.mgcb" "$CONTENT_DIR/Content.mgcb.original"
-    fi
-}
-
 setup_copilot_mode() {
     echo "Setting up CoPilot mode with Wine for full effect compilation..."
-    
-    backup_content_file
-    
-    # Use the original content file which compiles from .fx sources
-    if [[ -f "$CONTENT_DIR/Content.mgcb.original" ]]; then
-        cp "$CONTENT_DIR/Content.mgcb.original" "$CONTENT_DIR/Content.mgcb"
-    fi
     
     # Check if we're on Ubuntu and get version
     if [[ -f /etc/os-release ]]; then
@@ -95,13 +80,6 @@ setup_copilot_mode() {
 
 setup_wine_mode() {
     echo "Setting up Wine mode for full effect compilation..."
-    
-    backup_content_file
-    
-    # Restore original content file (if it was changed)
-    if [[ -f "$CONTENT_DIR/Content.mgcb.original" ]]; then
-        cp "$CONTENT_DIR/Content.mgcb.original" "$CONTENT_DIR/Content.mgcb"
-    fi
     
     # Check if we're on Ubuntu and get version
     if [[ -f /etc/os-release ]]; then
@@ -167,16 +145,7 @@ auto_detect_mode() {
     fi
 }
 
-restore_original() {
-    echo "Restoring original Content.mgcb file..."
-    
-    if [[ -f "$CONTENT_DIR/Content.mgcb.original" ]]; then
-        cp "$CONTENT_DIR/Content.mgcb.original" "$CONTENT_DIR/Content.mgcb"
-        echo "✓ Original Content.mgcb restored"
-    else
-        echo "No backup found - Content.mgcb may already be in original state"
-    fi
-}
+
 
 # Main script logic
 case "${1:-auto}" in
@@ -188,9 +157,6 @@ case "${1:-auto}" in
         ;;
     "auto")
         auto_detect_mode
-        ;;
-    "restore")
-        restore_original
         ;;
     "-h"|"--help"|"help")
         show_help
