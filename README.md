@@ -60,6 +60,21 @@ VectorRumble includes shader effects that require compilation. The project uses 
 dotnet build
 ```
 
+### Running Tests
+
+VectorRumble includes comprehensive unit tests to help prevent bugs. To run the test suite:
+
+```bash
+dotnet test VectorRumble.Tests/VectorRumble.Tests.csproj
+```
+
+The test suite covers:
+- Utility functions (Helper class)
+- Mathematical collision detection (Collision class)
+- Custom collection types (CollectCollection)
+
+All tests are isolated and don't require graphics context or audio hardware.
+
 ## Helpful Links
 
  * The official MonoGame website is [monogame.net](http://www.monogame.net).
