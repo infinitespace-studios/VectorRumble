@@ -255,5 +255,15 @@ paket-files/
 
 **/appversion.txt
 
+# MonoGame content pipeline statistics
+*.mgstats
+
+# Backup files
+*.backup
+
+**/.DS_Store
+
+**/appversion.txt
+
 # MonoGame Content Builder compiled content
 *.xnb
