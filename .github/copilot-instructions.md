@@ -46,13 +46,10 @@ dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release    # Ta
 - Total clean build process: ~4-6 seconds for working builds
 
 ### MonoGame Content Pipeline Issues
-**IMPORTANT**: This project has known MonoGame content building challenges on Linux:
+**IMPORTANT**: This project has known MonoGame content building challenges on Linux and MacOS:
 - The project requires wine for building shader effects (.fx files)
-- Content building may fail with "exited with code 3" errors
-- Pre-built content (.xnb files) exist in the repository in `Content/` folders
 - The GitHub Actions use MonoGame's official wine setup actions from https://github.com/MonoGame/monogame-actions
-- Currently using `infinitespace-studios/monogame-actions/install-wine@v1.0` (fork of official actions)
-- **Workaround**: Pre-built content is committed to the repository to avoid build failures
+- The CoPilot environment is setup to install wine via these actions, so it should work.
 
 **Content File Locations**:
 - `Content/Effects/*.xnb` - Pre-built shader effects (Bloom, GaussianBlur)
