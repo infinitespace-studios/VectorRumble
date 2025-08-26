@@ -54,14 +54,11 @@ The full VectorRumble source code is available here from GitHub:
 
 ### Building with Effect Compilation
 
-VectorRumble includes shader effects that require compilation. For CoPilot environments and Linux development:
+VectorRumble includes shader effects that require compilation. The project uses GitHub workflows to automatically set up the required dependencies (.NET 9 and Wine) for CoPilot environments.
 
 ```bash
-./setup-effects-compilation.sh auto
 dotnet build
 ```
-
-See [EFFECT_COMPILATION_SETUP.md](EFFECT_COMPILATION_SETUP.md) for detailed setup instructions.
 
 ## Helpful Links
 
