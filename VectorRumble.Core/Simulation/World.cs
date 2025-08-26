@@ -119,7 +119,7 @@ namespace VectorRumble
         /// All ships that might enter the game.
         /// </summary>
         [ContentSerializer(SharedResource = true)]
-        public Ship[] Ships => ShipManager.Ships.ToArray();
+        public Ship[] Ships => ShipManager.Ships;
 
         public ShipManager ShipManager { get; set; }
         public ArenaManager ArenaManager { get; set; }
@@ -181,8 +181,6 @@ namespace VectorRumble
         {
             for (int i = 0; i < ShipManager.SelectedPlayers.Count; i++)
             {
-                // Reset score to ensure clean start when retrying/restarting game
-                ShipManager.SelectedPlayers[i].Score = 0;
                 ShipManager.SelectedPlayers[i].PlayGame();
                 actors.Add(ShipManager.SelectedPlayers[i]);
             }
@@ -197,6 +195,12 @@ namespace VectorRumble
         {
             // clear out the actors list
             actors.Clear();
+
+            // Reset all ship scores to ensure clean start when retrying/restarting game
+            for (int i = 0; i < ShipManager.Ships.Length; i++)
+            {
+                ShipManager.Ships[i].Score = 0;
+            }
 
             // add the world actor
             WorldActor worldActor = new WorldActor(this);
