@@ -2,7 +2,7 @@
 
 # Setup script for MonoGame effect compilation in CoPilot environment
 # This script provides two modes:
-# 1. CoPilot mode: Uses pre-compiled effects (no Wine required)
+# 1. CoPilot mode: Simple setup without Wine (may skip effects if compilation fails)
 # 2. Wine mode: Sets up Wine for full effect compilation
 
 set -e
@@ -14,13 +14,13 @@ show_help() {
     echo "Usage: $0 [mode]"
     echo ""
     echo "Modes:"
-    echo "  copilot    - Setup for CoPilot environment (uses pre-compiled effects)"
+    echo "  copilot    - Setup for CoPilot environment (graceful effect compilation)"
     echo "  wine       - Setup Wine for full effect compilation"
     echo "  auto       - Auto-detect environment and choose best mode"
     echo "  restore    - Restore original Content.mgcb file"
     echo ""
-    echo "The CoPilot mode is recommended for most development scenarios as it"
-    echo "uses pre-compiled shader effects and doesn't require Wine setup."
+    echo "The CoPilot mode attempts to build effects without Wine and provides"
+    echo "graceful fallbacks if shader compilation is not available."
 }
 
 backup_content_file() {
@@ -31,18 +31,24 @@ backup_content_file() {
 }
 
 setup_copilot_mode() {
-    echo "Setting up CoPilot mode (using pre-compiled effects)..."
+    echo "Setting up CoPilot mode (graceful effect compilation)..."
     
     backup_content_file
     
-    # Copy the CoPilot content file
-    cp "$CONTENT_DIR/Content-CoPilot.mgcb" "$CONTENT_DIR/Content.mgcb"
+    # Use the original content file which compiles from .fx sources
+    if [[ -f "$CONTENT_DIR/Content.mgcb.original" ]]; then
+        cp "$CONTENT_DIR/Content.mgcb.original" "$CONTENT_DIR/Content.mgcb"
+    fi
     
     echo "✓ CoPilot mode setup complete!"
     echo ""
-    echo "This mode uses pre-compiled shader effects (.xnb files) and doesn't"
-    echo "require Wine or effect compilation. You can now build the project with:"
+    echo "This mode attempts to compile shader effects from .fx files."
+    echo "If effect compilation fails during build, the game will still run"
+    echo "but without post-processing effects. To build:"
     echo "  dotnet build"
+    echo ""
+    echo "If you encounter effect compilation errors, switch to Wine mode:"
+    echo "  ./setup-effects-compilation.sh wine"
 }
 
 setup_wine_mode() {

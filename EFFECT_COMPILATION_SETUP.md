@@ -14,22 +14,23 @@ This will automatically detect your environment and configure the best mode for 
 
 ## Available Modes
 
-### CoPilot Mode (Recommended)
+### CoPilot Mode (Recommended for Development)
 
-This mode uses pre-compiled shader effects and works in any environment without requiring Wine or additional setup.
+This mode attempts to compile shader effects without Wine and provides graceful fallbacks if compilation fails.
 
 ```bash
 ./setup-effects-compilation.sh copilot
 ```
 
 **Features:**
-- ✅ No Wine installation required
-- ✅ Fast builds
-- ✅ Works in containers and CI environments
+- ✅ Attempts to compile effects directly from .fx files
+- ✅ No Wine installation required initially
+- ✅ Works in containers and CI environments  
 - ✅ Compatible with GitHub CoPilot, Codespaces, and similar tools
-- ⚠️ Uses pre-compiled effects (cannot modify shaders without recompilation)
+- ⚠️ May skip effects if MonoGame compiler is not available
+- ⚠️ Game will run but without post-processing effects if compilation fails
 
-### Wine Mode (Full Compilation)
+### Wine Mode (Full Compilation Support)
 
 This mode sets up Wine to enable full shader compilation from source .fx files.
 
@@ -40,22 +41,23 @@ This mode sets up Wine to enable full shader compilation from source .fx files.
 **Features:**
 - ✅ Full shader compilation support
 - ✅ Can modify .fx shader files
-- ✅ Builds effects from source
+- ✅ Builds effects from source with full compatibility
 - ⚠️ Requires Wine installation and setup
 - ⚠️ May not work in all containerized environments
 
 ## How It Works
 
 ### CoPilot Mode
-- Modifies `Content/Content.mgcb` to copy pre-compiled `.xnb` files instead of compiling `.fx` files
-- Uses existing `BloomCombine.xnb`, `BloomExtract.xnb`, and `GaussianBlur.xnb` files
-- No effect compilation step required during build
+- Uses the original `Content/Content.mgcb` to compile `.fx` files to `.xnb` files
+- Attempts compilation with MonoGame's MGFXC tool
+- If compilation fails, the build may succeed but effects will be unavailable
+- No special Wine setup required
 
 ### Wine Mode
 - Installs Wine on Ubuntu/Linux systems
 - Sets up Wine environment with proper variables
-- Configures MonoGame's MGFXC to use Wine for DirectX shader compilation
-- Compiles `.fx` files to `.xnb` during build
+- Configures MonoGame's MGFXC to use Wine for DirectX shader compilation  
+- Compiles `.fx` files to `.xnb` during build with full compatibility
 
 ## Environment Detection
 
@@ -87,25 +89,30 @@ dotnet build
 ## Troubleshooting
 
 ### Build Fails with Effect Compilation Errors
-If you see errors related to Wine or effect compilation:
+If you see errors related to effect compilation in CoPilot mode:
 
-1. Switch to CoPilot mode:
+1. First try building anyway - the game may still work:
    ```bash
-   ./setup-effects-compilation.sh copilot
    dotnet build
    ```
 
-2. Or check Wine setup if using Wine mode:
+2. If effects are required, switch to Wine mode:
+   ```bash
+   ./setup-effects-compilation.sh wine
+   dotnet build
+   ```
+
+3. Or check Wine setup if using Wine mode:
    ```bash
    wine --version
    echo $MGFXC_WINE_PATH
    ```
 
-### Pre-compiled Effects Not Found
-Ensure the `.xnb` files exist in `Content/Effects/`:
-- `BloomCombine.xnb`
-- `BloomExtract.xnb` 
-- `GaussianBlur.xnb`
+### Effect Compilation Not Available
+In CoPilot mode, if MonoGame's effect compiler is not available:
+- The build may succeed but skip effect compilation
+- The game will run without post-processing effects
+- Visual quality may be reduced but functionality remains
 
 ### Permission Errors
 Make sure the setup script is executable:
@@ -126,7 +133,6 @@ These effects are compiled to MonoGame XNB format for the DesktopGL platform.
 ## Files Created/Modified
 
 - `Content/Content.mgcb.original` - Backup of original content file
-- `Content/Content-CoPilot.mgcb` - CoPilot mode content configuration
 - `setup-effects-compilation.sh` - Main setup script
 - `setup-copilot-wine.sh` - Wine-only setup script (legacy)
 
@@ -135,6 +141,7 @@ These effects are compiled to MonoGame XNB format for the DesktopGL platform.
 ### CoPilot Mode
 - .NET 9.0 SDK
 - MonoGame 3.8.4+
+- MonoGame MGFXC tool (may work without effects if not available)
 
 ### Wine Mode  
 - .NET 9.0 SDK

@@ -19,14 +19,23 @@
 #begin Audio/VectorRumble.xwb
 /copy:Audio/VectorRumble.xwb
 
-#begin Effects/BloomCombine.xnb
-/copy:Effects/BloomCombine.xnb
+#begin Effects/BloomCombine.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/BloomCombine.fx
 
-#begin Effects/BloomExtract.xnb
-/copy:Effects/BloomExtract.xnb
+#begin Effects/BloomExtract.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/BloomExtract.fx
 
-#begin Effects/GaussianBlur.xnb
-/copy:Effects/GaussianBlur.xnb
+#begin Effects/GaussianBlur.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/GaussianBlur.fx
 
 #begin Fonts/retroLarge.spritefont
 /importer:FontDescriptionImporter
