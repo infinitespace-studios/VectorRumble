@@ -254,3 +254,9 @@ paket-files/
 **/.DS_Store
 
 **/appversion.txt
+
+# MonoGame content pipeline statistics
+*.mgstats
+
+# Backup files
+*.backup
