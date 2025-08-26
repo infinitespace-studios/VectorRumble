@@ -254,3 +254,6 @@ paket-files/
 **/.DS_Store
 
 **/appversion.txt
+
+# MonoGame Content Builder compiled content
+*.xnb
