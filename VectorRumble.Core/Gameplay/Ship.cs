@@ -454,10 +454,12 @@ namespace VectorRumble
         /// </summary>
         public void PlayGame()
         {
+            // Always reset score when starting a new game
+            score = 0;
+            
             if (!playing)
             {
                 playing = true;
-                score = 0;
                 Spawn(true);
             }
         }
