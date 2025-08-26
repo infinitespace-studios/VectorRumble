@@ -52,6 +52,14 @@ There are several options on the MonoGame [Donation Page](http://www.monogame.ne
 The full VectorRumble source code is available here from GitHub:
 * Clone the source: `git clone https://github.com/infinitespace-studios/VectorRumble.git`
 
+### Building with Effect Compilation
+
+VectorRumble includes shader effects that require compilation. The project uses GitHub workflows to automatically set up the required dependencies (.NET 9 and Wine) for CoPilot environments.
+
+```bash
+dotnet build
+```
+
 ## Helpful Links
 
  * The official MonoGame website is [monogame.net](http://www.monogame.net).
