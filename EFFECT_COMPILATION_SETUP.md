@@ -14,21 +14,21 @@ This will automatically detect your environment and configure the best mode for 
 
 ## Available Modes
 
-### CoPilot Mode (Recommended for Development)
+### CoPilot Mode (Recommended for CoPilot Environment)
 
-This mode attempts to compile shader effects without Wine and provides graceful fallbacks if compilation fails.
+This mode sets up Wine for full effect compilation capability in CoPilot and similar environments.
 
 ```bash
 ./setup-effects-compilation.sh copilot
 ```
 
 **Features:**
-- ✅ Attempts to compile effects directly from .fx files
-- ✅ No Wine installation required initially
-- ✅ Works in containers and CI environments  
+- ✅ Full shader compilation support with Wine
+- ✅ Can compile and modify .fx shader files
+- ✅ Works in CoPilot, containers, and CI environments  
 - ✅ Compatible with GitHub CoPilot, Codespaces, and similar tools
-- ⚠️ May skip effects if MonoGame compiler is not available
-- ⚠️ Game will run but without post-processing effects if compilation fails
+- ✅ Builds effects from source with full compatibility
+- ✅ Enables effect debugging and modification during development
 
 ### Wine Mode (Full Compilation Support)
 
@@ -49,12 +49,13 @@ This mode sets up Wine to enable full shader compilation from source .fx files.
 
 ### CoPilot Mode
 - Uses the original `Content/Content.mgcb` to compile `.fx` files to `.xnb` files
-- Attempts compilation with MonoGame's MGFXC tool
-- If compilation fails, the build may succeed but effects will be unavailable
-- No special Wine setup required
+- Installs and configures Wine for full shader compilation support
+- Sets up Wine environment with proper variables for MonoGame
+- Compiles `.fx` files to `.xnb` during build with full compatibility
+- Enables effect debugging and modification during development
 
 ### Wine Mode
-- Installs Wine on Ubuntu/Linux systems
+- Installs Wine on Ubuntu/Linux systems (same as CoPilot mode)
 - Sets up Wine environment with proper variables
 - Configures MonoGame's MGFXC to use Wine for DirectX shader compilation  
 - Compiles `.fx` files to `.xnb` during build with full compatibility
@@ -62,10 +63,10 @@ This mode sets up Wine to enable full shader compilation from source .fx files.
 ## Environment Detection
 
 The script automatically detects:
-- Container environments (Docker, GitHub Actions)
-- CI/CD systems
-- GitHub CoPilot and Codespaces
-- Regular development environments
+- Container environments (Docker, GitHub Actions) → Uses CoPilot mode with Wine
+- CI/CD systems → Uses CoPilot mode with Wine
+- GitHub CoPilot and Codespaces → Uses CoPilot mode with Wine
+- Regular development environments → Uses Wine mode
 
 ## Manual Commands
 
