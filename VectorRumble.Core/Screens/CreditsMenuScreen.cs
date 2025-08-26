@@ -25,7 +25,7 @@ namespace VectorRumble
         #region Fields
         MenuEntry thodeC = new MenuEntry("Christian Thode");
         const string thodeCGithub = "https://github.com/ThodeC";
-        MenuEntry yuanZzzz = new MenuEntry("Translation: Yuan-Zzzz");
+        MenuEntry yuanZzzz = new MenuEntry("Yuan-Zzzz");
         const string yuanZzzzGithub = "https://github.com/Yuan-Zzzz";
         #endregion
 
@@ -80,3 +80,4 @@ namespace VectorRumble
         #endregion
     }
 }
+
