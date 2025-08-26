@@ -17,36 +17,7 @@ jobs:
         dotnet-version: 9.0.x
         
     - name: Setup Wine for MonoGame Effects
-      uses: infinitespace-studios/monogame-actions/install-wine@v1.0
-      
-    - name: Install additional dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y p7zip-full curl
-        
-    - name: Configure Wine environment
-      run: |
-        export WINEPREFIX="/home/runner/.winemonogame"
-        export WINEARCH=win64
-        export WINEDEBUG=-all
-        export MVK_CONFIG_LOG_LEVEL=0
-        export WINEDLLOVERRIDES="d3dcompiler_47=d,explorer.exe=e,services.exe=f"
-        export MGFXC_WINE_PATH="/home/runner/.winemonogame"
-        
-        # Create Wine prefix directory
-        mkdir -p "$WINEPREFIX"
-        
-        # Initialize Wine prefix (headless)
-        echo "Initializing Wine prefix..."
-        DISPLAY="" wine wineboot --init 2>/dev/null || echo "Wine boot completed"
-        
-        # Set environment variables for the session
-        echo "WINEPREFIX=/home/runner/.winemonogame" >> $GITHUB_ENV
-        echo "WINEARCH=win64" >> $GITHUB_ENV
-        echo "WINEDEBUG=-all" >> $GITHUB_ENV
-        echo "MVK_CONFIG_LOG_LEVEL=0" >> $GITHUB_ENV
-        echo "WINEDLLOVERRIDES=d3dcompiler_47=d,explorer.exe=e,services.exe=f" >> $GITHUB_ENV
-        echo "MGFXC_WINE_PATH=/home/runner/.winemonogame" >> $GITHUB_ENV
+      uses: MonoGame/monogame-actions/install-wine@v1.0
         
     - name: Verify setup
       run: |
