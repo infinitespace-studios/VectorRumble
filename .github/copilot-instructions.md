@@ -50,7 +50,8 @@ dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release    # Ta
 - The project requires wine for building shader effects (.fx files)
 - Content building may fail with "exited with code 3" errors
 - Pre-built content (.xnb files) exist in the repository in `Content/` folders
-- The GitHub Actions use a special `infinitespace-studios/monogame-actions/install-wine@v1.0` action
+- The GitHub Actions use MonoGame's official wine setup actions from https://github.com/MonoGame/monogame-actions
+- Currently using `infinitespace-studios/monogame-actions/install-wine@v1.0` (fork of official actions)
 - **Workaround**: Pre-built content is committed to the repository to avoid build failures
 
 **Content File Locations**:
@@ -139,8 +140,14 @@ VectorRumble.sln                 # Main solution file
 
 ### CI/CD Integration
 - GitHub Actions builds for Windows (x64/ARM64), macOS (universal), Linux (x64)
-- Uses MonoGame-specific wine setup action for content building
+- Uses MonoGame wine setup actions from https://github.com/MonoGame/monogame-actions for content building
+- Currently implemented via `infinitespace-studios/monogame-actions/install-wine@v1.0` action
 - Publishes to itch.io automatically on tagged releases
 - Build artifacts are packaged with MonoPack tool
+
+**MonoGame Actions Integration**:
+- The official MonoGame actions repository provides tools for setting up wine on Linux/macOS for content pipeline
+- These actions handle the complex wine configuration required for MonoGame's MGFXC shader compiler
+- See `.github/workflows/build.yml` for current implementation
 
 **Always validate changes work locally before committing - but understand that full content building may require special CI environment setup.**
