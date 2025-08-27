@@ -14,6 +14,7 @@
     <ResourceFiles>
       <Resx>..\VectorRumble.Core\Strings.resx</Resx>
       <Resx>..\VectorRumble.Core\Strings.zh-CN.resx</Resx>
+      <Resx>..\VectorRumble.Core\Strings.ja.resx</Resx>
     </ResourceFiles>
   </Asset>
 </XnaContent>

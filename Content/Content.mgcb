@@ -79,6 +79,27 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/cjkSmall.spritefont;Fonts/retroSmall.zh-CN
 
+#begin Fonts/cjkLarge.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkLarge.spritefont;Fonts/retroLarge.ja
+
+#begin Fonts/cjkMedium.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkMedium.spritefont;Fonts/retroMedium.ja
+
+#begin Fonts/cjkSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkSmall.spritefont;Fonts/retroSmall.ja
+
 #begin Ships/Blaster.xml
 /copy:Ships/Blaster.xml
 
