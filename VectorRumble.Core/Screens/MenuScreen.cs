@@ -213,7 +213,7 @@ namespace VectorRumble
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
-            Vector2 position = new Vector2(0f, viewportSize.Y * 0.55f);
+            Vector2 position = new Vector2(0f, viewportSize.Y * 0.45f);
 
             // Make the menu slide into place during transitions, using a
             // power curve to make things look more interesting (this makes

@@ -6,12 +6,12 @@ of the font in your game, and to change the characters which are available to dr
 with.
 -->
 <XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
-  <Asset Type="Graphics:FontDescription">
+  <Asset Type="Graphics:LocalizedFontDescription">
 
     <!--
     Modify this string to change the font that will be imported.
     -->
-    <FontName>honor-medium-1e19</FontName>
+    <FontName>unifont-16.0.04</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change
@@ -44,5 +44,10 @@ with.
         <End>&#254;</End>
       </CharacterRegion>
     </CharacterRegions>
+    <ResourceFiles>
+      <Resx>..\VectorRumble.Core\Strings.resx</Resx>
+      <Resx>..\VectorRumble.Core\Strings.es.resx</Resx>
+      <Resx>..\VectorRumble.Core\Strings.fr.resx</Resx>
+    </ResourceFiles>
   </Asset>
 </XnaContent>

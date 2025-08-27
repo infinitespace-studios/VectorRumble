@@ -17,8 +17,8 @@ namespace VectorRumble
         /// </summary>
         public override void LoadContent()
         {
-            smallFont = ScreenManager.Game.Content.Load<SpriteFont>("Fonts/retroSmall");
-            mediumFont = ScreenManager.Game.Content.Load<SpriteFont>("Fonts/retroMedium");
+            smallFont = ScreenManager.Game.Content.LoadLocalized<SpriteFont>("Fonts/retroSmall");
+            mediumFont = ScreenManager.Game.Content.LoadLocalized<SpriteFont>("Fonts/retroMedium");
 
             World.ShipManager.LoadContent(ScreenManager.Game.Content);
             World.AddCastOfAvailableShips();
