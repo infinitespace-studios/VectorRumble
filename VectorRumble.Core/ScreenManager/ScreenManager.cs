@@ -121,7 +121,7 @@ namespace VectorRumble
             ContentManager content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = content.Load<SpriteFont>("Fonts/retroLarge");
+            font = content.LoadLocalized<SpriteFont>("Fonts/retroLarge");
             blankTexture = content.Load<Texture2D>("Textures/blank");
 
             // Tell each of the screens to load their content.

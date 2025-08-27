@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+  <Asset Type="Graphics:LocalizedFontDescription">
+    <FontName>unifont-16.0.04</FontName>
+    <Size>20</Size>
+    <Spacing>3</Spacing>
+    <Style>Regular</Style>
+    <CharacterRegions>
+      <CharacterRegion>
+        <Start>&#32;</Start>
+        <End>&#254;</End>
+      </CharacterRegion>
+    </CharacterRegions>
+    <ResourceFiles>
+      <Resx>..\VectorRumble.Core\Strings.resx</Resx>
+      <Resx>..\VectorRumble.Core\Strings.zh-CN.resx</Resx>
+    </ResourceFiles>
+  </Asset>
+</XnaContent>

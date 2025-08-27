@@ -60,7 +60,7 @@ namespace VectorRumble
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             }
             spriteBatch = new SpriteBatch(ScreenManager.GraphicsDevice);
-            spriteFont = content.Load<SpriteFont>("Fonts/retroSmall");
+            spriteFont = content.LoadLocalized<SpriteFont>("Fonts/retroSmall");
             starTexture = content.Load<Texture2D>("Textures/blank");
             player3Controls = content.Load<Texture2D>("Textures/player1-controls");
             player4Controls = content.Load<Texture2D>("Textures/player2-controls");

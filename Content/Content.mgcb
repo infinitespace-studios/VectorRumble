@@ -39,24 +39,45 @@
 
 #begin Fonts/retroLarge.spritefont
 /importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+/processor:LocalizedFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroLarge.spritefont
 
 #begin Fonts/retroMedium.spritefont
 /importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+/processor:LocalizedFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroMedium.spritefont
 
 #begin Fonts/retroSmall.spritefont
 /importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+/processor:LocalizedFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/retroSmall.spritefont
+
+#begin Fonts/cjkLarge.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkLarge.spritefont;Fonts/retroLarge.zh-CN
+
+#begin Fonts/cjkMedium.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkMedium.spritefont;Fonts/retroMedium.zh-CN
+
+#begin Fonts/cjkSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/cjkSmall.spritefont;Fonts/retroSmall.zh-CN
 
 #begin Ships/Blaster.xml
 /copy:Ships/Blaster.xml

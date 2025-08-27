@@ -18,7 +18,7 @@ namespace VectorRumble
         /// </summary>
         public override void LoadContent()
         {
-            smallFont = ScreenManager.Game.Content.Load<SpriteFont>("Fonts/retroSmall");
+            smallFont = ScreenManager.Game.Content.LoadLocalized<SpriteFont>("Fonts/retroSmall");
 
             CountDown = TimeSpan.FromMilliseconds(timeGapBetweenDrawCall[timeGameIndex]);
 
