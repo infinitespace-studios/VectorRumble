@@ -74,6 +74,9 @@ jobs:
       run: |
         echo "/opt/homebrew/lib:/usr/local/lib:/usr/local/bin" >> $GITHUB_PATH
       shell: bash
+    - name: Test
+      run: dotnet test VectorRumble.Tests/VectorRumble.Tests.csproj --verbosity normal
+      shell: bash
     - name: Build
       run: |
         echo $DYLD_LIBRARY_PATH
