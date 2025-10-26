@@ -20,6 +20,10 @@ namespace VectorRumble
         private bool availableShipsCacheDirty = true;
         private bool playersCacheDirty = true;
         private bool spareShipsCacheDirty = true;
+        
+        // Static comparer to avoid delegate allocation
+        private static readonly Comparison<Ship> playerIndexComparison = 
+            (a, b) => a.PlayerStringToIndex.CompareTo(b.PlayerStringToIndex);
 
         public ShipManager(World world)
         {
@@ -92,8 +96,8 @@ namespace VectorRumble
                 }
             }
             
-            // Sort by PlayerStringToIndex using Array.Sort
-            Array.Sort(cachedAvailableShips, (a, b) => a.PlayerStringToIndex.CompareTo(b.PlayerStringToIndex));
+            // Sort by PlayerStringToIndex using Array.Sort with static comparer
+            Array.Sort(cachedAvailableShips, playerIndexComparison);
             
             availableShipsCacheDirty = false;
         }
