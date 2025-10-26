@@ -459,6 +459,7 @@ namespace VectorRumble
                 playing = true;
                 score = 0;
                 Spawn(true);
+                World.ShipManager.InvalidateCaches();
             }
         }
 
@@ -472,6 +473,7 @@ namespace VectorRumble
             {
                 playing = false;
                 Die(null);
+                World.ShipManager.InvalidateCaches();
             }
         }
 
