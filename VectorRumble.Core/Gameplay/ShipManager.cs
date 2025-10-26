@@ -177,6 +177,17 @@ namespace VectorRumble
             playersCacheDirty = true;
             spareShipsCacheDirty = true;
         }
+        
+        public void InvalidatePlayersCache()
+        {
+            playersCacheDirty = true;
+        }
+        
+        public void InvalidateAvailableAndSpareShipsCache()
+        {
+            availableShipsCacheDirty = true;
+            spareShipsCacheDirty = true;
+        }
 
         internal void LoadContent(ContentManager content)
         {
