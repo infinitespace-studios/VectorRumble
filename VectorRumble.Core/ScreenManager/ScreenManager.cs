@@ -31,10 +31,6 @@ namespace VectorRumble
 
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> screensToUpdate = new List<GameScreen>();
-        
-        // Cached array for Screens property
-        GameScreen[] cachedScreensArray;
-        bool screensCacheDirty = true;
 
         InputState input = new InputState();
 
@@ -270,7 +266,6 @@ namespace VectorRumble
             }
 
             screens.Add(screen);
-            screensCacheDirty = true;
         }
 
 
@@ -290,27 +285,14 @@ namespace VectorRumble
 
             screens.Remove(screen);
             screensToUpdate.Remove(screen);
-            screensCacheDirty = true;
         }
 
 
         /// <summary>
-        /// Expose an array holding all the screens. We return a copy rather
-        /// than the real master list, because screens should only ever be added
+        /// Expose a read-only view of all the screens. Screens should only be added
         /// or removed using the AddScreen and RemoveScreen methods.
         /// </summary>
-        public GameScreen[] Screens 
-        { 
-            get 
-            {
-                if (screensCacheDirty)
-                {
-                    cachedScreensArray = screens.ToArray();
-                    screensCacheDirty = false;
-                }
-                return cachedScreensArray;
-            }
-        }
+        public IReadOnlyList<GameScreen> Screens => screens;
 
 
         /// <summary>
