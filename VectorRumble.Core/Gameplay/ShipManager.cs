@@ -92,19 +92,8 @@ namespace VectorRumble
                 }
             }
             
-            // Sort by PlayerStringToIndex using simple bubble sort (small array)
-            for (int i = 0; i < cachedAvailableShips.Length - 1; i++)
-            {
-                for (int j = 0; j < cachedAvailableShips.Length - i - 1; j++)
-                {
-                    if (cachedAvailableShips[j].PlayerStringToIndex > cachedAvailableShips[j + 1].PlayerStringToIndex)
-                    {
-                        Ship temp = cachedAvailableShips[j];
-                        cachedAvailableShips[j] = cachedAvailableShips[j + 1];
-                        cachedAvailableShips[j + 1] = temp;
-                    }
-                }
-            }
+            // Sort by PlayerStringToIndex using Array.Sort
+            Array.Sort(cachedAvailableShips, (a, b) => a.PlayerStringToIndex.CompareTo(b.PlayerStringToIndex));
             
             availableShipsCacheDirty = false;
         }
