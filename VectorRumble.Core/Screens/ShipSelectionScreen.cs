@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,7 +35,7 @@ namespace VectorRumble
                 ExitScreen();
             }
 
-            if (input.MenuSelect && World.ShipManager.SelectedPlayers.Any())
+            if (input.MenuSelect && World.ShipManager.SelectedPlayers.Count > 0)
             {
                 var arenaSelection = new ArenaSelectionScreen
                 {
@@ -46,7 +45,7 @@ namespace VectorRumble
                 ScreenManager.AddScreen(arenaSelection);
             }
 
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.One))
+            if (HasSelectedPlayer(PlayerIndex.One))
             {
                 if (input.IsNewButtonPress(Buttons.DPadUp) || input.IsNewButtonPress(Buttons.LeftThumbstickUp))
                 {
@@ -59,7 +58,7 @@ namespace VectorRumble
                 }
             }
 
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Two))
+            if (HasSelectedPlayer(PlayerIndex.Two))
             {
                 if (input.IsNewButtonPress(Buttons.DPadUp) || input.IsNewButtonPress(Buttons.LeftThumbstickUp))
                 {
@@ -72,7 +71,7 @@ namespace VectorRumble
                 }
             }
 
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Three))
+            if (HasSelectedPlayer(PlayerIndex.Three))
             {
                 if (input.IsNewKeyPress(Keys.W))
                 {
@@ -85,7 +84,7 @@ namespace VectorRumble
                 }
             }
 
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Four))
+            if (HasSelectedPlayer(PlayerIndex.Four))
             {
                 if (input.IsNewKeyPress(Keys.Up))
                 {
@@ -99,15 +98,51 @@ namespace VectorRumble
             }
         }
 
+        private bool HasSelectedPlayer(PlayerIndex playerIndex)
+        {
+            for (int i = 0; i < World.ShipManager.SelectedPlayers.Count; i++)
+            {
+                if (World.ShipManager.SelectedPlayers[i].PlayerStringToIndex == playerIndex)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static void ChangePlayerColour(PlayerIndex playerIndex)
         {
-            var player = World.ShipManager.SelectedPlayers.First(p => p.PlayerStringToIndex == playerIndex);
-            player.ChangeColor();
+            Ship player = null;
+            for (int i = 0; i < World.ShipManager.SelectedPlayers.Count; i++)
+            {
+                if (World.ShipManager.SelectedPlayers[i].PlayerStringToIndex == playerIndex)
+                {
+                    player = World.ShipManager.SelectedPlayers[i];
+                    break;
+                }
+            }
+            if (player != null)
+            {
+                player.ChangeColor();
+            }
         }
 
         private void ChangePlayerShip(PlayerIndex playerIndex)
         {
-            var player = World.ShipManager.SelectedPlayers.First(p => p.PlayerStringToIndex == playerIndex);
+            Ship player = null;
+            for (int i = 0; i < World.ShipManager.SelectedPlayers.Count; i++)
+            {
+                if (World.ShipManager.SelectedPlayers[i].PlayerStringToIndex == playerIndex)
+                {
+                    player = World.ShipManager.SelectedPlayers[i];
+                    break;
+                }
+            }
+            if (player == null)
+            {
+                return;
+            }
+            
             var spareShips = World.ShipManager.SpareShips;
             if (spareShips != null && spareShips.Length > 0)
             {

@@ -10,7 +10,6 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -119,7 +118,7 @@ namespace VectorRumble
         /// All ships that might enter the game.
         /// </summary>
         [ContentSerializer(SharedResource = true)]
-        public Ship[] Ships => ShipManager.Ships.ToArray();
+        public Ship[] Ships => ShipManager.Ships;
 
         public ShipManager ShipManager { get; set; }
         public ArenaManager ArenaManager { get; set; }
@@ -234,9 +233,18 @@ namespace VectorRumble
         {
             var ws = WorldRules.DefaultArena;
 			if (ws == Strings.Arena_Random) {
-                ws = ArenaManager.Arenas.ToArray()[random.Next(0, ArenaManager.Arenas.Length - 1)].Name;
+                ws = ArenaManager.Arenas[random.Next(0, ArenaManager.Arenas.Length - 1)].Name;
 			}
-            selectedArena = ArenaManager.Arenas.First(a => a.Name == ws);
+            // Find arena by name without LINQ
+            selectedArena = null;
+            for (int i = 0; i < ArenaManager.Arenas.Length; i++)
+            {
+                if (ArenaManager.Arenas[i].Name == ws)
+                {
+                    selectedArena = ArenaManager.Arenas[i];
+                    break;
+                }
+            }
         }
 
 
@@ -356,7 +364,17 @@ namespace VectorRumble
             {
                 powerUpTimer = Math.Max(powerUpTimer - elapsedTime, 0f);
             }
-            if (powerUpTimer <= 0.0f && Ships.Any(s => s.Playing))
+            // Check if any ship is playing without using LINQ
+            bool anyShipPlaying = false;
+            for (int i = 0; i < Ships.Length; i++)
+            {
+                if (Ships[i].Playing)
+                {
+                    anyShipPlaying = true;
+                    break;
+                }
+            }
+            if (powerUpTimer <= 0.0f && anyShipPlaying)
             {
                 SpawnPowerUp();
                 powerUpTimer = powerUpDelay;

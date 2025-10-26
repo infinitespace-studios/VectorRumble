@@ -9,7 +9,6 @@
 
 #region Using Statements
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -173,7 +172,7 @@ namespace VectorRumble
                 var caps = GamePad.GetState(index);
 
                 // Only Draw Join message if no one is playing yet.
-                if (!World.ShipManager.Players.Any())
+                if (World.ShipManager.Players.Length == 0)
                 {
                     switch (index)
                     {
@@ -195,12 +194,30 @@ namespace VectorRumble
                     }
                 }
 
-                if (World.ShipManager.SelectedPlayers.Any()) {
-                    ships = World.ShipManager.SelectedPlayers.Where(p => p.PlayerStringToIndex == index).ToArray();
+                if (World.ShipManager.SelectedPlayers.Count > 0) {
+                    // Find ship for this player index without LINQ
+                    ships = null;
+                    for (int i = 0; i < World.ShipManager.SelectedPlayers.Count; i++)
+                    {
+                        if (World.ShipManager.SelectedPlayers[i].PlayerStringToIndex == index)
+                        {
+                            ships = new Ship[] { World.ShipManager.SelectedPlayers[i] };
+                            break;
+                        }
+                    }
                 }
 
-                if (World.ShipManager.Players.Any()) {
-                    ships = World.ShipManager.Players.Where(p => p.PlayerStringToIndex == index).ToArray();
+                if (World.ShipManager.Players.Length > 0) {
+                    // Find ship for this player index without LINQ
+                    ships = null;
+                    for (int i = 0; i < World.ShipManager.Players.Length; i++)
+                    {
+                        if (World.ShipManager.Players[i].PlayerStringToIndex == index)
+                        {
+                            ships = new Ship[] { World.ShipManager.Players[i] };
+                            break;
+                        }
+                    }
                 }
 
                 if (ships != null && ships.Length > 0) {

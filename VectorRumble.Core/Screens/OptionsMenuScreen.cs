@@ -9,7 +9,6 @@
 
 #region Using Statements
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 #endregion
 
@@ -35,7 +34,25 @@ namespace VectorRumble
 			};
         static int currentAsteroidDensity = 2;
 
-        static string[] arenas => World.ArenaManager.Arenas.Select(a => a.Name).ToArray();
+        static string[] cachedArenas;
+        static bool arenasCacheDirty = true;
+        static string[] arenas 
+        { 
+            get 
+            {
+                if (arenasCacheDirty)
+                {
+                    var arenaList = World.ArenaManager.Arenas;
+                    cachedArenas = new string[arenaList.Length];
+                    for (int i = 0; i < arenaList.Length; i++)
+                    {
+                        cachedArenas[i] = arenaList[i].Name;
+                    }
+                    arenasCacheDirty = false;
+                }
+                return cachedArenas;
+            }
+        }
         static int blurIntensity = 5;
         static bool controllersCanShootInAllDirections;
         static string currentArena = string.Empty;

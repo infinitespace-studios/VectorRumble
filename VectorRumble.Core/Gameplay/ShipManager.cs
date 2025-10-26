@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework.Content;
@@ -13,16 +12,171 @@ namespace VectorRumble
         private readonly World world;
         private Ship[] ships;
         public List<Ship> SelectedPlayers = new List<Ship>();
+        
+        // Cached arrays to avoid creating garbage on each access
+        private Ship[] cachedAvailableShips;
+        private Ship[] cachedPlayers;
+        private Ship[] cachedSpareShips;
+        private bool availableShipsCacheDirty = true;
+        private bool playersCacheDirty = true;
+        private bool spareShipsCacheDirty = true;
 
         public ShipManager(World world)
         {
             this.world = world;
         }
 
-        public Ship[] AvailableShips => Ships.Where(s => !string.IsNullOrEmpty(s.PlayerIndex)).OrderBy(p => p.PlayerStringToIndex).ToArray();
-        public Ship[] Players => Ships.Where(s => s.Playing).ToArray();
+        public Ship[] AvailableShips 
+        { 
+            get 
+            {
+                if (availableShipsCacheDirty)
+                {
+                    RebuildAvailableShipsCache();
+                }
+                return cachedAvailableShips;
+            }
+        }
+        
+        public Ship[] Players 
+        { 
+            get 
+            {
+                if (playersCacheDirty)
+                {
+                    RebuildPlayersCache();
+                }
+                return cachedPlayers;
+            }
+        }
+        
         public Ship[] Ships { get { return ships; } }
-        public Ship[] SpareShips => Ships.Where(s => string.IsNullOrEmpty(s.PlayerIndex)).ToArray();
+        
+        public Ship[] SpareShips 
+        { 
+            get 
+            {
+                if (spareShipsCacheDirty)
+                {
+                    RebuildSpareShipsCache();
+                }
+                return cachedSpareShips;
+            }
+        }
+        
+        private void RebuildAvailableShipsCache()
+        {
+            // Count ships with PlayerIndex set
+            int count = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(ships[i].PlayerIndex))
+                {
+                    count++;
+                }
+            }
+            
+            // Create or resize cache
+            if (cachedAvailableShips == null || cachedAvailableShips.Length != count)
+            {
+                cachedAvailableShips = new Ship[count];
+            }
+            
+            // Fill cache
+            int index = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(ships[i].PlayerIndex))
+                {
+                    cachedAvailableShips[index++] = ships[i];
+                }
+            }
+            
+            // Sort by PlayerStringToIndex using simple bubble sort (small array)
+            for (int i = 0; i < cachedAvailableShips.Length - 1; i++)
+            {
+                for (int j = 0; j < cachedAvailableShips.Length - i - 1; j++)
+                {
+                    if (cachedAvailableShips[j].PlayerStringToIndex > cachedAvailableShips[j + 1].PlayerStringToIndex)
+                    {
+                        Ship temp = cachedAvailableShips[j];
+                        cachedAvailableShips[j] = cachedAvailableShips[j + 1];
+                        cachedAvailableShips[j + 1] = temp;
+                    }
+                }
+            }
+            
+            availableShipsCacheDirty = false;
+        }
+        
+        private void RebuildPlayersCache()
+        {
+            // Count playing ships
+            int count = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (ships[i].Playing)
+                {
+                    count++;
+                }
+            }
+            
+            // Create or resize cache
+            if (cachedPlayers == null || cachedPlayers.Length != count)
+            {
+                cachedPlayers = new Ship[count];
+            }
+            
+            // Fill cache
+            int index = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (ships[i].Playing)
+                {
+                    cachedPlayers[index++] = ships[i];
+                }
+            }
+            
+            playersCacheDirty = false;
+        }
+        
+        private void RebuildSpareShipsCache()
+        {
+            // Count spare ships
+            int count = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (string.IsNullOrEmpty(ships[i].PlayerIndex))
+                {
+                    count++;
+                }
+            }
+            
+            // Create or resize cache
+            if (cachedSpareShips == null || cachedSpareShips.Length != count)
+            {
+                cachedSpareShips = new Ship[count];
+            }
+            
+            // Fill cache
+            int index = 0;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (string.IsNullOrEmpty(ships[i].PlayerIndex))
+                {
+                    cachedSpareShips[index++] = ships[i];
+                }
+            }
+            
+            spareShipsCacheDirty = false;
+        }
+        
+        public void InvalidateCaches()
+        {
+            availableShipsCacheDirty = true;
+            playersCacheDirty = true;
+            spareShipsCacheDirty = true;
+        }
 
         internal void LoadContent(ContentManager content)
         {
@@ -59,6 +213,8 @@ namespace VectorRumble
                     SelectedPlayers.Add(ship);
                 }
             }
+            // When selection changes, invalidate caches
+            InvalidateCaches();
         }
     }
 }
