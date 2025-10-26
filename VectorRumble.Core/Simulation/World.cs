@@ -170,9 +170,12 @@ namespace VectorRumble
 
         public void AddCastOfAvailableShips()
         {
-            for (int i = 0; i < ShipManager.AvailableShips.Length; i++)
+            for (int i = 0; i < ShipManager.Ships.Length; i++)
             {
-                actors.Add(ShipManager.AvailableShips[i]);
+                if (!string.IsNullOrEmpty(ShipManager.Ships[i].PlayerIndex))
+                {
+                    actors.Add(ShipManager.Ships[i]);
+                }
             }
         }
 

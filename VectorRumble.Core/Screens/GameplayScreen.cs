@@ -172,7 +172,17 @@ namespace VectorRumble
                 var caps = GamePad.GetState(index);
 
                 // Only Draw Join message if no one is playing yet.
-                if (World.ShipManager.Players.Length == 0)
+                bool anyPlaying = false;
+                for (int i = 0; i < World.ShipManager.Ships.Length; i++)
+                {
+                    if (World.ShipManager.Ships[i].Playing)
+                    {
+                        anyPlaying = true;
+                        break;
+                    }
+                }
+                
+                if (!anyPlaying)
                 {
                     switch (index)
                     {
@@ -195,7 +205,7 @@ namespace VectorRumble
                 }
 
                 if (World.ShipManager.SelectedPlayers.Count > 0) {
-                    // Find ship for this player index without LINQ
+                    // Find ship for this player index
                     ships = null;
                     for (int i = 0; i < World.ShipManager.SelectedPlayers.Count; i++)
                     {
@@ -207,16 +217,14 @@ namespace VectorRumble
                     }
                 }
 
-                if (World.ShipManager.Players.Length > 0) {
-                    // Find ship for this player index without LINQ
-                    ships = null;
-                    for (int i = 0; i < World.ShipManager.Players.Length; i++)
+                // Check playing ships
+                ships = null;
+                for (int i = 0; i < World.ShipManager.Ships.Length; i++)
+                {
+                    if (World.ShipManager.Ships[i].Playing && World.ShipManager.Ships[i].PlayerStringToIndex == index)
                     {
-                        if (World.ShipManager.Players[i].PlayerStringToIndex == index)
-                        {
-                            ships = new Ship[] { World.ShipManager.Players[i] };
-                            break;
-                        }
+                        ships = new Ship[] { World.ShipManager.Ships[i] };
+                        break;
                     }
                 }
 
