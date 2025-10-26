@@ -34,25 +34,6 @@ namespace VectorRumble
 			};
         static int currentAsteroidDensity = 2;
 
-        static string[] cachedArenas;
-        static bool arenasCacheDirty = true;
-        static string[] arenas 
-        { 
-            get 
-            {
-                if (arenasCacheDirty)
-                {
-                    var arenaList = World.ArenaManager.Arenas;
-                    cachedArenas = new string[arenaList.Length];
-                    for (int i = 0; i < arenaList.Length; i++)
-                    {
-                        cachedArenas[i] = arenaList[i].Name;
-                    }
-                    arenasCacheDirty = false;
-                }
-                return cachedArenas;
-            }
-        }
         static int blurIntensity = 5;
         static bool controllersCanShootInAllDirections;
         static string currentArena = string.Empty;
@@ -85,7 +66,16 @@ namespace VectorRumble
             blurIntensity = WorldRules.BlurIntensity;
             controllersCanShootInAllDirections = WorldRules.ControllersCanShootInAllDirections;
             currentArena = WorldRules.DefaultArena;
-            currentArenaIndex = Array.IndexOf(arenas, currentArena);
+            // Find index of current arena by name
+            currentArenaIndex = 0;
+            for (int i = 0; i < World.ArenaManager.Arenas.Length; i++)
+            {
+                if (World.ArenaManager.Arenas[i].Name == currentArena)
+                {
+                    currentArenaIndex = i;
+                    break;
+                }
+            }
             currentAsteroidDensity = (int)WorldRules.AsteroidDensity;
             motionBlur = WorldRules.MotionBlur;
             neonEffect = WorldRules.NeonEffect;
@@ -175,8 +165,8 @@ namespace VectorRumble
         /// </summary>
         void ArenaMenuEntrySelected(object sender, EventArgs e)
         {
-            currentArenaIndex = (currentArenaIndex + 1) % arenas.Length;
-            currentArena = arenas[currentArenaIndex];
+            currentArenaIndex = (currentArenaIndex + 1) % World.ArenaManager.Arenas.Length;
+            currentArena = World.ArenaManager.Arenas[currentArenaIndex].Name;
         }
 
 
