@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework.Content;
@@ -19,10 +18,7 @@ namespace VectorRumble
             this.world = world;
         }
 
-        public Ship[] AvailableShips => Ships.Where(s => !string.IsNullOrEmpty(s.PlayerIndex)).OrderBy(p => p.PlayerStringToIndex).ToArray();
-        public Ship[] Players => Ships.Where(s => s.Playing).ToArray();
         public Ship[] Ships { get { return ships; } }
-        public Ship[] SpareShips => Ships.Where(s => string.IsNullOrEmpty(s.PlayerIndex)).ToArray();
 
         internal void LoadContent(ContentManager content)
         {

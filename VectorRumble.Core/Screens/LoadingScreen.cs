@@ -111,7 +111,7 @@ namespace VectorRumble
             // screens to be gone: in order for the transition to look good we must
             // have actually drawn a frame without them before we perform the load.
             if ((ScreenState == ScreenState.Active) &&
-                (ScreenManager.Screens.Length == 1))
+                (ScreenManager.Screens.Count == 1))
             {
                 otherScreensAreGone = true;
             }
