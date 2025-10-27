@@ -202,39 +202,55 @@ namespace VectorRumble
             var pos = new Vector2();
             var rect = new Rectangle();
 
-            // Iterate ships with PlayerIndex (available ships) and draw selected ones
-            int availableIndex = 0;
-            for (int i = 0; i < World.ShipManager.Ships.Length; ++i)
+            // Draw ships with PlayerIndex (available ships) in sorted order by PlayerStringToIndex
+            // This ensures Player 1, 2, 3, 4 appear in the correct screen positions
+            for (PlayerIndex playerIndex = PlayerIndex.One; playerIndex <= PlayerIndex.Four; playerIndex++)
             {
-                if (!string.IsNullOrEmpty(World.ShipManager.Ships[i].PlayerIndex))
+                // Find ship for this player index
+                Ship shipToDraw = null;
+                int shipPosition = 0;
+                
+                for (int i = 0; i < World.ShipManager.Ships.Length; ++i)
                 {
-                    if (World.ShipManager.Ships[i].Selected)
+                    if (!string.IsNullOrEmpty(World.ShipManager.Ships[i].PlayerIndex))
                     {
-                        lineBatch.Begin();
-                        pos.X = (availableIndex + 1) * (viewport.Width / 5);
-                        pos.Y = viewport.Height / 3;
-                        World.ShipManager.Ships[i].Position = pos;
-                        World.ShipManager.Ships[i].Draw((float)gameTime.ElapsedGameTime.TotalSeconds, lineBatch);
-                        lineBatch.End();
+                        if (World.ShipManager.Ships[i].PlayerStringToIndex == playerIndex)
+                        {
+                            shipToDraw = World.ShipManager.Ships[i];
+                            // Calculate position based on player index (1-4)
+                            shipPosition = (int)playerIndex + 1;
+                            break;
+                        }
+                    }
+                }
+                
+                if (shipToDraw != null && shipToDraw.Selected)
+                {
+                    lineBatch.Begin();
+                    pos.X = shipPosition * (viewport.Width / 5);
+                    pos.Y = viewport.Height / 3;
+                    shipToDraw.Position = pos;
+                    shipToDraw.Draw((float)gameTime.ElapsedGameTime.TotalSeconds, lineBatch);
+                    lineBatch.End();
 
-                        // Prepare the rect for position for control rendering
-                        rect.X = (int)(pos.X - (World.ShipManager.Ships[i].Radius * 4) - 5);
+                    // Prepare the rect for position for control rendering
+                    rect.X = (int)(pos.X - (shipToDraw.Radius * 4) - 5);
 
-                        // Fade the popup alpha during transitions.
-                        Color shipColor = new Color(World.ShipManager.Ships[i].Color.R, World.ShipManager.Ships[i].Color.G, World.ShipManager.Ships[i].Color.B, (int)TransitionAlpha);
+                    // Fade the popup alpha during transitions.
+                    Color shipColor = new Color(shipToDraw.Color.R, shipToDraw.Color.G, shipToDraw.Color.B, (int)TransitionAlpha);
 
-                        // Offset the Name's X/Y positions a little
-                        pos.X -= World.ShipManager.Ships[i].Radius + 8; // TODO Centre correctly based on name length
-                        pos.Y += World.ShipManager.Ships[i].Radius + (ScreenManager.Font.LineSpacing * 1.1f);
+                    // Offset the Name's X/Y positions a little
+                    pos.X -= shipToDraw.Radius + 8; // TODO Centre correctly based on name length
+                    pos.Y += shipToDraw.Radius + (ScreenManager.Font.LineSpacing * 1.1f);
 
-                        ScreenManager.SpriteBatch.Begin();
+                    ScreenManager.SpriteBatch.Begin();
 
-                        // Now draw our controls
-                        rect.Y = (viewport.Height / 3);
-                        rect.Width = 160;
-                        rect.Height = 155;
+                    // Now draw our controls
+                    rect.Y = (viewport.Height / 3);
+                    rect.Width = 160;
+                    rect.Height = 155;
 
-                        switch (World.ShipManager.Ships[i].PlayerStringToIndex)
+                    switch (playerIndex)
                     {
                         case PlayerIndex.One:
                             ScreenManager.SpriteBatch.Draw(gamepadControls, rect, Color.White);
@@ -296,8 +312,6 @@ namespace VectorRumble
                             break;
                     }
                     ScreenManager.SpriteBatch.End();
-                }
-                availableIndex++;
                 }
             }
 
