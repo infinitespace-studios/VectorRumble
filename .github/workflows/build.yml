@@ -118,10 +118,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-      - name: Generate appversion.txt
-        run: |
-              echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
-              cat appversion.txt
       - name: Extract
         run: |
               7z x ./VectorRumble-${{ matrix.rid }}${{ matrix.archive }} -o./${{ matrix.rid }} -y
@@ -133,7 +129,7 @@ jobs:
           channel: ${{ matrix.os }}
           tag: '-alpha'
           version: ${{ github.ref_name }}
-          file: './VectorRumble-${{ matrix.rid }}${{ matrix.archive }}'
+          file: './${{ matrix.rid }}/'
           ITCHIO_USER: ${{ secrets.ITCHIO_USER }}
           ITCHIO_GAME: ${{ secrets.ITCHIO_GAME }}
           ITCHIO_TOKEN: ${{ secrets.BUTLER_API_KEY }}
