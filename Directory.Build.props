@@ -10,6 +10,6 @@
     <AssemblyDescription>Vector Rumble</AssemblyDescription>
   </PropertyGroup>
   <PropertyGroup>
-    <MonoGameVersion>3.8.4</MonoGameVersion>
+    <MonoGameVersion>3.8.4.1</MonoGameVersion>
   </PropertyGroup>
 </Project>
