@@ -118,22 +118,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-      - name: Install butler
-        run: |
-              if [ "$RUNNER_OS" == "Linux" ]; then
-                    curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
-                    7z x butler.zip
-                    ./butler version
-              elif [ "$RUNNER_OS" == "Windows" ]; then
-                    curl -L https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -o butler.zip
-                    7z x butler.zip
-                    ./butler version
-              elif [ "$RUNNER_OS" == "macOS" ]; then
-                    curl -L https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default -o butler.zip
-                    7z x butler.zip
-                    ./butler version
-              fi
-        shell: bash
       - name: Generate appversion.txt
         run: |
               echo ${{ github.ref_name }} | sed 's/^v//' > appversion.txt
@@ -144,9 +128,13 @@ jobs:
               find .
         shell: bash
       - name: Publish
-        run: |
-              ./butler push ./VectorRumble-${{ matrix.rid }}${{ matrix.archive }} ${{ secrets.ITCHIO_USER }}/${{ secrets.ITCHIO_GAME }}:${{ matrix.os }}-alpha --userversion-file appversion.txt -v
-        shell: bash
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        uses: infinitespace-studios/monogame-actions/publish-itchio@v1
+        with:
+          channel: ${{ matrix.os }}
+          tag: '-alpha'
+          version: ${{ github.ref_name }}
+          file: './VectorRumble-${{ matrix.rid }}${{ matrix.archive }}'
+          ITCHIO_USER: ${{ secrets.ITCHIO_USER }}
+          ITCHIO_GAME: ${{ secrets.ITCHIO_GAME }}
+          ITCHIO_TOKEN: ${{ secrets.ITCHIO_TOKEN }}
 
