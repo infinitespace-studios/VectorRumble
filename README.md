@@ -13,6 +13,7 @@ MonoGame port of the XNA VectorRumble Sample, but enhanced to be a more complete
    * French
    * Chinese (Simplified)
    * Japanese
+   * Korean
 
 ## Build Status
 [![.NET](https://github.com/infinitespace-studios/VectorRumble/actions/workflows/build.yml/badge.svg)](https://github.com/infinitespace-studios/VectorRumble/actions/workflows/build.yml)
