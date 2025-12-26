@@ -32,5 +32,8 @@
     <EmbeddedResource Update="Strings.ja.resx">
       <Link>Strings.ja.resx</Link>
     </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ko.resx">
+      <Link>Strings.ko.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
