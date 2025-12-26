@@ -9,7 +9,7 @@
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <DefineConstants>$(DefineConstants);AUDIO;SHADER_EFFECTS</DefineConstants>
     <AppVersionFile>$(OutputPath)appversion.txt</AppVersionFile>
-    <SatelliteResourceLanguages>de;es;fr;ja;zh-CN</SatelliteResourceLanguages>
+    <SatelliteResourceLanguages>de;es;fr;ja;ko;zh-CN</SatelliteResourceLanguages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>
