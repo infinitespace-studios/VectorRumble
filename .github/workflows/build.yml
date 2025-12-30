@@ -18,17 +18,17 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            rids: -r win-x64
+            args: -r win-x64
             artifact: publish-win-x64
           - os: windows-latest
             rids: -r win-arm64
             artifact: publish-win-arm64
           - os: macos-latest
-            rids: -rids osx-arm64,osx-x64
+            args: -rids osx-arm64,osx-x64 --macos-universal
             artifact: publish-osx-universal
             wineprefix: /Users/runner/.winemonogame
           - os: ubuntu-latest
-            rids: -r linux-x64
+            args: -r linux-x64
             artifact: publish-linux-x64
             wineprefix: /home/runner/.winemonogame
       fail-fast: false
@@ -48,27 +48,6 @@ jobs:
       run: dotnet restore
     - name: Restore tools
       run: dotnet tool restore
-    # - name: Delete ./${{ matrix.artifact }}
-    #   run: rm -Rf ./${{ matrix.artifact }}
-    #   shell: bash
-    # - name: Install Rosetta
-    #   if: runner.os == 'macOS'
-    #   continue-on-error: true
-    #   run: |
-    #     softwareupdate --install-rosetta --agree-to-license
-    #     /usr/bin/pgrep oahd >/dev/null && echo "Rosetta is installed" || echo "Rosetta is not installed"
-    # - name: Install Wine Dependencies
-    #   if: runner.os == 'macOS'
-    #   run: |
-    #     brew install libpng libjpeg libtiff
-    #     brew install --cask xquartz wine-stable
-    #     xattr -dr com.apple.quarantine "/Applications/Wine Stable.app"
-    #     wine --version
-    #     which wine
-    #     wget -qO- https://monogame.net/downloads/net9_mgfxc_wine_setup.sh | bash
-    #     export WINEPREFIX=${{ matrix.wineprefix }}
-    #     wine dotnet --info
-    #   shell: bash
     - name: Update Path
       if: runner.os != 'Windows'
       run: |
@@ -83,7 +62,7 @@ jobs:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
-      run: dotnet monopack -e VectorRumble -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.rids }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -e VectorRumble -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
