@@ -55,6 +55,12 @@ namespace VectorRumble
         /// </summary>
         public void Collect()
         {
+            // Early exit if nothing to collect
+            if (garbage.Count == 0)
+            {
+                return;
+            }
+            
             for (int i = 0; i < garbage.Count; i++)
             {
                 Remove(garbage[i]);

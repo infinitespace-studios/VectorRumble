@@ -173,26 +173,28 @@ namespace VectorRumble
                     // draw several "blur" polygons behind the real polygon
                     Vector2 backwards = Vector2.Normalize(position - lastPosition);
                     float speed = velocity.Length();
-                    for (int i = 1; i < speed / 16; ++i)
+                    int blurCount = (int)(speed / 16);
+                    int blurIntensity = WorldRules.BlurIntensity * 100;
+                    
+                    for (int i = 1; i < blurCount; ++i)
                     {
+                        // calculate the alpha of the "blur" location first to enable early exit
+                        int alpha = blurIntensity / (i + 1);
+                        if (alpha < 1)
+                            break;
+
                         // calculate the "blur" polygon's position
                         Vector2 blurPosition = this.position - backwards * (i * 4);
-                        //Vector2 blurPosition = this.position - backwards * (i * 20);
 
                         // calculate the transformation for the "blur" polygon
                         Matrix blurWorld = rotationMatrix *
                             Matrix.CreateTranslation(blurPosition.X, blurPosition.Y, 0);
                         // transform the polygon to the "blur" location
                         polygon.Transform(blurWorld);
-                        // calculate the alpha of the "blur" location
-                        //byte alpha = (byte)(160 / (i + 1));
-                        byte alpha = (byte)( WorldRules.BlurIntensity * 100/ (i + 1));
-                        if (alpha < 1)
-                            break;
 
                         // draw the "blur" polygon
                         lineBatch.DrawPolygon(polygon,
-                            new Color(color.R, color.G, color.B, alpha));
+                            new Color(color.R, color.G, color.B, (byte)alpha));
                     }
                 }
             }

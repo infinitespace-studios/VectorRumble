@@ -133,8 +133,14 @@ namespace VectorRumble
             }
             else
             {
-                result.Normal.Normalize();
-                result.Distance = (radius - (center - result.Point).Length());
+                // Use cached h2 to compute distance, avoiding redundant Length() call
+                float h = (float)Math.Sqrt(h2);
+                if (h > 0f)
+                {
+                    // Normalize manually using cached length
+                    result.Normal = result.Normal / h;
+                }
+                result.Distance = radius - h;
                 result.Collision = true;
             }
 

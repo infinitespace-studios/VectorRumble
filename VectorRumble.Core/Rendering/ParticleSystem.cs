@@ -192,19 +192,25 @@ namespace VectorRumble
         {
             if (lifeRemaining > 0f)
             {
+                float alphaReduction = alphaReductionPerSecond * elapsedTime;
+                float velocityReduction = velocityPercentReductionPerSecond * elapsedTime;
+                
                 // update each particle
                 for (int i = 0; i < particles.Length; i++)
                 {
                     particles[i].Position += particles[i].Velocity * elapsedTime;
+                    
+                    // Calculate new alpha, clamping to 0
+                    int newAlpha = particles[i].Color.A - (int)alphaReduction;
+                    if (newAlpha < 0) newAlpha = 0;
+                    
                     particles[i].Color = new Color(
                         particles[i].Color.R,
                         particles[i].Color.G,
                         particles[i].Color.B,
-                        (byte)((float)particles[i].Color.A - 
-                            alphaReductionPerSecond * elapsedTime)
-                        );
-                    particles[i].Velocity -= particles[i].Velocity * 
-                        (velocityPercentReductionPerSecond * elapsedTime);
+                        (byte)newAlpha);
+                        
+                    particles[i].Velocity -= particles[i].Velocity * velocityReduction;
                 }
                 this.lifeRemaining -= elapsedTime;
             }

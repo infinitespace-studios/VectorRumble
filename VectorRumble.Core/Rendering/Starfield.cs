@@ -39,6 +39,11 @@ namespace VectorRumble
         /// The depth of each star, used for parallax.
         /// </summary>
         byte[] starDepths;
+        
+        /// <summary>
+        /// Cached colors for each star, computed from depth.
+        /// </summary>
+        Color[] starColors;
 
         /// <summary>
         /// The relative "target position" of the starfield, compared with the
@@ -72,12 +77,15 @@ namespace VectorRumble
                 bounds.Top + (bounds.Bottom - bounds.Top) / 2);
             starPositions = new Vector2[count];
             starDepths = new byte[count];
+            starColors = new Color[count];
             for (int i = 0; i < count; i++)
             {
                 starPositions[i] = new Vector2(
                     random.Next(bounds.Left, bounds.Right),
                     random.Next(bounds.Top, bounds.Bottom));
                 starDepths[i] = (byte)random.Next(1, 255);
+                // Pre-compute star colors based on depth
+                starColors[i] = new Color(starDepths[i], starDepths[i], starDepths[i]);
             }
         }
         #endregion
@@ -129,10 +137,9 @@ namespace VectorRumble
 
             for (int i = 0; i < starPositions.Length; i++)
             {
-                Color starColor = new Color(starDepths[i], starDepths[i],
-                    starDepths[i]);
+                // Use pre-computed star colors instead of creating new Color objects
                 spriteBatch.Draw(spriteTexture, new Rectangle((int)starPositions[i].X,
-                    (int)starPositions[i].Y, 1, 1), starColor);
+                    (int)starPositions[i].Y, 1, 1), starColors[i]);
             }
         }
         #endregion

@@ -266,11 +266,26 @@ namespace VectorRumble
 
         public string Name { get; set; }
 
-        public string PlayerIndex { get; set; }
+        private string playerIndex;
+        private PlayerIndex cachedPlayerIndex;
+        
+        public string PlayerIndex 
+        { 
+            get { return playerIndex; }
+            set 
+            { 
+                playerIndex = value;
+                // Cache the converted PlayerIndex to avoid dictionary lookup every frame
+                if (!string.IsNullOrEmpty(value) && StringToPlayerIndexMapper.TryGetValue(value, out PlayerIndex index))
+                {
+                    cachedPlayerIndex = index;
+                }
+            }
+        }
 
-        public PlayerIndex PlayerStringToIndex { get { return StringToPlayerIndexMapper[PlayerIndex]; } }
+        public PlayerIndex PlayerStringToIndex { get { return cachedPlayerIndex; } }
 
-        private Dictionary<string, PlayerIndex> StringToPlayerIndexMapper = new Dictionary<string, PlayerIndex> {
+        private static readonly Dictionary<string, PlayerIndex> StringToPlayerIndexMapper = new Dictionary<string, PlayerIndex> {
             { "One", Microsoft.Xna.Framework.PlayerIndex.One },
             { "Two",  Microsoft.Xna.Framework.PlayerIndex.Two },
             { "Three", Microsoft.Xna.Framework.PlayerIndex.Three },
