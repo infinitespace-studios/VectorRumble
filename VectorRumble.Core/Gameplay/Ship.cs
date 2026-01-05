@@ -267,7 +267,7 @@ namespace VectorRumble
         public string Name { get; set; }
 
         private string playerIndex;
-        private PlayerIndex cachedPlayerIndex;
+        private PlayerIndex cachedPlayerIndex = Microsoft.Xna.Framework.PlayerIndex.One;
         
         public string PlayerIndex 
         { 
@@ -279,6 +279,11 @@ namespace VectorRumble
                 if (!string.IsNullOrEmpty(value) && StringToPlayerIndexMapper.TryGetValue(value, out PlayerIndex index))
                 {
                     cachedPlayerIndex = index;
+                }
+                else
+                {
+                    // Default to PlayerIndex.One if value is invalid or empty
+                    cachedPlayerIndex = Microsoft.Xna.Framework.PlayerIndex.One;
                 }
             }
         }
