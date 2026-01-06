@@ -289,11 +289,10 @@ namespace VectorRumble
 
 
         /// <summary>
-        /// Expose an array holding all the screens. We return a copy rather
-        /// than the real master list, because screens should only ever be added
+        /// Expose a read-only view of all the screens. Screens should only be added
         /// or removed using the AddScreen and RemoveScreen methods.
         /// </summary>
-        public GameScreen[] Screens => screens.ToArray();
+        public IReadOnlyList<GameScreen> Screens => screens;
 
 
         /// <summary>
