@@ -116,7 +116,7 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: VectorRumble-apk
+        name: publish-android-apk
         path: VectorRumble.Android/bin/Release/net9.0-android/*-Signed.apk
 
   publish:
