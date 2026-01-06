@@ -44,13 +44,6 @@ jobs:
       run: |
             dotnet tool install MonoPack
       shell: bash
-    - name: Setup Java JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'microsoft'
-        java-version: '17'
-    - name: Install .NET Android workload
-      run: dotnet workload install android
     - name: Restore dependencies
       run: dotnet restore
     - name: Restore tools
@@ -69,7 +62,7 @@ jobs:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
-      run: dotnet monopack -e VectorRumble -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
@@ -78,6 +71,32 @@ jobs:
       with:
         name: ${{ matrix.artifact }}
         path: ./${{ matrix.artifact }}/*.zip
+
+  build-android:
+    name: build-android
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+    - name: Install .NET Android workload
+      run: dotnet workload install android
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build Android APK
+      run: dotnet build VectorRumble.Android/VectorRumble.Android.csproj -c Release
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: VectorRumble-apk
+        path: VectorRumble.Android/bin/Release/net9.0-android/*-Signed.apk
 
   publish:
     if: startsWith(github.ref, 'refs/tags/')
