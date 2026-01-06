@@ -80,25 +80,39 @@ jobs:
         path: ./${{ matrix.artifact }}/*.zip
 
   build-android:
-    name: build-android
-    runs-on: ubuntu-latest
+    name: build-android-apk
+    runs-on: macos-latest
+
+    env:
+      MGFXC_WINE_PATH: /Users/runner/.winemonogame
+      DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin
+
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
+
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 9.0.x
+
+    - name: Setup for MonoGame
+      uses: infinitespace-studios/monogame-actions/install-wine@v1.0
+
     - name: Setup Java JDK
       uses: actions/setup-java@v4
       with:
         distribution: 'microsoft'
         java-version: '17'
+
     - name: Install .NET Android workload
       run: dotnet workload install android
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build Android APK
       run: dotnet build VectorRumble.Android/VectorRumble.Android.csproj -c Release
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
