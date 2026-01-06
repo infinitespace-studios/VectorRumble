@@ -16,7 +16,7 @@ namespace VectorRumble
     /// with the MonoGame framework.
     /// </remarks>
     [Activity(
-        Label = "Vector Rumble",
+        Label = "@string/app_name",
         MainLauncher = true,
         Icon = "@drawable/icon",
         Theme = "@style/Theme.Splash",
