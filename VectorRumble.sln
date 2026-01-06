@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Desktop", "Vec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Core", "VectorRumble.Core\VectorRumble.Core.csproj", "{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Android", "VectorRumble.Android\VectorRumble.Android.csproj", "{F8FE474A-188C-4969-8370-0FC30ED1F2B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,22 @@ Global
 		{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}.Release|x64.Build.0 = Release|Any CPU
 		{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}.Release|x86.ActiveCfg = Release|Any CPU
 		{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}.Release|x86.Build.0 = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|ARM.Build.0 = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|x64.Build.0 = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{F8FE474A-188C-4969-8370-0FC30ED1F2B1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
