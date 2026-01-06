@@ -44,6 +44,13 @@ jobs:
       run: |
             dotnet tool install MonoPack
       shell: bash
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+    - name: Install .NET Android workload
+      run: dotnet workload install android
     - name: Restore dependencies
       run: dotnet restore
     - name: Restore tools
