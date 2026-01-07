@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -34,10 +35,47 @@ namespace VectorRumble
             }
         }
 
+        /// <summary>
+        /// Get files from the Content directory using TitleContainer.
+        /// This is a more cross-platform way to access content files.
+        /// </summary>
+        /// <param name="contentDirectory">The subdirectory within Content (e.g., "Ships", "Arenas", etc)</param>
+        /// <param name="manifestFileName">The manifest file listing all files (e.g., "ships.txt")</param>
+        /// <returns>Array of paths that we can then use with TitleContainer.OpenStream()</returns>
+        public static string[] GetFilesFromContent(string contentDirectory, string manifestFileName)
+        {
+            var manifestPath = Path.Combine("Content", contentDirectory, manifestFileName);
+
+            try
+            {
+                using (var manifestStream = TitleContainer.OpenStream(manifestPath))
+                using (var manifestStreamReader = new StreamReader(manifestStream))
+                {
+                    var files = new List<string>();
+                    string line;
+                    while ((line = manifestStreamReader.ReadLine()) != null)
+                    {
+                        line = line.Trim();
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            // Return the full content path
+                            files.Add(Path.Combine("Content", contentDirectory, line));
+                        }
+                    }
+                    return files.ToArray();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                // Manifest file doesn't exist
+                return null;
+            }
+        }
+
         public static string[] GetFilesFromFolders (string [] folders, string extensionFilter)
         {
             string root = Path.GetDirectoryName (System.AppContext.BaseDirectory);
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {    
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
                 string resourceFolder = Path.Combine (root, "..", "..", "Resources");
                 if (Directory.Exists(resourceFolder)) {
                     root = resourceFolder;
