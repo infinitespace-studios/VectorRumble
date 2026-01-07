@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <ApplicationId>com.infinitespacestudios.vectorrumble</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <AssemblyName>VectorRumble</AssemblyName>
+    <AssemblyTitle>Vector Rumble</AssemblyTitle>
+  </PropertyGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="..\Content\Content.mgcb">
+      <Link>Content\Content.mgcb</Link>
+    </MonoGameContentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VectorRumble.Core\VectorRumble.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="$(MonoGameVersion)" />
+    <PackageReference Include="MonoGame.Framework.Android" Version="$(MonoGameVersion)" />
+  </ItemGroup>
+</Project>

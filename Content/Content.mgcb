@@ -186,3 +186,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/title.png
+
+#begin Ships/ships.txt
+/copy:Ships/ships.txt
+
+#begin Arenas/arenas.txt
+/copy:Arenas/arenas.txt

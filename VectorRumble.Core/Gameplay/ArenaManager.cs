@@ -1,6 +1,7 @@
 using System;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace VectorRumble
@@ -20,14 +21,17 @@ namespace VectorRumble
 
         internal void LoadContent(ContentManager content)
         {
-            var arenaFiles = Helper.GetFilesFromFolders(new string[] { content.RootDirectory, arenaDirectory }, "*.xml");
+            var arenaFiles = Helper.GetFilesFromContent(arenaDirectory, "arenas.txt");
             var arenaLength = arenaFiles.Length; // Caching the value so that the property isn't accessed throughout the loop.
 
             arenas = new Arena[arenaLength + 1]; // Adding an extra slot for the Random Arena later.
             for (int i = 0; i < arenaLength; i++)
             {
-                var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                arenas[i] = arena;
+                using (var stream = TitleContainer.OpenStream(arenaFiles[i]))
+                {
+                    var arena = Arena.Load(XDocument.Load(stream).XPathSelectElement("/XnaContent/Asset"));
+                    arenas[i] = arena;
+                }
             }
 
             // Add an extra element for our Random option.
@@ -37,15 +41,16 @@ namespace VectorRumble
             };
             arenas[arenas.Length - 1] = randomArena;
 
-            // Once our app is signed, we can't change it, so let's look in the Special "MyDocuements" folder for user created data
+            // Once our app is signed, we can't change it, so let's look in the Special "MyDocuments" folder for user created data
             arenaFiles = Helper.GetFilesFromFolders(new string[] { Helper.GetMyDocumentsFolder(), Helper.GetAssemblyTitle(), arenaDirectory }, "*.xml");
             if (arenaFiles != null && arenaFiles.Length > 0)
             {
-                Array.Resize(ref arenas, arenas.Length + arenaFiles.Length);
-                for (int i = arenas.Length; i < arenas.Length + arenaFiles.Length; i++)
+                var currentLength = arenas.Length;
+                Array.Resize(ref arenas, currentLength + arenaFiles.Length);
+                for (int i = 0; i < arenaFiles.Length; i++)
                 {
                     var arena = Arena.Load(XDocument.Load(arenaFiles[i]).XPathSelectElement("/XnaContent/Asset"));
-                    arenas[i] = arena;
+                    arenas[currentLength + i] = arena;
                 }
             }
         }
