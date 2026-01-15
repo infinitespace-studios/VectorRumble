@@ -336,7 +336,7 @@ namespace VectorRumble
                 // decrement the heal timer if necessary
                 if (shieldRechargeTimer > 0f)
                 {
-                    shieldRechargeTimer = Math.Max(shieldRechargeTimer - elapsedTime, 
+                    shieldRechargeTimer = Math.Max(shieldRechargeTimer - elapsedTime,
                         0f);
                 }
                 // recharge the shields if the timer has come up
@@ -380,9 +380,12 @@ namespace VectorRumble
             smallMotorTimer -= elapsedTime;
             largeMotorTimer -= elapsedTime;
 
-            GamePad.SetVibration(PlayerStringToIndex,
-                (largeMotorTimer > 0f) ? largeMotorSpeed : 0f,
-                (smallMotorTimer > 0f) ? smallMotorSpeed : 0f);
+            if (!Helper.IsMobile)
+            {
+                GamePad.SetVibration(PlayerStringToIndex,
+                    (largeMotorTimer > 0f) ? largeMotorSpeed : 0f,
+                    (smallMotorTimer > 0f) ? smallMotorSpeed : 0f);
+            }
             
             base.Update(elapsedTime);
         }
@@ -649,9 +652,12 @@ namespace VectorRumble
         /// <param name="smallMotorTime">The time to run the small motor.</param>
         public void FireGamepadMotors(float largeMotorTime, float smallMotorTime)
         {
-            // use the maximum timer value
-            this.largeMotorTimer = Math.Max(this.largeMotorTimer, largeMotorTime);
-            this.smallMotorTimer = Math.Max(this.smallMotorTimer, smallMotorTime);
+            if (!Helper.IsMobile)
+            {
+                // use the maximum timer value
+                this.largeMotorTimer = Math.Max(this.largeMotorTimer, largeMotorTime);
+                this.smallMotorTimer = Math.Max(this.smallMotorTimer, smallMotorTime);
+            }
         }
 
 
