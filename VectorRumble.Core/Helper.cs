@@ -9,6 +9,17 @@ namespace VectorRumble
 {
     internal static class Helper
     {
+        /// <summary>
+        /// Indicates if the game is running on a mobile platform.
+        /// </summary>
+        public readonly static bool IsMobile = OperatingSystem.IsAndroid() || OperatingSystem.IsIOS();
+
+        /// <summary>
+        /// Indicates if the game is running on a desktop platform.
+        /// </summary>
+        public readonly static bool IsDesktop = OperatingSystem.IsMacOS() || OperatingSystem.IsLinux() || OperatingSystem.IsWindows();
+
+
         const string MyDocumentsDirectory = "Documents"; // Making this a constant in case we need to IFDEF this per platform later
 
         public static string GetMyDocumentsFolder ()

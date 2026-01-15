@@ -302,12 +302,16 @@ namespace VectorRumble
                 World.AudioManager.StopMusic();
             }
             else if ((otherScreenHasFocus == true) || (coveredByOtherScreen == true))
-            {
-                // make sure nobody's controller is vibrating
-                for (int i = 0; i < 4; i++)
+            {    
+                if (!Helper.IsMobile)
                 {
-                    GamePad.SetVibration((PlayerIndex)i, 0f, 0f);
+                    // make sure nobody's controller is vibrating
+                    for (int i = 0; i < 4; i++)
+                    {
+                        GamePad.SetVibration((PlayerIndex)i, 0f, 0f);
+                    }
                 }
+
                 if (gameOver == false)
                 {
                     for (int i = 0; i < World.Ships.Length; i++)
