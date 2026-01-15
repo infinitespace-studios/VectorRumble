@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-mgcb": {
-      "version": "3.8.4-preview.4",
+      "version": "3.8.4",
       "commands": [
         "mgcb"
       ],
@@ -38,7 +38,7 @@
       "rollForward": true
     },
     "monopack": {
-      "version": "2.0.1",
+      "version": "2.0.3",
       "commands": [
         "monopack"
       ],
