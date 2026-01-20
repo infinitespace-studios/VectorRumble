@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Desktop", "VectorRumble.Desktop\VectorRumble.Desktop.csproj", "{63A1D505-1512-4469-93D3-87FCAF4618EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop", "Desktop\VectorRumble.csproj", "{63A1D505-1512-4469-93D3-87FCAF4618EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Core", "VectorRumble.Core\VectorRumble.Core.csproj", "{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\VectorRumble.Core.csproj", "{06DC4CC0-0050-49DF-B926-AA8970CD8D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorRumble.Android", "VectorRumble.Android\VectorRumble.Android.csproj", "{F8FE474A-188C-4969-8370-0FC30ED1F2B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Android\VectorRumble.csproj", "{F8FE474A-188C-4969-8370-0FC30ED1F2B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
