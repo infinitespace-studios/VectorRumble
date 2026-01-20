@@ -24,7 +24,7 @@ jobs:
             rids: -r win-arm64
             artifact: publish-win-arm64
           - os: macos-latest
-            args: -rids osx-arm64,osx-x64 --macos-universal --self-contained
+            args: -rids osx-arm64,osx-x64 --macos-universal --publish-args "-p:PublishSingleFile=true"
             artifact: publish-osx-universal
             wineprefix: /Users/runner/.winemonogame
           - os: ubuntu-latest
