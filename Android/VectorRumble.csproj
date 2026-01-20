@@ -15,7 +15,7 @@
     </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VectorRumble.Core\VectorRumble.Core.csproj" />
+    <ProjectReference Include="..\Core\VectorRumble.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="$(MonoGameVersion)" />
