@@ -12,8 +12,8 @@
       </CharacterRegion>
     </CharacterRegions>
     <ResourceFiles>
-      <Resx>..\VectorRumble.Core\Strings.resx</Resx>
-      <Resx>..\VectorRumble.Core\Strings.ja.resx</Resx>
+      <Resx>..\Core\Strings.resx</Resx>
+      <Resx>..\Core\Strings.ja.resx</Resx>
     </ResourceFiles>
   </Asset>
 </XnaContent>

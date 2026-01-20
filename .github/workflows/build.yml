@@ -44,6 +44,13 @@ jobs:
       run: |
             dotnet tool install MonoPack
       shell: bash
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+    - name: Install .NET Android workload
+      run: dotnet workload install android
     - name: Restore dependencies
       run: dotnet restore
     - name: Restore tools
@@ -56,13 +63,13 @@ jobs:
     - name: Build
       run: |
         echo $DYLD_LIBRARY_PATH
-        dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
+        dotnet build Desktop/VectorRumble.csproj -c Release -v:diag -tl:off
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
-      run: dotnet monopack -e VectorRumble -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -p Desktop/VectorRumble.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
@@ -71,6 +78,46 @@ jobs:
       with:
         name: ${{ matrix.artifact }}
         path: ./${{ matrix.artifact }}/*.zip
+
+  build-android:
+    name: build-android-apk
+    runs-on: macos-latest
+
+    env:
+      MGFXC_WINE_PATH: /Users/runner/.winemonogame
+      DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Setup for MonoGame
+      uses: infinitespace-studios/monogame-actions/install-wine@v1.0
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+
+    - name: Install .NET Android workload
+      run: dotnet workload install android
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build Android APK
+      run: dotnet build Android/VectorRumble.csproj -c Release
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: publish-android-apk
+        path: Android/bin/Release/net9.0-android/*-Signed.apk
 
   publish:
     if: startsWith(github.ref, 'refs/tags/')
