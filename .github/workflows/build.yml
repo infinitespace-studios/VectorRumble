@@ -63,13 +63,13 @@ jobs:
     - name: Build
       run: |
         echo $DYLD_LIBRARY_PATH
-        dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release -v:diag -tl:off
+        dotnet build Desktop/VectorRumble.csproj -c Release -v:diag -tl:off
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
         DYLD_LIBRARY_PATH: /usr/lib:/usr/local/lib:/opt/homebrew/lib:/usr/local/bin:$DYLD_LIBRARY_PATH
     - name: Package
-      run: dotnet monopack -p VectorRumble.Desktop/VectorRumble.Desktop.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
+      run: dotnet monopack -p Desktop/VectorRumble.csproj -z -o ./${{ matrix.artifact }} ${{ matrix.args }} -i ./Info.plist -c ./VectorRumble.icns -v
       shell: bash
       env:
         MGFXC_WINE_PATH: ${{ matrix.wineprefix }}
@@ -111,13 +111,13 @@ jobs:
       run: dotnet restore
 
     - name: Build Android APK
-      run: dotnet build VectorRumble.Android/VectorRumble.Android.csproj -c Release
+      run: dotnet build Android/VectorRumble.csproj -c Release
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: publish-android-apk
-        path: VectorRumble.Android/bin/Release/net9.0-android/*-Signed.apk
+        path: Android/bin/Release/net9.0-android/*-Signed.apk
 
   publish:
     if: startsWith(github.ref, 'refs/tags/')
