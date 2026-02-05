@@ -119,7 +119,7 @@ namespace VectorRumble
         /// All ships that might enter the game.
         /// </summary>
         [ContentSerializer(SharedResource = true)]
-        public Ship[] Ships => ShipManager.Ships.ToArray();
+        public Ship[] Ships => ShipManager.Ships;
 
         public ShipManager ShipManager { get; set; }
         public ArenaManager ArenaManager { get; set; }
@@ -356,7 +356,7 @@ namespace VectorRumble
             {
                 powerUpTimer = Math.Max(powerUpTimer - elapsedTime, 0f);
             }
-            if (powerUpTimer <= 0.0f && Ships.Any(s => s.Playing))
+            if (powerUpTimer <= 0.0f && HasPlayingShips())
             {
                 SpawnPowerUp();
                 powerUpTimer = powerUpDelay;
@@ -693,6 +693,23 @@ namespace VectorRumble
                 }
             }
             return spawnPoint;
+        }
+
+        /// <summary>
+        /// Check if any ships are currently playing, without using LINQ for better performance.
+        /// </summary>
+        /// <returns>True if at least one ship is playing.</returns>
+        private bool HasPlayingShips()
+        {
+            Ship[] ships = Ships;
+            for (int i = 0; i < ships.Length; i++)
+            {
+                if (ships[i].Playing)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         #endregion
     }
