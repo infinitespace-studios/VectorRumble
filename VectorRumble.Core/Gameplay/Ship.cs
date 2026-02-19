@@ -143,7 +143,7 @@ namespace VectorRumble
         /// <summary>
         /// The speed at which the ship moves.
         /// </summary>
-        private float speed = 480f;
+        protected float speed = 480f;
 
         /// <summary>
         /// The strength of the shield.
@@ -163,12 +163,12 @@ namespace VectorRumble
         /// <summary>
         /// The ship's current weapon.
         /// </summary>
-        private Weapon weapon = null;
+        protected Weapon weapon = null;
 
         /// <summary>
         /// The ship's additional mine-laying weapon.
         /// </summary>
-        private MineWeapon mineWeapon = null;
+        protected MineWeapon mineWeapon = null;
 
         /// <summary>
         /// The current state of the Gamepad that is controlling this ship.
@@ -229,6 +229,11 @@ namespace VectorRumble
         /// Timer for how long the player has been spawned for, to fade in
         /// </summary>
         private float fadeInTimer = 0f;
+
+        /// <summary>
+        /// AI controller for this ship (only used when IsAI is true)
+        /// </summary>
+        private AIController aiController = null;
         #endregion
 
         #region Properties
@@ -269,6 +274,11 @@ namespace VectorRumble
         public string PlayerIndex { get; set; }
 
         public PlayerIndex PlayerStringToIndex { get { return StringToPlayerIndexMapper[PlayerIndex]; } }
+
+        /// <summary>
+        /// If true, this ship is controlled by AI
+        /// </summary>
+        public bool IsAI { get; set; }
 
         private Dictionary<string, PlayerIndex> StringToPlayerIndexMapper = new Dictionary<string, PlayerIndex> {
             { "One", Microsoft.Xna.Framework.PlayerIndex.One },
@@ -665,6 +675,13 @@ namespace VectorRumble
             // If this Ship doesn't have a PlayerIndex set, it is spare
             if (!string.IsNullOrEmpty(PlayerIndex))
             {
+                // Handle AI-controlled ships
+                if (IsAI)
+                {
+                    ProcessAIInput(elapsedTime, overlayPresent);
+                    return;
+                }
+
                 currentGamePadState = GamePad.GetState(PlayerStringToIndex);
                 currentKeyboardState = Keyboard.GetState();
 
@@ -871,6 +888,76 @@ namespace VectorRumble
                 lastGamePadState = currentGamePadState;
                 lastKeyboardState = currentKeyboardState;
                 return;
+            }
+        }
+
+        /// <summary>
+        /// Process AI input for this ship
+        /// </summary>
+        private void ProcessAIInput(float elapsedTime, bool overlayPresent)
+        {
+            // Initialize AI controller if needed
+            if (aiController == null && world != null)
+            {
+                aiController = new AIController(this, world);
+            }
+
+            if (overlayPresent || aiController == null)
+                return;
+
+            // Automatically join the game if not selected
+            if (!selected)
+            {
+                JoinGame();
+                return;
+            }
+
+            // AI ships don't leave the game
+            if (!playing || dead)
+                return;
+
+            // Get AI input
+            AIInput aiInput = aiController.GetInput(elapsedTime);
+
+            // Calculate current forward vector
+            Vector2 forward = new Vector2((float)Math.Sin(Rotation), -(float)Math.Cos(Rotation));
+            Vector2 right = new Vector2(-forward.Y, forward.X);
+
+            // Process movement
+            if (aiInput.MovementDirection.LengthSquared() > 0.01f)
+            {
+                Vector2 desiredDirection = Vector2.Normalize(aiInput.MovementDirection);
+
+                // Calculate angle difference
+                float angleDiff = (float)Math.Acos(MathHelper.Clamp(Vector2.Dot(desiredDirection, forward), -1f, 1f));
+                float facing = (Vector2.Dot(desiredDirection, right) > 0f) ? 1f : -1f;
+
+                // Rotate toward desired direction
+                if (angleDiff > 0f)
+                {
+                    Rotation += Math.Min(angleDiff, facing * elapsedTime * rotationRadiansPerSecond);
+                }
+
+                // Add velocity in the desired direction
+                Velocity += desiredDirection * (elapsedTime * speed);
+
+                if (Velocity.Length() > velocityLengthMaximum)
+                {
+                    Velocity = Vector2.Normalize(Velocity) * velocityLengthMaximum;
+                }
+            }
+
+            // Process firing
+            if (aiInput.FireDirection.LengthSquared() > 0.01f && weapon != null)
+            {
+                weapon.Fire(Vector2.Normalize(aiInput.FireDirection));
+            }
+
+            // Process mine dropping
+            if (aiInput.DropMine && mineWeapon != null)
+            {
+                Vector2 backward = new Vector2(-(float)Math.Sin(Rotation), (float)Math.Cos(Rotation));
+                mineWeapon.Fire(Vector2.Normalize(backward));
             }
         }
         #endregion
