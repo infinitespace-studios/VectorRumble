@@ -57,6 +57,11 @@ namespace VectorRumble
                 {
                     ChangePlayerShip(PlayerIndex.One);
                 }
+
+                if (input.IsNewButtonPress(Buttons.LeftShoulder))
+                {
+                    ToggleAI(PlayerIndex.One);
+                }
             }
 
             if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Two))
@@ -69,6 +74,11 @@ namespace VectorRumble
                 if (input.IsNewButtonPress(Buttons.RightShoulder))
                 {
                     ChangePlayerShip(PlayerIndex.Two);
+                }
+
+                if (input.IsNewButtonPress(Buttons.LeftShoulder))
+                {
+                    ToggleAI(PlayerIndex.Two);
                 }
             }
 
@@ -83,6 +93,11 @@ namespace VectorRumble
                 {
                     ChangePlayerShip(PlayerIndex.Three);
                 }
+
+                if (input.IsNewKeyPress(Keys.Q))
+                {
+                    ToggleAI(PlayerIndex.Three);
+                }
             }
 
             if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Four))
@@ -95,6 +110,11 @@ namespace VectorRumble
                 if (input.IsNewKeyPress(Keys.RightAlt))
                 {
                     ChangePlayerShip(PlayerIndex.Four);
+                }
+
+                if (input.IsNewKeyPress(Keys.Home))
+                {
+                    ToggleAI(PlayerIndex.Four);
                 }
             }
         }
@@ -126,6 +146,12 @@ namespace VectorRumble
                 if (spainShipIndex > spareShips.Length - 1)
                     spainShipIndex = 0;
             }
+        }
+
+        private void ToggleAI(PlayerIndex playerIndex)
+        {
+            var player = World.ShipManager.SelectedPlayers.First(p => p.PlayerStringToIndex == playerIndex);
+            player.IsAI = !player.IsAI;
         }
 
         /// <summary>
@@ -229,6 +255,14 @@ namespace VectorRumble
                             ScreenManager.SpriteBatch.DrawString(mediumFont, Strings.Mine, pos, Color.Yellow);
                             break;
                     }
+                    
+                    // Draw AI indicator if this ship is AI-controlled
+                    if (World.ShipManager.AvailableShips[i].IsAI)
+                    {
+                        Vector2 aiTextPos = new Vector2(rect.X + rect.Width / 2 - 20, rect.Y - 30);
+                        ScreenManager.SpriteBatch.DrawString(mediumFont, "AI", aiTextPos, Color.Cyan);
+                    }
+                    
                     ScreenManager.SpriteBatch.End();
                 }
             }
