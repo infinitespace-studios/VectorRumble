@@ -35,7 +35,7 @@ namespace VectorRumble
 			};
         static int currentAsteroidDensity = 2;
 
-        static string[] arenas => World.ArenaManager.Arenas.Select(a => a.Name).ToArray();
+        static string[] arenas;
         static int blurIntensity = 5;
         static bool controllersCanShootInAllDirections;
         static string currentArena = string.Empty;
@@ -65,6 +65,12 @@ namespace VectorRumble
         /// </summary>
         public OptionsMenuScreen()
         {
+            // Cache the arenas array on first initialization
+            if (arenas == null)
+            {
+                arenas = World.ArenaManager.Arenas.Select(a => a.Name).ToArray();
+            }
+
             blurIntensity = WorldRules.BlurIntensity;
             controllersCanShootInAllDirections = WorldRules.ControllersCanShootInAllDirections;
             currentArena = WorldRules.DefaultArena;

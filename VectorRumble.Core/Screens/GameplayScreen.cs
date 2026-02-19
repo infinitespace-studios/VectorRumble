@@ -164,7 +164,6 @@ namespace VectorRumble
 
             spriteBatch.Begin();
 
-            Ship[] ships = null;
             Vector2 size;
 
             foreach (var index in playerIndexes)
@@ -173,7 +172,7 @@ namespace VectorRumble
                 var caps = GamePad.GetState(index);
 
                 // Only Draw Join message if no one is playing yet.
-                if (!World.ShipManager.Players.Any())
+                if (World.ShipManager.Players.Length == 0)
                 {
                     switch (index)
                     {
@@ -195,16 +194,31 @@ namespace VectorRumble
                     }
                 }
 
-                if (World.ShipManager.SelectedPlayers.Any()) {
-                    ships = World.ShipManager.SelectedPlayers.Where(p => p.PlayerStringToIndex == index).ToArray();
+                Ship playerShip = null;
+                if (World.ShipManager.SelectedPlayers.Count > 0) {
+                    foreach (var ship in World.ShipManager.SelectedPlayers)
+                    {
+                        if (ship.PlayerStringToIndex == index)
+                        {
+                            playerShip = ship;
+                            break;
+                        }
+                    }
                 }
 
-                if (World.ShipManager.Players.Any()) {
-                    ships = World.ShipManager.Players.Where(p => p.PlayerStringToIndex == index).ToArray();
+                if (World.ShipManager.Players.Length > 0 && playerShip == null) {
+                    foreach (var ship in World.ShipManager.Players)
+                    {
+                        if (ship.PlayerStringToIndex == index)
+                        {
+                            playerShip = ship;
+                            break;
+                        }
+                    }
                 }
 
-                if (ships != null && ships.Length > 0) {
-                    message = string.Format(Strings.Score, ships[0].Name, ships[0].Score);
+                if (playerShip != null) {
+                    message = string.Format(Strings.Score, playerShip.Name, playerShip.Score);
                 }
 
                 size = spriteFont.MeasureString(message) * scale;

@@ -36,7 +36,7 @@ namespace VectorRumble
                 ExitScreen();
             }
 
-            if (input.MenuSelect && World.ShipManager.SelectedPlayers.Any())
+            if (input.MenuSelect && World.ShipManager.SelectedPlayers.Count > 0)
             {
                 var arenaSelection = new ArenaSelectionScreen
                 {

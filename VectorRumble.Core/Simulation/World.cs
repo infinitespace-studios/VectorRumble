@@ -119,7 +119,7 @@ namespace VectorRumble
         /// All ships that might enter the game.
         /// </summary>
         [ContentSerializer(SharedResource = true)]
-        public Ship[] Ships => ShipManager.Ships.ToArray();
+        public Ship[] Ships => ShipManager.Ships;
 
         public ShipManager ShipManager { get; set; }
         public ArenaManager ArenaManager { get; set; }
@@ -234,7 +234,8 @@ namespace VectorRumble
         {
             var ws = WorldRules.DefaultArena;
 			if (ws == Strings.Arena_Random) {
-                ws = ArenaManager.Arenas.ToArray()[random.Next(0, ArenaManager.Arenas.Length - 1)].Name;
+                var arenas = ArenaManager.Arenas;
+                ws = arenas[random.Next(0, arenas.Length - 1)].Name;
 			}
             selectedArena = ArenaManager.Arenas.First(a => a.Name == ws);
         }

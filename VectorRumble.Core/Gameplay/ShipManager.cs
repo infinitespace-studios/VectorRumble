@@ -14,15 +14,61 @@ namespace VectorRumble
         private Ship[] ships;
         public List<Ship> SelectedPlayers = new List<Ship>();
 
+        // Cached arrays for performance
+        private Ship[] cachedAvailableShips;
+        private Ship[] cachedPlayers;
+        private Ship[] cachedSpareShips;
+        private bool cachesDirty = true;
+
         public ShipManager(World world)
         {
             this.world = world;
         }
 
-        public Ship[] AvailableShips => Ships.Where(s => !string.IsNullOrEmpty(s.PlayerIndex)).OrderBy(p => p.PlayerStringToIndex).ToArray();
-        public Ship[] Players => Ships.Where(s => s.Playing).ToArray();
+        public Ship[] AvailableShips 
+        {
+            get 
+            {
+                if (cachesDirty)
+                    UpdateCaches();
+                return cachedAvailableShips;
+            }
+        }
+
+        public Ship[] Players 
+        {
+            get 
+            {
+                if (cachesDirty)
+                    UpdateCaches();
+                return cachedPlayers;
+            }
+        }
+
         public Ship[] Ships { get { return ships; } }
-        public Ship[] SpareShips => Ships.Where(s => string.IsNullOrEmpty(s.PlayerIndex)).ToArray();
+        
+        public Ship[] SpareShips 
+        {
+            get 
+            {
+                if (cachesDirty)
+                    UpdateCaches();
+                return cachedSpareShips;
+            }
+        }
+
+        private void UpdateCaches()
+        {
+            cachedAvailableShips = Ships.Where(s => !string.IsNullOrEmpty(s.PlayerIndex)).OrderBy(p => p.PlayerStringToIndex).ToArray();
+            cachedPlayers = Ships.Where(s => s.Playing).ToArray();
+            cachedSpareShips = Ships.Where(s => string.IsNullOrEmpty(s.PlayerIndex)).ToArray();
+            cachesDirty = false;
+        }
+
+        public void InvalidateCaches()
+        {
+            cachesDirty = true;
+        }
 
         internal void LoadContent(ContentManager content)
         {
@@ -47,6 +93,7 @@ namespace VectorRumble
                     ships[i] = ship;
                 }
             }
+            InvalidateCaches();
         }
 
         public void UpdateSelectedList()
@@ -59,6 +106,7 @@ namespace VectorRumble
                     SelectedPlayers.Add(ship);
                 }
             }
+            InvalidateCaches();
         }
     }
 }
