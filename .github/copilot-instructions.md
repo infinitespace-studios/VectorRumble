@@ -54,7 +54,7 @@ dotnet build VectorRumble.Desktop/VectorRumble.Desktop.csproj -c Release    # Ta
 **Content File Locations**:
 - `Content/Effects/*.xnb` - Pre-built shader effects (Bloom, GaussianBlur)
 - `Content/bin/DesktopGL/Content/` - Pre-built game assets (fonts, textures, audio)
-- When building manually, copy these to `bin/Release/net9.0/Content/` if needed
+- When building manually, copy these to `bin/Release/net10.0/Content/` if needed
 
 ### Running the Game
 ```bash
