@@ -11,9 +11,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if __IOS__ || __ANDROID__
-using Microsoft.Xna.Framework.Input.Touch;
-#endif
 #endregion
 
 namespace VectorRumble
@@ -99,17 +96,13 @@ namespace VectorRumble
                 ExitScreen();
             }
 
-#if __IOS__ || __ANDROID__
-			foreach (var g in input.Gestures)
-			{
-				if (g.GestureType == GestureType.Tap)
-				{
-					if (Accepted != null)
-                       Accepted(this, EventArgs.Empty);
-					ExitScreen();
-				}
-			}
-#endif			
+            // A touch or click accepts the message box
+            if (input.PointerPressed)
+            {
+                if (Accepted != null)
+                    Accepted(this, EventArgs.Empty);
+                ExitScreen();
+            }
         }
 
 

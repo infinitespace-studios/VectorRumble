@@ -10,10 +10,8 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-#if __IOS__ || __ANDROID__
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
-#endif
 #endregion
 
 namespace VectorRumble
@@ -37,10 +35,24 @@ namespace VectorRumble
         public readonly KeyboardState[] LastKeyboardStates;
         public readonly GamePadState[] LastGamePadStates;
 
-#if __IOS__ || __ANDROID__
-		public TouchCollection CurrentTouchState;
-		public List<GestureSample> Gestures = new List<GestureSample>();
-#endif
+        /// <summary>What triggers each <see cref="GameAction"/>.</summary>
+        public readonly ActionBindings Bindings = new ActionBindings();
+
+        private MouseState currentMouseState;
+
+        /// <summary>
+        /// Where the touch or mouse pointer is. Touch wins while a finger is down.
+        /// </summary>
+        public Vector2 PointerPosition { get; private set; }
+
+        /// <summary>Is a finger or the left mouse button down?</summary>
+        public bool PointerDown { get; private set; }
+
+        /// <summary>Did a finger or the left mouse button go down during this update?</summary>
+        public bool PointerPressed { get; private set; }
+
+        /// <summary>Did a finger or the left mouse button come up during this update?</summary>
+        public bool PointerReleased { get; private set; }
 
         #endregion
 
@@ -57,9 +69,11 @@ namespace VectorRumble
 
             LastKeyboardStates = new KeyboardState[MaxInputs];
             LastGamePadStates = new GamePadState[MaxInputs];
-#if __IOS__ || __ANDROID__
-			
-#endif			
+
+            if (Helper.IsMobile)
+            {
+                TouchPanel.EnabledGestures = GestureType.Tap;
+            }
         }
 
 
@@ -68,80 +82,20 @@ namespace VectorRumble
         #region Properties
 
 
-        /// <summary>
-        /// Checks for a "menu up" input action, from any player,
-        /// on either keyboard or gamepad.
-        /// </summary>
-        public bool MenuUp
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Up) ||
-                       IsNewButtonPress(Buttons.DPadUp) ||
-                       IsNewButtonPress(Buttons.LeftThumbstickUp);
-            }
-        }
+        /// <summary>Checks for a "menu up" input action, from any player.</summary>
+        public bool MenuUp => IsPressed(GameAction.Up);
 
+        /// <summary>Checks for a "menu down" input action, from any player.</summary>
+        public bool MenuDown => IsPressed(GameAction.Down);
 
-        /// <summary>
-        /// Checks for a "menu down" input action, from any player,
-        /// on either keyboard or gamepad.
-        /// </summary>
-        public bool MenuDown
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Down) ||
-                       IsNewButtonPress(Buttons.DPadDown) ||
-                       IsNewButtonPress(Buttons.LeftThumbstickDown);
-            }
-        }
+        /// <summary>Checks for a "menu select" input action, from any player.</summary>
+        public bool MenuSelect => IsPressed(GameAction.Select);
 
+        /// <summary>Checks for a "menu cancel" input action, from any player.</summary>
+        public bool MenuCancel => IsPressed(GameAction.Cancel);
 
-        /// <summary>
-        /// Checks for a "menu select" input action, from any player,
-        /// on either keyboard or gamepad.
-        /// </summary>
-        public bool MenuSelect
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Space) ||
-                       IsNewKeyPress(Keys.Enter) ||
-                       IsNewButtonPress(Buttons.A) ||
-                       IsNewButtonPress(Buttons.Start);
-            }
-        }
-
-
-        /// <summary>
-        /// Checks for a "menu cancel" input action, from any player,
-        /// on either keyboard or gamepad.
-        /// </summary>
-        public bool MenuCancel
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Escape) ||
-                       IsNewButtonPress(Buttons.B) ||
-                       IsNewButtonPress(Buttons.Back);
-            }
-        }
-
-
-        /// <summary>
-        /// Checks for a "pause the game" input action, from any player,
-        /// on either keyboard or gamepad.
-        /// </summary>
-        public bool PauseGame
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Escape) ||
-                       IsNewButtonPress(Buttons.Back) ||
-                       IsNewButtonPress(Buttons.Start);
-            }
-        }
+        /// <summary>Checks for a "pause the game" input action, from any player.</summary>
+        public bool PauseGame => IsPressed(GameAction.Pause);
 
 
         #endregion
@@ -163,14 +117,7 @@ namespace VectorRumble
                 CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
             }
 
-#if __IOS__ || __ANDROID__
-            CurrentTouchState = TouchPanel.GetState();
-			Gestures.Clear();
-			while(TouchPanel.IsGestureAvailable)
-			{
-				Gestures.Add(TouchPanel.ReadGesture());
-			}
-#endif			
+            UpdatePointer();
         }
 
 
@@ -229,25 +176,58 @@ namespace VectorRumble
 
 
         /// <summary>
-        /// Checks for a "menu select" input action from the specified player.
+        /// Checks whether any key or button bound to the action was newly pressed
+        /// during this update, by any player.
         /// </summary>
-        public bool IsMenuSelect(PlayerIndex playerIndex)
+        public bool IsPressed(GameAction action)
         {
-            return IsNewKeyPress(Keys.Space, playerIndex) ||
-                   IsNewKeyPress(Keys.Enter, playerIndex) ||
-                   IsNewButtonPress(Buttons.A, playerIndex) ||
-                   IsNewButtonPress(Buttons.Start, playerIndex);
+            var binding = Bindings[action];
+            foreach (var key in binding.Keys)
+            {
+                if (IsNewKeyPress(key))
+                    return true;
+            }
+            foreach (var button in binding.Buttons)
+            {
+                if (IsNewButtonPress(button))
+                    return true;
+            }
+            return false;
         }
 
 
         /// <summary>
-        /// Checks for a "menu cancel" input action from the specified player.
+        /// Folds touch and mouse into the one pointer the menus read.
         /// </summary>
-        public bool IsMenuCancel(PlayerIndex playerIndex)
+        private void UpdatePointer()
         {
-            return IsNewKeyPress(Keys.Escape, playerIndex) ||
-                   IsNewButtonPress(Buttons.B, playerIndex) ||
-                   IsNewButtonPress(Buttons.Back, playerIndex);
+            currentMouseState = Mouse.GetState();
+
+            bool wasDown = PointerDown;
+            bool down = false;
+            Vector2 position = PointerPosition;
+
+            if (Helper.IsMobile)
+            {
+                foreach (TouchLocation touch in TouchPanel.GetState())
+                {
+                    if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
+                    {
+                        down = true;
+                        position = touch.Position;
+                    }
+                }
+            }
+            else
+            {
+                down = currentMouseState.LeftButton == ButtonState.Pressed;
+                position = new Vector2(currentMouseState.X, currentMouseState.Y);
+            }
+
+            PointerDown = down;
+            PointerPressed = down && !wasDown;
+            PointerReleased = !down && wasDown;
+            PointerPosition = position;
         }
 
 

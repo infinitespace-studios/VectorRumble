@@ -12,9 +12,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if __IOS__ || __ANDROID__
-using Microsoft.Xna.Framework.Input.Touch;
-#endif
 #endregion
 
 namespace VectorRumble
@@ -86,38 +83,28 @@ namespace VectorRumble
         /// </summary>
         public override void HandleInput(InputState input)
         {
-#if __IOS__ || __ANDROID__
-			var touch = input.CurrentTouchState;
-			if (touch.Count > 0)
-			{
-				Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-	            Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
-	
-	            Vector2 position = new Vector2(0f, viewportSize.Y * 0.55f);
-				foreach(var t in touch)
-				{
-					// we have a touch event
-					if (t.State == Microsoft.Xna.Framework.Input.Touch.TouchLocationState.Pressed)
-					{
-						var pos = t.Position;
-						for (int i = 0; i < menuEntries.Count; i++)            			
-						{
-							// Draw text, centered on the middle of each line.
-			                Vector2 size = ScreenManager.Font.MeasureString(menuEntries[i].Text);	
-							position.X = viewportSize.X / 2f - size.X / 2f;
-							var rect = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
-							if (rect.Contains(pos))
-							{
-								selectedEntry = i;
-								OnSelectEntry(selectedEntry);
-								break;
-							}
-			                position.Y += ScreenManager.Font.LineSpacing;
-						}
-					}					
-                 }				 
-			}					
-#endif
+            // Touch or click on an entry selects it
+            if (input.PointerPressed)
+            {
+                Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+                Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
+
+                Vector2 position = new Vector2(0f, viewportSize.Y * 0.55f);
+                for (int i = 0; i < menuEntries.Count; i++)
+                {
+                    // Entries are centered on the middle of each line.
+                    Vector2 size = ScreenManager.Font.MeasureString(menuEntries[i].Text);
+                    position.X = viewportSize.X / 2f - size.X / 2f;
+                    var rect = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                    if (rect.Contains(input.PointerPosition))
+                    {
+                        selectedEntry = i;
+                        OnSelectEntry(selectedEntry);
+                        break;
+                    }
+                    position.Y += ScreenManager.Font.LineSpacing;
+                }
+            }
             // Move to the previous menu entry?
             if (input.MenuUp)
             {

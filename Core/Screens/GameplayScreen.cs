@@ -32,9 +32,6 @@ namespace VectorRumble
         protected Texture2D player3Controls;
         protected Texture2D player4Controls;
         protected Texture2D gamepadControls;
-#if __IOS__ || __ANDROID__
-        Texture2D gamePadTexture;
-#endif
         Texture2D starTexture;
 
         private const float lineBreakWidth = 210f;
@@ -74,23 +71,6 @@ namespace VectorRumble
                 ScreenManager.GraphicsDevice.Viewport.Width,
                 ScreenManager.GraphicsDevice.Viewport.Height, 0.0f, 0.0f, 1.0f));
 
-#if __IOS__ || __ANDROID__
-            gamePadTexture = content.Load<Texture2D>("Textures/gamepad");
-            
-            ThumbStickDefinition thumbStickLeft = new ThumbStickDefinition();
-            thumbStickLeft.Position = new Vector2(10,400);
-            thumbStickLeft.Texture = gamePadTexture;
-            thumbStickLeft.TextureRect = new Rectangle(2,2,68,68);
-            
-            GamePad.LeftThumbStickDefinition = thumbStickLeft;
-            
-            ThumbStickDefinition thumbStickRight = new ThumbStickDefinition();
-            thumbStickRight.Position = new Vector2(240,400);
-            thumbStickRight.Texture = gamePadTexture;
-            thumbStickRight.TextureRect = new Rectangle(2,2,68,68);
-            
-            GamePad.RightThumbStickDefinition = thumbStickRight;
-#endif
         }
 
 
@@ -137,9 +117,6 @@ namespace VectorRumble
 
             DrawHud(elapsedTime);
 
-#if __IOS__ || __ANDROID__
-            GamePad.Draw(gameTime, spriteBatch);
-#endif
             // draw the stars
             spriteBatch.Begin();
             World.Starfield.Draw(spriteBatch, starTexture);

@@ -11,18 +11,12 @@
 using System;
 using System.Collections.Generic;
 
-#if __ANDROID__
-using Android.App;
-#endif
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-#if __IOS__ || __ANDROID__ // iPad or Tablets only
 using Microsoft.Xna.Framework.Input.Touch;
-#endif
 #endregion
 
 namespace VectorRumble
@@ -46,17 +40,23 @@ namespace VectorRumble
 
 #if USE_DEFAULT_DEVICE_SETTINGS
             // Use default device settings defined by platform.
-#elif  __IOS__ || __ANDROID__ // iPad or Tablets only
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 480;
-			graphics.IsFullScreen = true;
-			graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-			TouchPanel.EnabledGestures = GestureType.Tap;
 #else
-			graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
-			graphics.HardwareModeSwitch = false;
-			graphics.IsFullScreen = false;
+            if (Helper.IsMobile) // iPad or Tablets only
+            {
+                graphics.PreferredBackBufferWidth = 800;
+                graphics.PreferredBackBufferHeight = 480;
+                graphics.IsFullScreen = true;
+                graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+                TouchPanel.EnabledGestures = GestureType.Tap;
+            }
+            else
+            {
+                graphics.PreferredBackBufferWidth = 1280;
+                graphics.PreferredBackBufferHeight = 720;
+                graphics.HardwareModeSwitch = false;
+                graphics.IsFullScreen = false;
+                IsMouseVisible = true;
+            }
 #endif
 			graphics.SynchronizeWithVerticalRetrace = true;
             Window.AllowUserResizing = false;
