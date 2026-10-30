@@ -114,7 +114,7 @@ namespace VectorRumble
                 LastGamePadStates[i] = CurrentGamePadStates[i];
 
                 CurrentKeyboardStates[i] = Keyboard.GetState();
-                CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
+                CurrentGamePadStates[i] = VirtualGamePad.Apply((PlayerIndex)i, GamePad.GetState((PlayerIndex)i));
             }
 
             UpdatePointer();

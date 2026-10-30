@@ -33,6 +33,7 @@ namespace VectorRumble
         protected Texture2D player4Controls;
         protected Texture2D gamepadControls;
         Texture2D starTexture;
+        protected VirtualGamePad virtualGamePad;
 
         private const float lineBreakWidth = 210f;
         #endregion
@@ -71,6 +72,12 @@ namespace VectorRumble
                 ScreenManager.GraphicsDevice.Viewport.Width,
                 ScreenManager.GraphicsDevice.Viewport.Height, 0.0f, 0.0f, 1.0f));
 
+            if (Helper.IsMobile)
+            {
+                virtualGamePad = new VirtualGamePad(content.Load<Texture2D>("Textures/gamepad"),
+                    ScreenManager.GraphicsDevice.Viewport);
+                VirtualGamePad.Instance = virtualGamePad;
+            }
         }
 
 
@@ -91,9 +98,31 @@ namespace VectorRumble
                 lineBatch = null;
             }
 
+            if (virtualGamePad != null)
+            {
+                // A later screen's pad may already have taken over
+                if (VirtualGamePad.Instance == virtualGamePad)
+                    VirtualGamePad.Instance = null;
+                virtualGamePad = null;
+            }
+
             content.Unload();
         }
         #endregion
+
+        /// <summary>
+        /// Reads the touch controls while this screen has focus, and lets go of them otherwise.
+        /// </summary>
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
+                                                       bool coveredByOtherScreen)
+        {
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            if (otherScreenHasFocus || coveredByOtherScreen)
+                virtualGamePad?.Reset();
+            else
+                virtualGamePad?.Update();
+        }
 
         /// <summary>
         /// Draws the gameplay screen.
@@ -120,6 +149,7 @@ namespace VectorRumble
             // draw the stars
             spriteBatch.Begin();
             World.Starfield.Draw(spriteBatch, starTexture);
+            virtualGamePad?.Draw(spriteBatch);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
@@ -155,7 +185,7 @@ namespace VectorRumble
                     switch (index)
                     {
                         case PlayerIndex.One:
-                            message = WrapText(caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad, lineBreakWidth);
+                            message = WrapText(caps.IsConnected || Helper.IsMobile ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad, lineBreakWidth);
                             break;
                         case PlayerIndex.Two:
                             message = WrapText(caps.IsConnected ? Strings.Hold_A_To_Join : Strings.Connect_Gamepad, lineBreakWidth);

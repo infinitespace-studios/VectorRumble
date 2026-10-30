@@ -671,7 +671,7 @@ namespace VectorRumble
             // If this Ship doesn't have a PlayerIndex set, it is spare
             if (!string.IsNullOrEmpty(PlayerIndex))
             {
-                currentGamePadState = GamePad.GetState(PlayerStringToIndex);
+                currentGamePadState = VirtualGamePad.Apply(PlayerStringToIndex, GamePad.GetState(PlayerStringToIndex));
                 currentKeyboardState = Keyboard.GetState();
 
                 if (!overlayPresent)
