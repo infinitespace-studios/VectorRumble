@@ -16,6 +16,20 @@ using Microsoft.Xna.Framework.Graphics;
 namespace VectorRumble
 {
     /// <summary>
+    /// Which way the player stepped a menu entry's value.
+    /// </summary>
+    class AdjustEventArgs : EventArgs
+    {
+        /// <summary>-1 for the previous value, 1 for the next.</summary>
+        public int Direction { get; }
+
+        public AdjustEventArgs(int direction)
+        {
+            Direction = direction;
+        }
+    }
+
+    /// <summary>
     /// Helper class represents a single entry in a MenuScreen. By default this
     /// just draws the entry text string, but it can be customized to display menu
     /// entries in different ways. This also provides an event that will be raised
@@ -72,6 +86,23 @@ namespace VectorRumble
         {
             if (Selected != null)
                 Selected(this, EventArgs.Empty);
+        }
+
+
+        /// <summary>
+        /// Event raised when the player steps the entry's value with left or right:
+        /// -1 for the previous value, 1 for the next.
+        /// </summary>
+        public event EventHandler<AdjustEventArgs> Adjusted;
+
+
+        /// <summary>
+        /// Method for raising the Adjusted event.
+        /// </summary>
+        protected internal virtual void OnAdjustEntry(int direction)
+        {
+            if (Adjusted != null)
+                Adjusted(this, new AdjustEventArgs(direction));
         }
 
 

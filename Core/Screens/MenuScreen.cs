@@ -25,6 +25,11 @@ namespace VectorRumble
     {
         #region Fields
 
+        /// <summary>
+        /// Where the first entry is, as a fraction of the screen's height.
+        /// </summary>
+        public const float MenuTop = 0.45f;
+
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         int selectedEntry = 0;
         AudioManager audioManager;
@@ -32,6 +37,16 @@ namespace VectorRumble
         #endregion
 
         #region Properties
+
+
+        /// <summary>
+        /// The entry the player is on.
+        /// </summary>
+        protected int SelectedEntry
+        {
+            get { return selectedEntry; }
+            set { selectedEntry = Math.Max(0, Math.Min(value, menuEntries.Count - 1)); }
+        }
 
 
         /// <summary>
@@ -86,10 +101,10 @@ namespace VectorRumble
             // Touch or click on an entry selects it
             if (input.PointerPressed)
             {
-                Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+                Viewport viewport = Display.Viewport;
                 Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
-                Vector2 position = new Vector2(0f, viewportSize.Y * 0.55f);
+                Vector2 position = new Vector2(0f, viewportSize.Y * MenuTop);
                 for (int i = 0; i < menuEntries.Count; i++)
                 {
                     // Entries are centered on the middle of each line.
@@ -127,6 +142,16 @@ namespace VectorRumble
                 audioManager.PlayCue("menuMove");
             }
 			
+            // Step the selected entry's value?
+            if (input.SelectPrevious)
+            {
+                menuEntries[selectedEntry].OnAdjustEntry(-1);
+            }
+            else if (input.SelectNext)
+            {
+                menuEntries[selectedEntry].OnAdjustEntry(1);
+            }
+
             // Accept or cancel the menu?
             if (input.MenuSelect)
             {
@@ -197,10 +222,10 @@ namespace VectorRumble
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
-            Vector2 position = new Vector2(0f, viewportSize.Y * 0.45f);
+            Vector2 position = new Vector2(0f, viewportSize.Y * MenuTop);
 
             // Make the menu slide into place during transitions, using a
             // power curve to make things look more interesting (this makes

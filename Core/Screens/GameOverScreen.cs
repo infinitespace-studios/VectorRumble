@@ -26,6 +26,7 @@ namespace VectorRumble
 
         Texture2D titleTexture;
         string message;
+        bool allowPlayAgain;
 
 
         #endregion
@@ -37,9 +38,11 @@ namespace VectorRumble
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public GameOverScreen(string message)
+        /// <param name="allowPlayAgain">False in a network game, which cannot be restarted from here</param>
+        public GameOverScreen(string message, bool allowPlayAgain = true)
         {
             this.message = message;
+            this.allowPlayAgain = allowPlayAgain;
 
 			MenuEntry playAgainMenuEntry = new MenuEntry(Strings.Play_Again);
 			MenuEntry returnToMenuMenuEntry = new MenuEntry(Strings.Return_to_Menu);
@@ -47,7 +50,10 @@ namespace VectorRumble
             playAgainMenuEntry.Selected += PlayAgainMenuEntrySelected;
             returnToMenuMenuEntry.Selected += ReturnToMenuMenuEntrySelected;
 
-            MenuEntries.Add(playAgainMenuEntry);
+            if (allowPlayAgain)
+            {
+                MenuEntries.Add(playAgainMenuEntry);
+            }
             MenuEntries.Add(returnToMenuMenuEntry);
 
             TransitionOnTime = TimeSpan.FromSeconds(1.0);
@@ -133,7 +139,7 @@ namespace VectorRumble
             // Darken down any other screens that were drawn beneath the popup.
             ScreenManager.FadeBackBufferToBlack(TransitionAlpha * 2 / 3);
 
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
             // calculate the texture position

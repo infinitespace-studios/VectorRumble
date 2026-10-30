@@ -40,6 +40,24 @@ namespace VectorRumble
         Texture2D titleTexture;
 
         public bool ShowParticles { get; set; }
+
+        /// <summary>
+        /// Whether the game's logo is drawn. The menus for starting a game turn it off, with the
+        /// fireworks, so that they do not distract.
+        /// </summary>
+        public bool ShowTitle { get; set; } = true;
+
+        /// <summary>
+        /// Shows or hides the logo and the fireworks together.
+        /// </summary>
+        public bool Quiet
+        {
+            set
+            {
+                ShowParticles = !value;
+                ShowTitle = !value;
+            }
+        }
         #endregion
 
         #region Initialization
@@ -72,8 +90,8 @@ namespace VectorRumble
             lineBatch = new LineBatch(ScreenManager.GraphicsDevice);
             titleTexture = ScreenManager.Game.Content.Load<Texture2D>("Textures/title");
 
-            int viewportWidth = ScreenManager.GraphicsDevice.Viewport.Width;
-            int viewportHeight = ScreenManager.GraphicsDevice.Viewport.Height;
+            int viewportWidth = Display.Viewport.Width;
+            int viewportHeight = Display.Viewport.Height;
 
             // update the projection in the line-batch
             lineBatch.SetProjection(Matrix.CreateOrthographicOffCenter(0.0f,
@@ -115,8 +133,8 @@ namespace VectorRumble
                 {
                     addTimer -= 0.15f;
                     particleSystems.Add(new ParticleSystem(
-                       new Vector2(random.Next(ScreenManager.GraphicsDevice.Viewport.Width),
-                           random.Next(ScreenManager.GraphicsDevice.Viewport.Height)),
+                       new Vector2(random.Next(Display.Viewport.Width),
+                           random.Next(Display.Viewport.Height)),
                        Vector2.Zero, 64, 256, 128,
                        1f + 2f * (float)random.NextDouble(), 0.05f, explosionColors));
                 }
@@ -140,7 +158,7 @@ namespace VectorRumble
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
             if (ShowParticles)
@@ -156,6 +174,11 @@ namespace VectorRumble
                 lineBatch.End();
 
                 ScreenManager.BloomComponent.Draw(gameTime);
+            }
+
+            if (!ShowTitle)
+            {
+                return;
             }
 
             // title

@@ -126,7 +126,7 @@ namespace VectorRumble
             {
 				var message = Strings.Loading;
                 // Center the text in the viewport.
-                Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+                Viewport viewport = Display.Viewport;
                 Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 				Vector2 textSize = ScreenManager.Font.MeasureString(message);
                 Vector2 textPosition = (viewportSize - textSize) / 2;

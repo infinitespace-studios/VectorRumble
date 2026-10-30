@@ -149,4 +149,73 @@ B/O 按钮, Esc = 取消</value>
     <data name="Credits" xml:space="preserve">
         <value>制作人员</value>
     </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>局域网游戏</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>本地游戏</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>返回</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>创建游戏</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>加入 {0} 的游戏</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>正在搜索游戏...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>未找到游戏。请创建一个或稍等。</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>正在开始游戏...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>正在加入 {0}...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>无法连接 : {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>玩家</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>飞船 : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>更换颜色</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>准备 : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>开始游戏</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>离开</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>正在等待玩家。所有人都必须准备好。</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>正在等待主机开始游戏。</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}，小行星 : {1}，率先达到 {2} 分者获胜</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>主机已结束游戏。</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>该游戏已经开始。</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>你不在这场游戏中。</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>网络游戏已结束。</value>
+    </data>
 </root>

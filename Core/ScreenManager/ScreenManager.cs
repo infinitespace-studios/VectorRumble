@@ -34,7 +34,13 @@ namespace VectorRumble
 
         InputState input = new InputState();
 
+        /// <summary>
+        /// What the player's devices did this update.
+        /// </summary>
+        public InputState Input => input;
+
         SpriteBatch spriteBatch;
+        RenderTarget2D gameTarget;
         SpriteFont font;
         Texture2D blankTexture;
 
@@ -121,6 +127,12 @@ namespace VectorRumble
             ContentManager content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // The game is drawn at a fixed size into this, then scaled to the screen (see Display).
+            // Drawing switches away to the bloom's targets and back, so it has to keep what it holds.
+            gameTarget = new RenderTarget2D(GraphicsDevice, Display.BaseWidth, Display.BaseHeight, false,
+                SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+
             font = content.LoadLocalized<SpriteFont>("Fonts/retroLarge");
             blankTexture = content.Load<Texture2D>("Textures/blank");
 
@@ -137,6 +149,9 @@ namespace VectorRumble
         /// </summary>
         protected override void UnloadContent()
         {
+            gameTarget?.Dispose();
+            gameTarget = null;
+
             // Tell each of the screens to unload their content.
             foreach (GameScreen screen in screens)
             {
@@ -155,6 +170,10 @@ namespace VectorRumble
         /// </summary>
         public override void Update(GameTime gameTime)
         {
+            // Fit the picture to the screen as it is now (it changes with a turn or a full screen).
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            Display.Update(pp.BackBufferWidth, pp.BackBufferHeight);
+
             // Read the keyboard and gamepad.
             input.Update();
 
@@ -223,6 +242,11 @@ namespace VectorRumble
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            // draw the game at its own size...
+            GraphicsDevice.SetRenderTarget(gameTarget);
+            GraphicsDevice.Clear(Color.Black);
+            BloomComponent.OutputTarget = gameTarget;
+
             foreach (GameScreen screen in screens)
             {
                 if (screen.ScreenState == ScreenState.Hidden)
@@ -230,6 +254,14 @@ namespace VectorRumble
 
 				screen.Draw(gameTime);
             }
+
+            // ...then scale it to fit the screen, with black bars where it does not reach
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Black);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearClamp, null, null);
+            spriteBatch.Draw(gameTarget, Display.Destination, Color.White);
+            spriteBatch.End();
         }
 
 
@@ -302,7 +334,7 @@ namespace VectorRumble
         /// </summary>
         public void FadeBackBufferToBlack(int alpha)
         {
-            Viewport viewport = GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
 
             spriteBatch.Begin();
 

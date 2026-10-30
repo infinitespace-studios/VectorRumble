@@ -117,7 +117,7 @@ Botón B/O, Tecla Esc = Cancelar</value>
         <value>Pulsa fletcha arriba para cambiar de color. Dispara para cambiar de nave.</value>
     </data>
     <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
-        <value>Los mandos pueden disparar en todas las direcciones: {0}</value>
+        <value>Disparar en todas las direcciones: {0}</value>
     </data>
     <data name="About" xml:space="preserve">
         <value>Acerca de</value>
@@ -145,5 +145,74 @@ Botón B/O, Tecla Esc = Cancelar</value>
     </data>
     <data name="No_Input_Device_Connected" xml:space="preserve">
         <value>"No hay conectado ningún dispositivo de entrada. Conecte un Teclado o un Mando para Jugar.</value>
+    </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>Partida LAN</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>Partida Local</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Atrás</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>Crear una partida</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>Unirse a la partida de {0}</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>Buscando partidas...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>No se encontraron partidas. Crea una o espera.</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>Iniciando la partida...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>Uniéndose a {0}...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>No se pudo conectar: {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>Jugadores</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>Nave : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>Cambiar Color</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>Listo : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>Iniciar Partida</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>Abandonar</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>Esperando jugadores. Todos deben estar listos.</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>Esperando a que el anfitrión inicie la partida.</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}, asteroides: {1}, primero en llegar a {2}</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>El anfitrión ha terminado la partida.</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>Esa partida ya ha comenzado.</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>No formabas parte de la partida.</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>La partida en red ha terminado.</value>
     </data>
 </root>

@@ -15,6 +15,12 @@ namespace VectorRumble
         private Ship[] ships;
         public List<Ship> SelectedPlayers = new List<Ship>();
 
+        /// <summary>
+        /// How many of the ships come with the game (the rest are the player's own). Only these are the
+        /// same on every machine, so only these can be chosen in a network match.
+        /// </summary>
+        public int BuiltInCount { get; private set; }
+
         public ShipManager(World world)
         {
             this.world = world;
@@ -38,6 +44,8 @@ namespace VectorRumble
                     ships[i] = ship;
                 }
             }
+
+            BuiltInCount = ships.Length;
 
             // Once our app is signed, we can't change it, so let's look in the Special "MyDocuments" folder for user created data
             shipFiles = Helper.GetFilesFromFolders(new string[] { Helper.GetMyDocumentsFolder(), Helper.GetAssemblyTitle(), shipDirectory }, "*.xml");

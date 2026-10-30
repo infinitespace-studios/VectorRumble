@@ -9,6 +9,10 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="$(MonoGameVersion)">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MonoGame.Xna.Framework.Net" Version="1.0.0-preview.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="VectorRumble.Tests" />
   </ItemGroup>
    <ItemGroup>
     <EmbeddedResource Update="Strings.resx">

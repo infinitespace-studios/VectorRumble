@@ -75,19 +75,22 @@ namespace VectorRumble
             leftId = rightId = aId = bId = xId = startId = -1;
         }
 
-        /// <summary>Tracks the fingers down on the controls. Call once a frame, before the ships read it.</summary>
-        public void Update()
+        /// <summary>
+        /// Tracks the fingers down on the controls. Call once a frame, before the ships read it, with the
+        /// touches the input state read for the frame.
+        /// </summary>
+        public void Update(TouchCollection touches)
         {
-            foreach (TouchLocation touch in TouchPanel.GetState())
+            foreach (TouchLocation touch in touches)
             {
                 switch (touch.State)
                 {
                     case TouchLocationState.Pressed:
-                        Press(touch.Id, touch.Position);
+                        Press(touch.Id, Display.ToVirtual(touch.Position));
                         break;
                     case TouchLocationState.Moved:
-                        if (touch.Id == leftId) leftPosition = touch.Position;
-                        if (touch.Id == rightId) rightPosition = touch.Position;
+                        if (touch.Id == leftId) leftPosition = Display.ToVirtual(touch.Position);
+                        if (touch.Id == rightId) rightPosition = Display.ToVirtual(touch.Position);
                         break;
                     case TouchLocationState.Released:
                     case TouchLocationState.Invalid:

@@ -36,22 +36,14 @@ namespace VectorRumble
         #endregion
 
         #region Interaction
-        /// <summary>
-        /// Defines the interaction between this power-up and a target actor
-        /// when they touch.
-        /// </summary>
-        /// <param name="target">The actor that is touching this object.</param>
-        /// <returns>True if the objects meaningfully interacted.</returns>
-        public override bool Touch(Actor target)
-        {
-            // if we hit a ship, give it the weapon
-            Ship ship = target as Ship;
-            if (ship != null)
-            {
-                ship.SetWeapon(new DoubleLaserWeapon(ship));
-            }
+        public override PowerUpKind Kind => PowerUpKind.DoubleLaser;
 
-            return base.Touch(target);
+        /// <summary>
+        /// The weapon this power-up gives to a ship.
+        /// </summary>
+        protected override Weapon CreateWeapon(Ship ship)
+        {
+            return new DoubleLaserWeapon(ship);
         }
         #endregion
     }

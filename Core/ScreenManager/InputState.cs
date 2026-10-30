@@ -41,9 +41,17 @@ namespace VectorRumble
         private MouseState currentMouseState;
 
         /// <summary>
-        /// Where the touch or mouse pointer is. Touch wins while a finger is down.
+        /// Where the touch or mouse pointer is, in the game's own units (see <see cref="Display"/>). Touch wins
+        /// while a finger is down.
         /// </summary>
         public Vector2 PointerPosition { get; private set; }
+
+        /// <summary>
+        /// The fingers down on a touch screen, as of this update, in the screen's own pixels. The touch panel
+        /// is read only once an update, here, because reading it again would hide the presses and releases
+        /// from everything after the first reader: it reports each change once.
+        /// </summary>
+        public TouchCollection Touches { get; private set; }
 
         /// <summary>Is a finger or the left mouse button down?</summary>
         public bool PointerDown { get; private set; }
@@ -70,10 +78,6 @@ namespace VectorRumble
             LastKeyboardStates = new KeyboardState[MaxInputs];
             LastGamePadStates = new GamePadState[MaxInputs];
 
-            if (Helper.IsMobile)
-            {
-                TouchPanel.EnabledGestures = GestureType.Tap;
-            }
         }
 
 
@@ -87,6 +91,12 @@ namespace VectorRumble
 
         /// <summary>Checks for a "menu down" input action, from any player.</summary>
         public bool MenuDown => IsPressed(GameAction.Down);
+
+        /// <summary>Checks for a "previous value" input action, from any player.</summary>
+        public bool SelectPrevious => IsPressed(GameAction.Previous);
+
+        /// <summary>Checks for a "next value" input action, from any player.</summary>
+        public bool SelectNext => IsPressed(GameAction.Next);
 
         /// <summary>Checks for a "menu select" input action, from any player.</summary>
         public bool MenuSelect => IsPressed(GameAction.Select);
@@ -209,19 +219,20 @@ namespace VectorRumble
 
             if (Helper.IsMobile)
             {
-                foreach (TouchLocation touch in TouchPanel.GetState())
+                Touches = TouchPanel.GetState();
+                foreach (TouchLocation touch in Touches)
                 {
                     if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
                     {
                         down = true;
-                        position = touch.Position;
+                        position = Display.ToVirtual(touch.Position);
                     }
                 }
             }
             else
             {
                 down = currentMouseState.LeftButton == ButtonState.Pressed;
-                position = new Vector2(currentMouseState.X, currentMouseState.Y);
+                position = Display.ToVirtual(new Vector2(currentMouseState.X, currentMouseState.Y));
             }
 
             PointerDown = down;

@@ -177,7 +177,7 @@ namespace VectorRumble
             // create the world
             if (World == null)
             {
-                World = new World(new Vector2(ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height))
+                World = new World(Display.BaseSize)
                 {
                     // retrieve the audio manager
                     AudioManager = (AudioManager)ScreenManager.Game.Services.GetService(typeof(AudioManager))

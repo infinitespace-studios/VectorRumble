@@ -46,55 +46,18 @@ namespace VectorRumble
                 ScreenManager.AddScreen(arenaSelection);
             }
 
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.One))
+            // Each player changes their own ship with their own controls. Changing ship
+            // swaps the player's ship in the list, so go through a copy.
+            foreach (var player in World.ShipManager.SelectedPlayers.ToArray())
             {
-                if (input.IsNewButtonPress(Buttons.DPadUp) || input.IsNewButtonPress(Buttons.LeftThumbstickUp))
+                if (player.Input.ChangeColour)
                 {
-                    ChangePlayerColour(PlayerIndex.One);
+                    ChangePlayerColour(player.PlayerStringToIndex);
                 }
 
-                if (input.IsNewButtonPress(Buttons.RightShoulder))
+                if (player.Input.ChangeShip)
                 {
-                    ChangePlayerShip(PlayerIndex.One);
-                }
-            }
-
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Two))
-            {
-                if (input.IsNewButtonPress(Buttons.DPadUp) || input.IsNewButtonPress(Buttons.LeftThumbstickUp))
-                {
-                    ChangePlayerColour(PlayerIndex.Two);
-                }
-
-                if (input.IsNewButtonPress(Buttons.RightShoulder))
-                {
-                    ChangePlayerShip(PlayerIndex.Two);
-                }
-            }
-
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Three))
-            {
-                if (input.IsNewKeyPress(Keys.W))
-                {
-                    ChangePlayerColour(PlayerIndex.Three);
-                }
-
-                if (input.IsNewKeyPress(Keys.Tab))
-                {
-                    ChangePlayerShip(PlayerIndex.Three);
-                }
-            }
-
-            if (World.ShipManager.SelectedPlayers.Any(p => p.PlayerStringToIndex == PlayerIndex.Four))
-            {
-                if (input.IsNewKeyPress(Keys.Up))
-                {
-                    ChangePlayerColour(PlayerIndex.Four);
-                }
-
-                if (input.IsNewKeyPress(Keys.RightAlt))
-                {
-                    ChangePlayerShip(PlayerIndex.Four);
+                    ChangePlayerShip(player.PlayerStringToIndex);
                 }
             }
         }
@@ -135,7 +98,7 @@ namespace VectorRumble
         {
             base.Draw(gameTime);
 
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
 
             var pos = new Vector2();
             var rect = new Rectangle();

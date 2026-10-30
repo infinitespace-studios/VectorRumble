@@ -155,12 +155,21 @@ namespace VectorRumble
         /// <returns>A new VectorPolygon object in the shape of an asteroid.</returns>
         public static VectorPolygon CreateAsteroid(float radius)
         {
+            return CreateAsteroid(radius, random);
+        }
+
+        /// <summary>
+        /// Creates an asteroid shape using the given random numbers, so that every machine in
+        /// a network match can make the same one.
+        /// </summary>
+        public static VectorPolygon CreateAsteroid(float radius, Random shapeRandom)
+        {
             VectorPolygon polygon = CreateCircle(Vector2.Zero, radius, 12);
             for (int i = 0; i < polygon.Points.Length; ++i)
             {
                 Vector2 normal = Vector2.Normalize(polygon.Points[i]);
                 polygon.Points[i] += normal * ((radius * 0.2f) * 
-                    (float)random.NextDouble() - (radius * 0.1f));
+                    (float)shapeRandom.NextDouble() - (radius * 0.1f));
             }
 
             return polygon;

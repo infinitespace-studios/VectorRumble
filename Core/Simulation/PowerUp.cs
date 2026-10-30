@@ -11,10 +11,21 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VectorRumble.Networking;
 #endregion
 
 namespace VectorRumble
 {
+    /// <summary>
+    /// The kinds of power-up. Sent over the network, so keep the numbers.
+    /// </summary>
+    enum PowerUpKind : byte
+    {
+        DoubleLaser = 0,
+        TripleLaser = 1,
+        Rocket = 2,
+    }
+
     /// <summary>
     /// Base class for all power-ups that exist in the game.
     /// </summary>
@@ -48,6 +59,34 @@ namespace VectorRumble
         #endregion
 
         #region Initialization
+        /// <summary>
+        /// Makes a power-up of the given kind.
+        /// </summary>
+        public static PowerUp Create(World world, PowerUpKind kind)
+        {
+            switch (kind)
+            {
+                case PowerUpKind.TripleLaser: return new TripleLaserPowerUp(world);
+                case PowerUpKind.Rocket: return new RocketPowerUp(world);
+                default: return new DoubleLaserPowerUp(world);
+            }
+        }
+
+        /// <summary>
+        /// Which kind of power-up this is.
+        /// </summary>
+        public abstract PowerUpKind Kind { get; }
+
+        /// <summary>
+        /// The weapon this power-up gives to a ship.
+        /// </summary>
+        protected abstract Weapon CreateWeapon(Ship ship);
+
+        /// <summary>
+        /// Identifies the power-up in a network match, where the host names the power-ups.
+        /// </summary>
+        public ushort Id { get; set; }
+
         /// <summary>
         /// Constructs a new power-up.
         /// </summary>
@@ -145,23 +184,44 @@ namespace VectorRumble
         /// <returns>True if the objects meaningfully interacted.</returns>
         public override bool Touch(Actor target)
         {
-            // if it touched a ship, then create a particle system and play a sound
             Ship ship = target as Ship;
             if (ship != null)
             {
-                // tickle the ship's vibration motors
-                ship.FireGamepadMotors(0f, 0.25f);
-                // add a particle system for effect
-                world.ParticleSystems.Add(new ParticleSystem(this.Position, 
-                    Vector2.Zero, 24, 32f, 64f, 2f, 0.1f, particleColors));
-                // play the "power-up picked up" cue
-                world.AudioManager.PlayCue("powerUpTouch");
-                // kill the power-up
-                Die(target);
+                // in a network match the host decides who picks a power-up up, and tells the others
+                NetworkMatch match = world.Match;
+                if (match != null)
+                {
+                    if (!match.IsHost)
+                    {
+                        return false;
+                    }
+                    match.OnPowerUpTaken(this, ship);
+                }
+
+                GiveTo(ship);
                 return false;
             }
 
             return base.Touch(target);
+        }
+
+
+        /// <summary>
+        /// A ship picks this power-up up: it gets the weapon, and the power-up is gone.
+        /// </summary>
+        internal void GiveTo(Ship ship)
+        {
+            // give it the weapon
+            ship.SetWeapon(CreateWeapon(ship));
+            // tickle the ship's vibration motors
+            ship.FireGamepadMotors(0f, 0.25f);
+            // add a particle system for effect
+            world.ParticleSystems.Add(new ParticleSystem(this.Position, 
+                Vector2.Zero, 24, 32f, 64f, 2f, 0.1f, particleColors));
+            // play the "power-up picked up" cue
+            world.AudioManager.PlayCue("powerUpTouch");
+            // kill the power-up
+            Die(ship);
         }
 
         /// <summary>

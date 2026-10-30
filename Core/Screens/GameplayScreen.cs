@@ -69,13 +69,13 @@ namespace VectorRumble
 
             // update the projection in the line-batch
             lineBatch.SetProjection(Matrix.CreateOrthographicOffCenter(0.0f,
-                ScreenManager.GraphicsDevice.Viewport.Width,
-                ScreenManager.GraphicsDevice.Viewport.Height, 0.0f, 0.0f, 1.0f));
+                Display.Viewport.Width,
+                Display.Viewport.Height, 0.0f, 0.0f, 1.0f));
 
             if (Helper.IsMobile)
             {
                 virtualGamePad = new VirtualGamePad(content.Load<Texture2D>("Textures/gamepad"),
-                    ScreenManager.GraphicsDevice.Viewport);
+                    Display.Viewport);
                 VirtualGamePad.Instance = virtualGamePad;
             }
         }
@@ -121,7 +121,7 @@ namespace VectorRumble
             if (otherScreenHasFocus || coveredByOtherScreen)
                 virtualGamePad?.Reset();
             else
-                virtualGamePad?.Update();
+                virtualGamePad?.Update(ScreenManager.Input.Touches);
         }
 
         /// <summary>
@@ -163,11 +163,12 @@ namespace VectorRumble
         /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>
         private void DrawHud(float elapsedTime)
         {
-            Vector2 position = new Vector2(0.48f * ScreenManager.GraphicsDevice.Viewport.Width, 0.09f * ScreenManager.GraphicsDevice.Viewport.Height);
-            int offset = (int)(ScreenManager.GraphicsDevice.Viewport.Width / 5);
+            Vector2 position = new Vector2(0.48f * Display.Viewport.Width, 0.09f * Display.Viewport.Height);
+            int offset = (int)(Display.Viewport.Width / 5);
             float scale = 1.0f;
 
-            var playerIndexes = (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex));
+            // the game has four players; the library's PlayerIndex runs on past them
+            var playerIndexes = ((PlayerIndex[])Enum.GetValues(typeof(PlayerIndex))).Take(InputState.MaxInputs);
 
             spriteBatch.Begin();
 
@@ -195,9 +196,6 @@ namespace VectorRumble
                             break;
                         case PlayerIndex.Four:
                             message = WrapText(Strings.Press_Up_To_Join, lineBreakWidth);
-                            break;
-                        default:
-                            message = WrapText(Strings.No_Input_Device_Connected, lineBreakWidth);
                             break;
                     }
                 }
@@ -327,15 +325,42 @@ namespace VectorRumble
                             true);
                     }
                 }
+
+                // a network match goes on while a menu is up
+                if (World.Match != null)
+                {
+                    SuspendShipInput(true);
+                    World.Match.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    if (gameOver == false)
+                    {
+                        World.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }
+                }
             }
             else
             {
                 // check for a winner
-                if (gameOver == false)
+                if (gameOver == false && World.Match != null)
+                {
+                    // in a network match the host says who won
+                    if (World.Match.Winner >= 0)
+                    {
+                        ScreenManager.AddScreen(new GameOverScreen(string.Format(Strings.Player_X_Wins,
+                            (World.Match.Winner + 1)), false));
+                        gameOver = true;
+                    }
+                    else if (World.Match.HasEnded)
+                    {
+                        // the host left, or the network failed
+                        ScreenManager.AddScreen(new GameOverScreen(Strings.Lan_Connection_Lost, false));
+                        gameOver = true;
+                    }
+                }
+                else if (gameOver == false)
                 {
                     for (int i = 0; i < World.Ships.Length; i++)
                     {
-                        if (World.Ships[i].Score >= WorldRules.ScoreLimit)
+                        if (World.Ships[i].Score >= MatchRules.Current.ScoreLimit)
                         {
                             ScreenManager.AddScreen(new GameOverScreen(string.Format(Strings.Player_X_Wins,
                                 (i + 1))));
@@ -347,11 +372,36 @@ namespace VectorRumble
                 // update the world
                 if (gameOver == false)
                 {
+                    if (World.Match != null)
+                    {
+                        SuspendShipInput(false);
+                        World.Match.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    }
                     World.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
             }
         }
 
+
+        /// <summary>
+        /// Leaving the game ends a network match, and its session with it.
+        /// </summary>
+        public override void UnloadContent()
+        {
+            World.Match?.Dispose();
+            base.UnloadContent();
+        }
+
+        /// <summary>
+        /// Stops (or lets) the ships take their player's controls.
+        /// </summary>
+        void SuspendShipInput(bool suspended)
+        {
+            foreach (Ship ship in World.Ships)
+            {
+                ship.InputSuspended = suspended;
+            }
+        }
 
         /// <summary>
         /// Lets the game respond to player input. Unlike the Update method,

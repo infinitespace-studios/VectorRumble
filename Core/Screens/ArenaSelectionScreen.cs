@@ -64,7 +64,7 @@ namespace VectorRumble
             string arenaName;
 
             CountDown -= gameTime.ElapsedGameTime;
-            if (timeGameIndex < timeGapBetweenDrawCall.Length && !finalDraw && WorldRules.DefaultArena == Strings.Arena_Random)
+            if (timeGameIndex < timeGapBetweenDrawCall.Length && !finalDraw && MatchRules.Current.Arena == Strings.Arena_Random)
             {
                 lineBatch.Begin();
                 randomArena.DrawWalls(lineBatch);
@@ -92,7 +92,7 @@ namespace VectorRumble
             Color color = new Color(255, 255, 255, (int)TransitionAlpha);
 
             // Center the message text in the viewport.
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
             Vector2 usageTextSize = smallFont.MeasureString(Strings.Battle_Arena_Is);
             Vector2 usageTextPosition = (viewportSize - usageTextSize) / 2;

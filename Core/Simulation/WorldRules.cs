@@ -22,16 +22,12 @@ namespace VectorRumble
     }
 
     /// <summary>
-    /// Adjustable game settings.
+    /// This machine's own display settings. The rules of a match are in <see cref="MatchRules"/>.
     /// </summary>
     public static class WorldRules
     {
-        public static AsteroidDensity AsteroidDensity = AsteroidDensity.Low;
         public static int BlurIntensity = 5;
-        public static bool ControllersCanShootInAllDirections;
-        public static string DefaultArena = Strings.Arena_Random;
         public static bool MotionBlur = true;
         public static bool NeonEffect = true;
-        public static int ScoreLimit = 10;
     }
 }

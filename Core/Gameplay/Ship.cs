@@ -17,6 +17,7 @@ using System.Xml.XPath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using VectorRumble.Networking;
 #endregion
 
 namespace VectorRumble
@@ -171,24 +172,32 @@ namespace VectorRumble
         private MineWeapon mineWeapon = null;
 
         /// <summary>
-        /// The current state of the Gamepad that is controlling this ship.
+        /// The controls that drive this ship. Null means the controls of the player slot
+        /// the ship is in; a ship that another player is flying takes that player's controls.
         /// </summary>
-        private GamePadState currentGamePadState;
+        public ShipControls Controls { get; set; }
 
         /// <summary>
-        /// The previous state of the Gamepad that is controlling this ship.
+        /// What the player asked of this ship at the last <see cref="ProcessInput"/>.
         /// </summary>
-        private GamePadState lastGamePadState;
+        public ShipInput Input { get; private set; }
 
         /// <summary>
-        /// The current state of the Keyboard that is controlling this ship.
+        /// The player slot of this ship in a network match (the same on every machine), or -1.
         /// </summary>
-        private KeyboardState currentKeyboardState;
+        public int Slot { get; set; } = -1;
 
         /// <summary>
-        /// The previous state of the Keyboard that is controlling this ship.
+        /// True for a ship another machine flies in a LAN match. It takes no input here; its
+        /// position comes from the network through <see cref="ApplyRemoteState"/>.
         /// </summary>
-        private KeyboardState lastKeyboardState;
+        public bool IsRemote { get; set; }
+
+        /// <summary>
+        /// True while a menu is over the game and the world carries on (a network match): the
+        /// player's controls then steer the menu, not the ship.
+        /// </summary>
+        public bool InputSuspended { get; set; }
 
         /// <summary>
         /// Timer for how long the player has been holding the A button (to join).
@@ -305,7 +314,16 @@ namespace VectorRumble
         public override void Update(float elapsedTime)
         {
             // process all input
-            ProcessInput(elapsedTime, false);
+            ProcessInput(elapsedTime, InputSuspended);
+
+            // a remote ship is placed by the network, and is not simulated here beyond what
+            // the screen shows: its own machine decides everything else and tells us
+            if (IsRemote)
+            {
+                UpdateRemote(elapsedTime);
+                base.Update(elapsedTime);
+                return;
+            }
 
             // if this player hasn't joined the game, then quit now
             if (!selected)
@@ -382,7 +400,7 @@ namespace VectorRumble
 
             if (!Helper.IsMobile)
             {
-                GamePad.SetVibration(PlayerStringToIndex,
+                GamePad.SetVibration((Controls ?? ShipControls.ForSlot(PlayerStringToIndex)).Pad,
                     (largeMotorTimer > 0f) ? largeMotorSpeed : 0f,
                     (smallMotorTimer > 0f) ? smallMotorSpeed : 0f);
             }
@@ -505,6 +523,23 @@ namespace VectorRumble
         /// <returns>If true, this object was damaged.</returns>
         public override bool Damage(Actor source, float damageAmount)
         {
+            // in a network match the host decides what hits which ship and tells the ship's owner
+            NetworkMatch match = world.Match;
+            if (match != null)
+            {
+                return match.RouteDamage(this, source, damageAmount);
+            }
+
+            return ApplyDamage(source, damageAmount);
+        }
+
+
+        /// <summary>
+        /// Hurts this ship: the shield takes the damage first, then life.
+        /// </summary>
+        /// <returns>If true, the ship was damaged.</returns>
+        internal bool ApplyDamage(Actor source, float damageAmount)
+        {
             // if the safe timer hasn't yet gone off, then the ship can't be hurt
             if (safeTimer > 0f)
             {
@@ -563,33 +598,46 @@ namespace VectorRumble
                 // reset the respawning timer
                 respawnTimer = respawnTimerOnDeath;
 
-                // change the score
-                Ship ship = source as Ship;
-                if (ship == null)
+                NetworkMatch match = world.Match;
+                if (match != null)
                 {
-                    Projectile projectile = source as Projectile;
-                    if (projectile != null)
+                    // in a network match the host keeps the score; a ship that is flown on another
+                    // machine is shown exploding because that machine said so
+                    if (!IsRemote)
                     {
-                        ship = projectile.Owner;
-                    }
-                }
-                if (ship != null)
-                {
-                    if (ship == this)
-                    {
-                        // reduce the score, since i blew myself up
-                        ship.Score--;
-                    }
-                    else
-                    {
-                        // add score to the ship who shot this object
-                        ship.Score++;
+                        match.OnShipDestroyed(this, source);
                     }
                 }
                 else
                 {
-                    // if it wasn't a ship, then this object loses score
-                    this.Score--;
+                    // change the score
+                    Ship ship = source as Ship;
+                    if (ship == null)
+                    {
+                        Projectile projectile = source as Projectile;
+                        if (projectile != null)
+                        {
+                            ship = projectile.Owner;
+                        }
+                    }
+                    if (ship != null)
+                    {
+                        if (ship == this)
+                        {
+                            // reduce the score, since i blew myself up
+                            ship.Score--;
+                        }
+                        else
+                        {
+                            // add score to the ship who shot this object
+                            ship.Score++;
+                        }
+                    }
+                    else
+                    {
+                        // if it wasn't a ship, then this object loses score
+                        this.Score--;
+                    }
                 }
 
                 // ships should not be added to the garbage list, so just set dead
@@ -638,6 +686,109 @@ namespace VectorRumble
             }
         }
 
+        /// <summary>
+        /// The timers a remote ship needs to be shown right: its respawn, and the fade-in and
+        /// safe time after it.
+        /// </summary>
+        private void UpdateRemote(float elapsedTime)
+        {
+            if (!selected)
+            {
+                return;
+            }
+
+            if (dead)
+            {
+                // the ship's machine respawns it at the same moment; the network then places it
+                respawnTimer = Math.Max(respawnTimer - elapsedTime, 0f);
+                if (respawnTimer <= 0f)
+                {
+                    Spawn(false);
+                }
+            }
+
+            if (safeTimer > 0f)
+            {
+                safeTimer = Math.Max(safeTimer - elapsedTime, 0f);
+            }
+            if (fadeInTimer < fadeInTimerMaximum)
+            {
+                fadeInTimer = Math.Min(fadeInTimer + elapsedTime, fadeInTimerMaximum);
+            }
+            radius = (shieldStrength > 0f) ? 20f : 14f;
+        }
+
+        /// <summary>
+        /// A remote ship fires: make the same shots its machine made.
+        /// </summary>
+        internal void FireRemote(WeaponKind kind, Vector2 direction)
+        {
+            if (dead || !selected)
+            {
+                return;
+            }
+
+            Weapon shooter;
+            if (kind == WeaponKind.Mine)
+            {
+                shooter = mineWeapon;
+            }
+            else
+            {
+                if (weapon == null || weapon.Kind != kind)
+                {
+                    weapon = Weapon.Create(kind, this);
+                }
+                shooter = weapon;
+            }
+            shooter?.Shoot(direction);
+        }
+
+        /// <summary>
+        /// The player left the match: the ship is gone for good.
+        /// </summary>
+        internal void Depart()
+        {
+            playing = false;
+            selected = false;
+            dead = true;
+        }
+
+        /// <summary>
+        /// Place a remote ship where the network says it is.
+        /// </summary>
+        internal void ApplyRemoteState(Vector2 newPosition, float newRotation, Vector2 newVelocity, byte shield)
+        {
+            position = newPosition;
+            rotation = newRotation;
+            velocity = newVelocity;
+            shieldStrength = shield;
+        }
+
+        /// <summary>
+        /// The state of this ship to send to the other machines.
+        /// </summary>
+        internal ShipStatePacket CaptureState(int slot, ushort sequence)
+        {
+            return new ShipStatePacket
+            {
+                Slot = (byte)slot,
+                Sequence = sequence,
+                Position = position,
+                Rotation = rotation,
+                Velocity = velocity,
+                Shield = (byte)MathHelper.Clamp(shieldStrength, 0f, shieldMaximum),
+            };
+        }
+
+        /// <summary>
+        /// Gives the ship the colour its player chose.
+        /// </summary>
+        internal void SetColor(Color newColor)
+        {
+            color = newColor;
+        }
+
         internal void ChangeColor()
         {
             color = new Color(ParticleSystem.random.Next(256), ParticleSystem.random.Next(256), ParticleSystem.random.Next(256));
@@ -668,23 +819,23 @@ namespace VectorRumble
         /// <para
         public virtual void ProcessInput(float elapsedTime, bool overlayPresent)
         {
+            // A remote ship is not flown from this machine's devices
+            if (IsRemote)
+            {
+                return;
+            }
+
             // If this Ship doesn't have a PlayerIndex set, it is spare
             if (!string.IsNullOrEmpty(PlayerIndex))
             {
-                currentGamePadState = VirtualGamePad.Apply(PlayerStringToIndex, GamePad.GetState(PlayerStringToIndex));
-                currentKeyboardState = Keyboard.GetState();
+                Input = (Controls ?? ShipControls.ForSlot(PlayerStringToIndex)).Read();
 
                 if (!overlayPresent)
                 {
                     if (!selected)
                     {
                         // trying to join - update the A/X -button timer
-                        if (currentGamePadState.Buttons.A == ButtonState.Pressed && (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.One || PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Two))
-                        {
-                            aButtonTimer += aButtonTimer + elapsedTime;
-                        }
-                        else if ((currentKeyboardState.IsKeyDown(Keys.W) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
-                                 || (currentKeyboardState.IsKeyDown(Keys.Up) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four))
+                        if (Input.JoinHeld)
                         {
                             aButtonTimer += aButtonTimer + elapsedTime;
                         }
@@ -702,9 +853,7 @@ namespace VectorRumble
                     else if (playing)
                     {
                         // check if we're trying to leave. pressing B/O on controllers
-                        if ((currentGamePadState.Buttons.B == ButtonState.Pressed)
-                            || (currentKeyboardState.IsKeyDown(Keys.X) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
-                            || (currentKeyboardState.IsKeyDown(Keys.N) && PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four))
+                        if (Input.LeaveHeld)
                         {
                             bButtonTimer += elapsedTime;
                         }
@@ -728,8 +877,7 @@ namespace VectorRumble
                                 -(float)Math.Cos(Rotation));
                             Vector2 right = new Vector2(-forward.Y, forward.X);
                             // calculate the current left stick value
-                            Vector2 leftStick = currentGamePadState.ThumbSticks.Left;
-                            leftStick.Y *= -1f;
+                            Vector2 leftStick = Input.Move;
 
                             if (leftStick.LengthSquared() > 0f)
                             {
@@ -754,117 +902,38 @@ namespace VectorRumble
                             }
                             else
                             {
-                                if (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Three)
+                                // Rotate left or right
+                                Rotation += Input.Turn * elapsedTime * rotationRadiansPerSecond;
+
+                                //create some velocity if the thrust is down
+                                Vector2 shipVelocityAdd = Vector2.Zero;
+
+                                if (Input.Thrust)
                                 {
-                                    // Rotate Left            
-                                    if (currentKeyboardState.IsKeyDown(Keys.A))
-                                    {
-                                        Rotation -= elapsedTime * rotationRadiansPerSecond;
-                                    }
+                                    //find out what direction we should be thrusting, using rotation
+                                    shipVelocityAdd.X = (float)Math.Sin(Rotation);
+                                    shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
 
-                                    // Rotate Right
-                                    if (currentKeyboardState.IsKeyDown(Keys.D))
-                                    {
-                                        Rotation += elapsedTime * rotationRadiansPerSecond;
-                                    }
-
-                                    //create some velocity if the right trigger is down
-                                    Vector2 shipVelocityAdd = Vector2.Zero;
-
-                                    //now scale our direction by how hard/long the trigger/keyboard is down
-                                    if (currentKeyboardState.IsKeyDown(Keys.W))
-                                    {
-                                        //find out what direction we should be thrusting, using rotation
-                                        shipVelocityAdd.X = (float)Math.Sin(Rotation);
-                                        shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
-
-                                        shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
-                                    }
-
-                                    //finally, add this vector to our velocity.
-                                    Velocity += shipVelocityAdd;
-
-                                    // Lets fire our weapon
-                                    if (currentKeyboardState.IsKeyDown(Keys.Tab))
-                                    {
-                                        // fire ahead of us
-                                        weapon.Fire(Vector2.Normalize(forward));
-                                    }
-
-                                    // Lets drop some Mines
-                                    if (currentKeyboardState.IsKeyDown(Keys.S))
-                                    {
-                                        // fire behind the ship
-                                        mineWeapon.Fire(-forward);
-                                    }
+                                    shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
                                 }
 
-                                if (PlayerStringToIndex == Microsoft.Xna.Framework.PlayerIndex.Four)
-                                {
-                                    // Rotate Left            
-                                    if (currentKeyboardState.IsKeyDown(Keys.Left))
-                                    {
-                                        Rotation -= elapsedTime * rotationRadiansPerSecond;
-                                    }
-
-                                    // Rotate Right
-                                    if (currentKeyboardState.IsKeyDown(Keys.Right))
-                                    {
-                                        Rotation += elapsedTime * rotationRadiansPerSecond;
-                                    }
-
-                                    //create some velocity if the right trigger is down
-                                    Vector2 shipVelocityAdd = Vector2.Zero;
-
-                                    //now scale our direction by how hard/long the trigger/keyboard is down
-                                    if (currentKeyboardState.IsKeyDown(Keys.Up))
-                                    {
-                                        //find out what direction we should be thrusting, using rotation
-                                        shipVelocityAdd.X = (float)Math.Sin(Rotation);
-                                        shipVelocityAdd.Y = (float)-Math.Cos(Rotation);
-
-                                        shipVelocityAdd = shipVelocityAdd / elapsedTime * MathHelper.ToRadians(9.0f);
-                                    }
-
-                                    //finally, add this vector to our velocity.
-                                    Velocity += shipVelocityAdd;
-
-                                    // Lets drop some Mines
-                                    if (currentKeyboardState.IsKeyDown(Keys.RightControl) || currentKeyboardState.IsKeyDown(Keys.RightAlt))
-                                    {
-                                        // fire ahead of us
-                                        weapon.Fire(Vector2.Normalize(forward));
-                                    }
-
-                                    // Lets drop some Mines
-                                    if (currentKeyboardState.IsKeyDown(Keys.Down))
-                                    {
-                                        // fire behind the ship
-                                        mineWeapon.Fire(-forward);
-                                    }
-                                }
+                                //finally, add this vector to our velocity.
+                                Velocity += shipVelocityAdd;
                             }
 
-                            if (WorldRules.ControllersCanShootInAllDirections)
+                            if (MatchRules.Current.ControllersCanShootInAllDirections && Input.Aim != Vector2.Zero)
                             {
-                                // check for firing with the right stick
-                                Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
-                                rightStick.Y *= -1f;
-                                if (rightStick.LengthSquared() > fireThresholdSquared)
-                                {
-                                    weapon.Fire(Vector2.Normalize(rightStick));
-                                }
+                                // fire with the right stick
+                                weapon.Fire(Vector2.Normalize(Input.Aim));
                             }
 
-                            if (currentGamePadState.Buttons.RightShoulder == ButtonState.Pressed)
+                            if (Input.FireAhead)
                             {
                                 // fire ahead of us
                                 weapon.Fire(Vector2.Normalize(forward));
                             }
 
-                            // check for laying mines
-                            if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&
-                                (lastGamePadState.Buttons.B == ButtonState.Released))
+                            if (Input.Mine)
                             {
                                 // fire behind the ship
                                 mineWeapon.Fire(-forward);
@@ -873,9 +942,6 @@ namespace VectorRumble
                     }
                 }
 
-                // update the gamepad state
-                lastGamePadState = currentGamePadState;
-                lastKeyboardState = currentKeyboardState;
                 return;
             }
         }

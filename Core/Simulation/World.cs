@@ -14,6 +14,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using VectorRumble.Networking;
 #endregion
 
 namespace VectorRumble
@@ -103,6 +104,11 @@ namespace VectorRumble
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The network match this world is part of, or null in a game on this machine alone.
+        /// </summary>
+        internal NetworkMatch Match { get; set; }
+
         public AudioManager AudioManager
         {
             get { return audioManager; }
@@ -200,11 +206,16 @@ namespace VectorRumble
             WorldActor worldActor = new WorldActor(this);
             actors.Add(worldActor);
 
-            // add the players to the actor list - they won't be removed
-            AddCastOfPlayableShips();
+            // In a network match every machine makes the same asteroids, from the host's seed (the
+            // host keeps them in step afterwards). They come before the ships, which are put
+            // wherever there is room, so that the ships do not change where the asteroids go.
+            if (Match != null)
+            {
+                random = new Random(Match.Seed);
+            }
 
             // spawn asteroids
-            switch (WorldRules.AsteroidDensity)
+            switch (MatchRules.Current.AsteroidDensity)
             {
                 case AsteroidDensity.None:
                     break;
@@ -219,6 +230,14 @@ namespace VectorRumble
                     break;
             }
 
+            if (Match != null)
+            {
+                random = new Random();
+            }
+
+            // add the players to the actor list - they won't be removed
+            AddCastOfPlayableShips();
+
             // set up the power-up timer for the initial delay
             powerUpTimer = initialPowerUpDelay;
 
@@ -232,7 +251,7 @@ namespace VectorRumble
         /// </summary>
         private void CreateWalls()
         {
-            var ws = WorldRules.DefaultArena;
+            var ws = MatchRules.Current.Arena;
 			if (ws == Strings.Arena_Random) {
                 ws = ArenaManager.Arenas.ToArray()[random.Next(0, ArenaManager.Arenas.Length - 1)].Name;
 			}
@@ -254,7 +273,7 @@ namespace VectorRumble
             {
                 float radius = 8.0f + 16.0f * (float)random.NextDouble();
 
-                Asteroid asteroid = new Asteroid(this, radius);
+                Asteroid asteroid = new Asteroid(this, radius, random);
                 asteroid.Spawn(true);
             }
             // create medium-sized asteroids
@@ -262,7 +281,7 @@ namespace VectorRumble
             {
                 float radius = 24.0f + 16.0f * (float)random.NextDouble();
 
-                Asteroid asteroid = new Asteroid(this, radius);
+                Asteroid asteroid = new Asteroid(this, radius, random);
                 asteroid.Spawn(true);
             }
             // create large asteroids
@@ -270,7 +289,7 @@ namespace VectorRumble
             {
                 float radius = 32.0f + 64.0f * (float)random.NextDouble();
 
-                Asteroid asteroid = new Asteroid(this, radius);
+                Asteroid asteroid = new Asteroid(this, radius, random);
                 asteroid.Spawn(true);
             }
         }
@@ -290,21 +309,11 @@ namespace VectorRumble
                 }
             }
             // create the new power-up
-            PowerUp powerup = null;
-            switch (random.Next(3))
-            {
-                case 0:
-                    powerup = new DoubleLaserPowerUp(this);
-                    break;
-                case 1:
-                    powerup = new TripleLaserPowerUp(this);
-                    break;
-                case 2:
-                    powerup = new RocketPowerUp(this);
-                    break;
-            }
+            PowerUp powerup = PowerUp.Create(this, (PowerUpKind)random.Next(3));
             // add the new power-up to the world
             powerup.Spawn(true);
+            // in a network match, the other machines get the same power-up
+            Match?.OnPowerUpSpawned(powerup);
         }        
         #endregion
 
@@ -356,7 +365,8 @@ namespace VectorRumble
             {
                 powerUpTimer = Math.Max(powerUpTimer - elapsedTime, 0f);
             }
-            if (powerUpTimer <= 0.0f && Ships.Any(s => s.Playing))
+            // (in a network match only the host makes power-ups, and the others hear of them)
+            if (powerUpTimer <= 0.0f && Ships.Any(s => s.Playing) && (Match == null || Match.IsHost))
             {
                 SpawnPowerUp();
                 powerUpTimer = powerUpDelay;

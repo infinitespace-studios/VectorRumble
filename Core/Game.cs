@@ -34,6 +34,9 @@ namespace VectorRumble
 
         public VectorRumbleGame()
         {
+            // keeps this game from listing, or joining, the sessions of other games on the network
+            Networking.MultiplayerSessionService.Initialize();
+
             graphics = new GraphicsDeviceManager(this);
 			Services.AddService (typeof (GraphicsDeviceManager), graphics);
             Content.RootDirectory = "Content";
@@ -43,16 +46,14 @@ namespace VectorRumble
 #else
             if (Helper.IsMobile) // iPad or Tablets only
             {
-                graphics.PreferredBackBufferWidth = 800;
-                graphics.PreferredBackBufferHeight = 480;
+                // the device's own screen: the game is drawn at a fixed size and scaled to it (see Display)
                 graphics.IsFullScreen = true;
                 graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-                TouchPanel.EnabledGestures = GestureType.Tap;
             }
             else
             {
-                graphics.PreferredBackBufferWidth = 1280;
-                graphics.PreferredBackBufferHeight = 720;
+                graphics.PreferredBackBufferWidth = Display.BaseWidth;
+                graphics.PreferredBackBufferHeight = Display.BaseHeight;
                 graphics.HardwareModeSwitch = false;
                 graphics.IsFullScreen = false;
                 IsMouseVisible = true;

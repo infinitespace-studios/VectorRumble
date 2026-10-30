@@ -14,6 +14,8 @@ namespace VectorRumble
         Pause,
         Up,
         Down,
+        Previous,
+        Next,
     }
 
     /// <summary>
@@ -49,6 +51,8 @@ namespace VectorRumble
             Set(GameAction.Pause, new[] { Keys.Escape }, new[] { Buttons.Back, Buttons.Start });
             Set(GameAction.Up, new[] { Keys.Up }, new[] { Buttons.DPadUp, Buttons.LeftThumbstickUp });
             Set(GameAction.Down, new[] { Keys.Down }, new[] { Buttons.DPadDown, Buttons.LeftThumbstickDown });
+            Set(GameAction.Previous, new[] { Keys.Left }, new[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft });
+            Set(GameAction.Next, new[] { Keys.Right }, new[] { Buttons.DPadRight, Buttons.LeftThumbstickRight });
         }
 
         /// <summary>Replace an action's keyboard keys with one key.</summary>

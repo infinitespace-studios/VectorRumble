@@ -38,8 +38,8 @@ namespace VectorRumble
             // draw each wall-line
             if (Walls != null)
             {
-                int viewportWidth = lineBatch.GraphicsDevice.Viewport.Width;
-                int viewportHeight = lineBatch.GraphicsDevice.Viewport.Height;
+                int viewportWidth = Display.BaseWidth;
+                int viewportHeight = Display.BaseHeight;
 
                 Vector2 startLine;
                 Vector2 endLine;

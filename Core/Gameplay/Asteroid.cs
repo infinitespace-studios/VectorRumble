@@ -51,12 +51,20 @@ namespace VectorRumble
         /// <param name="world">The world that this asteroid belongs to.</param>
         /// <param name="radius">The size of the asteroid.</param>
         public Asteroid(World world, float radius)
+            : this(world, radius, null)
+        {
+        }
+
+        /// <param name="shapeRandom">The random numbers that shape the asteroid; every machine in a network match uses the same.</param>
+        public Asteroid(World world, float radius, Random shapeRandom)
             : base(world)
         {
             // all asteroids are gray
             this.color = Color.Gray;
             // create the polygon
-            this.polygon = VectorPolygon.CreateAsteroid(radius);
+            this.polygon = shapeRandom == null
+                ? VectorPolygon.CreateAsteroid(radius)
+                : VectorPolygon.CreateAsteroid(radius, shapeRandom);
             // the asteroid polygon might not be as big as the original radius, 
             // so find out how big it really is
             for (int i = 0; i < this.polygon.Points.Length; i++)

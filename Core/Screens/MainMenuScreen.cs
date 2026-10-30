@@ -9,6 +9,7 @@
 
 #region Using Statements
 using System;
+using Microsoft.Xna.Framework;
 #endregion
 
 namespace VectorRumble
@@ -69,20 +70,34 @@ namespace VectorRumble
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, EventArgs e)
         {
+            // starting a game has its own screens: leave the logo and the fireworks out of them
+            SetBackgroundQuiet(true);
+            ScreenManager.AddScreen(new MultiplayerMenuScreen());
+        }
+
+        void SetBackgroundQuiet(bool quiet)
+        {
             foreach (var screen in ScreenManager.Screens)
             {
-                if (screen is BackgroundScreen bgScreen)
+                if (screen is BackgroundScreen background)
                 {
-                    bgScreen.ShowParticles = false;
+                    background.Quiet = quiet;
                     break;
                 }
             }
+        }
 
-            var shipSelection = new ShipSelectionScreen {
-                ScreenManager = this.ScreenManager
-            };
-            shipSelection.Initialize();
-            ScreenManager.AddScreen(shipSelection);
+        /// <summary>
+        /// Brings the logo and the fireworks back when the player returns here from starting a game.
+        /// </summary>
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            if (IsActive)
+            {
+                SetBackgroundQuiet(false);
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.Xna.Framework;
@@ -13,6 +14,14 @@ namespace VectorRumble
 
         private Arena[] arenas;
         public Arena[] Arenas { get { return arenas; } }
+
+        /// <summary>
+        /// The arenas that come with the game, and "Random" after them (the rest are the player's
+        /// own). Only these are the same on every machine, so only these can be played in a network match.
+        /// </summary>
+        public Arena[] BuiltInArenas => arenas.Take(builtInCount).ToArray();
+
+        private int builtInCount;
 
         public ArenaManager(World world)
         {
@@ -40,6 +49,7 @@ namespace VectorRumble
                 Name = Strings.Arena_Random,
             };
             arenas[arenas.Length - 1] = randomArena;
+            builtInCount = arenas.Length;
 
             // Once our app is signed, we can't change it, so let's look in the Special "MyDocuments" folder for user created data
             arenaFiles = Helper.GetFilesFromFolders(new string[] { Helper.GetMyDocumentsFolder(), Helper.GetAssemblyTitle(), arenaDirectory }, "*.xml");

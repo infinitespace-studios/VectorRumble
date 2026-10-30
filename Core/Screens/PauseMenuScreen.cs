@@ -132,7 +132,7 @@ namespace VectorRumble
         {
             ScreenManager.FadeBackBufferToBlack(TransitionAlpha * 2 / 3);
 
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Viewport viewport = Display.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
             // title

@@ -33,6 +33,8 @@ namespace VectorRumble
         #endregion
 
         #region Interaction
+        public override WeaponKind Kind => WeaponKind.Laser;
+
         /// <summary>
         /// Create and spawn the projectile(s) from a firing from this weapon.
         /// </summary>

@@ -149,4 +149,73 @@ B/Oボタン, Esc = キャンセル</value>
     <data name="Credits" xml:space="preserve">
         <value>クレジット</value>
     </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>LANゲーム</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>ローカルゲーム</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>戻る</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>ゲームをホスト</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>{0} のゲームに参加</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>ゲームを検索中...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>ゲームが見つかりません。ホストするか、しばらくお待ちください。</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>ゲームを開始しています...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>{0} に参加中...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>接続できませんでした : {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>プレイヤー</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>船 : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>色を変更</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>準備完了 : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>ゲーム開始</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>退出</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>プレイヤーを待っています。全員が準備完了になる必要があります。</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>ホストがゲームを開始するのを待っています。</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}、小惑星 : {1}、先に {2} 点で勝利</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>ホストがゲームを終了しました。</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>そのゲームはすでに開始されています。</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>あなたはこのゲームに参加していませんでした。</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>ネットワークゲームが終了しました。</value>
+    </data>
 </root>

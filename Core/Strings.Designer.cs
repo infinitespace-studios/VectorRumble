@@ -316,5 +316,143 @@ namespace VectorRumble {
                 return ResourceManager.GetString("Credits", resourceCulture);
             }
         }
+        
+        internal static string Multiplayer_LAN {
+            get {
+                return ResourceManager.GetString("Multiplayer_LAN", resourceCulture);
+            }
+        }
+        
+        internal static string Multiplayer_Local {
+            get {
+                return ResourceManager.GetString("Multiplayer_Local", resourceCulture);
+            }
+        }
+        
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Host_A_Game {
+            get {
+                return ResourceManager.GetString("Lan_Host_A_Game", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Join_Game {
+            get {
+                return ResourceManager.GetString("Lan_Join_Game", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Searching {
+            get {
+                return ResourceManager.GetString("Lan_Searching", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_No_Games {
+            get {
+                return ResourceManager.GetString("Lan_No_Games", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Starting_Game {
+            get {
+                return ResourceManager.GetString("Lan_Starting_Game", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Joining {
+            get {
+                return ResourceManager.GetString("Lan_Joining", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Could_Not_Connect {
+            get {
+                return ResourceManager.GetString("Lan_Could_Not_Connect", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Players {
+            get {
+                return ResourceManager.GetString("Lan_Players", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Ship {
+            get {
+                return ResourceManager.GetString("Lan_Ship", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Change_Colour {
+            get {
+                return ResourceManager.GetString("Lan_Change_Colour", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Ready {
+            get {
+                return ResourceManager.GetString("Lan_Ready", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Start_Game {
+            get {
+                return ResourceManager.GetString("Lan_Start_Game", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Leave {
+            get {
+                return ResourceManager.GetString("Lan_Leave", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Waiting_For_Players {
+            get {
+                return ResourceManager.GetString("Lan_Waiting_For_Players", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Waiting_For_Host {
+            get {
+                return ResourceManager.GetString("Lan_Waiting_For_Host", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Rules {
+            get {
+                return ResourceManager.GetString("Lan_Rules", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Host_Ended {
+            get {
+                return ResourceManager.GetString("Lan_Host_Ended", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Already_Started {
+            get {
+                return ResourceManager.GetString("Lan_Already_Started", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Not_In_Match {
+            get {
+                return ResourceManager.GetString("Lan_Not_In_Match", resourceCulture);
+            }
+        }
+        
+        internal static string Lan_Connection_Lost {
+            get {
+                return ResourceManager.GetString("Lan_Connection_Lost", resourceCulture);
+            }
+        }
     }
 }

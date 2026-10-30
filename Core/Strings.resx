@@ -149,4 +149,73 @@ B/O Button, Esc = Cancel</value>
     <data name="Credits" xml:space="preserve">
         <value>Credits</value>
     </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>LAN Game</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>Local Game</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Back</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>Host a game</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>Join {0}'s game</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>Searching for games...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>No games found. Host one or wait.</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>Starting the game...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>Joining {0}...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>Could not connect: {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>Players</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>Ship : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>Change Colour</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>Ready : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>Start Game</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>Leave</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>Waiting for players. Everyone must be ready.</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>Waiting for the host to start the game.</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}, asteroids: {1}, first to {2}</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>The host ended the game.</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>That game has already started.</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>You were not part of the game.</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>The network game ended.</value>
+    </data>
 </root>

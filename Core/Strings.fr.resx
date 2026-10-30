@@ -149,4 +149,73 @@ Bouton B/O, Échap = Annuler</value>
     <data name="Credits" xml:space="preserve">
         <value>Crédits</value>
     </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>Partie en réseau local</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>Partie locale</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Retour</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>Héberger une partie</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>Rejoindre la partie de {0}</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>Recherche de parties...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>Aucune partie trouvée. Hébergez-en une ou patientez.</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>Démarrage de la partie...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>Connexion à {0}...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>Connexion impossible : {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>Joueurs</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>Vaisseau : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>Changer de couleur</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>Prêt : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>Lancer la partie</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>Quitter</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>En attente de joueurs. Tout le monde doit être prêt.</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>En attente du lancement de la partie par l'hôte.</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}, astéroïdes : {1}, premier à {2}</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>L'hôte a mis fin à la partie.</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>Cette partie a déjà commencé.</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>Vous ne faisiez pas partie de la partie.</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>La partie en réseau est terminée.</value>
+    </data>
 </root>

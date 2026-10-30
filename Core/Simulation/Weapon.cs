@@ -10,10 +10,23 @@
 #region Using Statements
 using System;
 using Microsoft.Xna.Framework;
+using VectorRumble.Networking;
 #endregion
 
 namespace VectorRumble
 {
+    /// <summary>
+    /// The kinds of weapon a ship can carry. Sent over the network, so keep the numbers.
+    /// </summary>
+    enum WeaponKind : byte
+    {
+        Laser = 0,
+        DoubleLaser = 1,
+        TripleLaser = 2,
+        Rocket = 3,
+        Mine = 4,
+    }
+
     /// <summary>
     /// Base class for all weapons that exist in the game.
     /// </summary>
@@ -42,6 +55,26 @@ namespace VectorRumble
         #endregion
 
         #region Initialization
+        /// <summary>
+        /// Makes a weapon of the given kind.
+        /// </summary>
+        public static Weapon Create(WeaponKind kind, Ship owner)
+        {
+            switch (kind)
+            {
+                case WeaponKind.DoubleLaser: return new DoubleLaserWeapon(owner);
+                case WeaponKind.TripleLaser: return new TripleLaserWeapon(owner);
+                case WeaponKind.Rocket: return new RocketWeapon(owner);
+                case WeaponKind.Mine: return new MineWeapon(owner);
+                default: return new LaserWeapon(owner);
+            }
+        }
+
+        /// <summary>
+        /// Which kind of weapon this is.
+        /// </summary>
+        public abstract WeaponKind Kind { get; }
+
         /// <summary>
         /// Constructs a new weapon.
         /// </summary>
@@ -83,6 +116,19 @@ namespace VectorRumble
             timeToNextFire = fireDelay;
 
             // create and spawn the projectile
+            Shoot(direction);
+
+            // in a network match, the other machines fire the same shot
+            owner.World.Match?.OnShotFired(owner, Kind, direction);
+        }
+
+
+        /// <summary>
+        /// Create the shots and play the firing cue, without the reload timer. A remote
+        /// ship's shots are made this way, because its owner already did the timing.
+        /// </summary>
+        public void Shoot(Vector2 direction)
+        {
             CreateProjectiles(direction);
 
             // play the audio cue for firing

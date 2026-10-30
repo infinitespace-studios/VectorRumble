@@ -90,8 +90,9 @@ namespace VectorRumble
             // Look up the resolution and format of our main backbuffer.
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
 
-            int width = pp.BackBufferWidth;
-            int height = pp.BackBufferHeight;
+            // The game is drawn at a fixed size (see Display), whatever the screen is
+            int width = Display.BaseWidth;
+            int height = Display.BaseHeight;
 
             SurfaceFormat format = pp.BackBufferFormat;
 
@@ -133,6 +134,13 @@ namespace VectorRumble
         /// component uses it to redirect drawing into its custom rendertarget, so it
         /// can capture the scene image in preparation for applying the bloom filter.
         /// </summary>
+        /// <summary>
+        /// Where the finished picture goes: the render target the game is drawn into before it is
+        /// scaled to the screen. Null draws straight to the back buffer.
+        /// </summary>
+        public RenderTarget2D OutputTarget { get; set; }
+
+
         public void BeginDraw()
         {
             //if (Visible)
@@ -183,7 +191,7 @@ namespace VectorRumble
             // Pass 4: draw both rendertarget 1 and the original scene
             // image back into the main backbuffer, using a shader that
             // combines them to produce the final bloomed result.
-            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.SetRenderTarget(OutputTarget);
 
             EffectParameterCollection parameters = bloomCombineEffect.Parameters;
 

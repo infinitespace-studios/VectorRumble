@@ -146,4 +146,73 @@ B/O Button, Esc = abbrechen</value>
     <data name="No_Input_Device_Connected" xml:space="preserve">
         <value>"Kein Eingabegerät gefunden. Schließe eine Tastatur oder Gamepad an um zu spielen.</value>
     </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>LAN-Spiel</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>Lokales Spiel</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Zurück</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>Spiel hosten</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>Dem Spiel von {0} beitreten</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>Suche nach Spielen...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>Keine Spiele gefunden. Hoste eines oder warte.</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>Spiel wird gestartet...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>Trete {0} bei...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>Verbindung fehlgeschlagen: {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>Spieler</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>Raumschiff : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>Farbe ändern</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>Bereit : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>Spiel starten</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>Verlassen</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>Warte auf Spieler. Alle müssen bereit sein.</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>Warte darauf, dass der Host das Spiel startet.</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}, Asteroiden: {1}, Ziel: {2} Punkte</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>Der Host hat das Spiel beendet.</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>Dieses Spiel hat bereits begonnen.</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>Du warst nicht Teil des Spiels.</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>Das Netzwerkspiel wurde beendet.</value>
+    </data>
 </root>
