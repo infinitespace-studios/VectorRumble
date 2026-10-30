@@ -45,9 +45,9 @@ with.
       </CharacterRegion>
     </CharacterRegions>
     <ResourceFiles>
-      <Resx>..\VectorRumble.Core\Strings.resx</Resx>
-      <Resx>..\VectorRumble.Core\Strings.es.resx</Resx>
-      <Resx>..\VectorRumble.Core\Strings.fr.resx</Resx>
+      <Resx>..\Core\Strings.resx</Resx>
+      <Resx>..\Core\Strings.es.resx</Resx>
+      <Resx>..\Core\Strings.fr.resx</Resx>
     </ResourceFiles>
   </Asset>
 </XnaContent>

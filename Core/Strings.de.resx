@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Play Game" xml:space="preserve">
+		<value>Spiel starten</value>
+	</data>
+	<data name="Options" xml:space="preserve">
+		<value>Optionen</value>
+	</data>
+	<data name="Exit" xml:space="preserve">
+		<value>Spiel beenden</value>
+	</data>
+	<data name="Exit_Prompt" xml:space="preserve">
+		<value>Spiel beenden?</value>
+	</data>
+	<data name="MessageBox_Usage" xml:space="preserve">
+		<value>Drücke...
+A/X Button, Leertaste, Enter = OK
+B/O Button, Esc = abbrechen</value>
+	</data>
+	<data name="Resume Game" xml:space="preserve">
+		<value>Fortsetzen</value>
+	</data>
+	<data name="Quit Game" xml:space="preserve">
+		<value>Beenden</value>
+	</data>
+	<data name="Are_You_Sure" xml:space="preserve">
+		<value>Sicher?</value>
+	</data>
+	<data name="Play_Again" xml:space="preserve">
+		<value>Nochmal?</value>
+	</data>
+	<data name="Return_to_Menu" xml:space="preserve">
+		<value>Zurück ins Menü</value>
+	</data>
+	<data name="Player_X_Wins" xml:space="preserve">
+		<value>{0} gewinnt!</value>
+	</data>
+	<data name="Score" xml:space="preserve">
+		<value>{0} : {1}</value>
+	</data>
+	<data name="Hold_A_To_Join" xml:space="preserve">
+		<value>Drücke A zum Beitreten</value>
+	</data>
+	<data name="Press_W_To_Join" xml:space="preserve">
+		<value>Drücke W zum Beitreten</value>
+	</data>
+	<data name="Press_Up_To_Join" xml:space="preserve">
+		<value>Drücke Hoch zum Beitreten</value>
+	</data>
+	<data name="Connect_Gamepad" xml:space="preserve">
+		<value>GamePad anschließen</value>
+	</data>
+	<data name="Loading" xml:space="preserve">
+		<value>Lädt...</value>
+	</data>
+	<data name="Score_Limit" xml:space="preserve">
+		<value>Punktelimit : {0}</value>
+	</data>
+	<data name="Asteroid_Density" xml:space="preserve">
+		<value>Asteroidendichte : {0}</value>
+	</data>
+	<data name="Arena" xml:space="preserve">
+		<value>Arena : {0}</value>
+	</data>
+	<data name="Motion_Blur" xml:space="preserve">
+		<value>Bewegungsunschärfe : {0}</value>
+	</data>
+	<data name="Neon_Effect" xml:space="preserve">
+		<value>Neoneffekt : {0}</value>
+	</data>
+	<data name="Blur_Intesity" xml:space="preserve">
+		<value>Unschärfeintensität : {0}</value>
+	</data>
+    <data name="Asteroid_Density_None" xml:space="preserve">
+        <value>Keine</value>
+    </data>
+    <data name="Asteroid_Density_Low" xml:space="preserve">
+        <value>Niedrig</value>
+    </data>
+    <data name="Asteroid_Density_Medium" xml:space="preserve">
+        <value>Mittel</value>
+    </data>
+    <data name="Asteroid_Density_High" xml:space="preserve">
+        <value>Hoch</value>
+    </data>
+	<data name="Arena_Random" xml:space="preserve">
+		<value>Zufällig</value>
+	</data>
+	<data name="Windowed" xml:space="preserve">
+		<value>Im Fenster</value>
+	</data>
+	<data name="FullScreen" xml:space="preserve">
+		<value>Vollbild</value>
+	</data>
+	<data name="Display_Mode" xml:space="preserve">
+		<value>Anzeigemodus : {0}</value>
+	</data>	
+    <data name="Choose_Your_Ship" xml:space="preserve">
+        <value>Wähle dein Raumschiff</value>
+    </data>
+    <data name="Battle_Arena_Is" xml:space="preserve">
+        <value>Die Arena ist : {0}</value>
+    </data>
+    <data name="Up_To_Change_Colour_Fire_To_Change_Ship" xml:space="preserve">
+        <value>Drücke Hoch um die Farbe zu wechseln. Drücke Feuern um das Schiff zu wechseln.</value>
+    </data>
+    <data name="Controllers_Can_Shoot_In_All_Directions" xml:space="preserve">
+        <value>Controller können in alle Richtungen feuern: {0}</value>
+    </data>
+    <data name="About" xml:space="preserve">
+        <value>Über</value>
+    </data>
+    <data name="Move" xml:space="preserve">
+        <value>Bewegen</value>
+    </data>
+    <data name="Fire" xml:space="preserve">
+        <value>Feuern</value>
+    </data>
+    <data name="Mine" xml:space="preserve">
+        <value>Abbauen</value>
+    </data>
+    <data name="Built_With_MonoGame" xml:space="preserve">
+        <value>Erstellt mit Monogame</value>
+    </data>
+    <data name="Font_By" xml:space="preserve">
+        <value>Font: {0}, Erstellt von: {1}</value>
+    </data>
+    <data name="Github_Repo" xml:space="preserve">
+        <value>Github-Repo: {0}</value>
+    </data>
+    <data name="Game_Enhancements" xml:space="preserve">
+        <value>Spielverbesserungen: {0}</value>
+    </data>
+    <data name="No_Input_Device_Connected" xml:space="preserve">
+        <value>"Kein Eingabegerät gefunden. Schließe eine Tastatur oder Gamepad an um zu spielen.</value>
+    </data>
+    <data name="Multiplayer_LAN" xml:space="preserve">
+        <value>LAN-Spiel</value>
+    </data>
+    <data name="Multiplayer_Local" xml:space="preserve">
+        <value>Lokales Spiel</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Zurück</value>
+    </data>
+    <data name="Lan_Host_A_Game" xml:space="preserve">
+        <value>Spiel hosten</value>
+    </data>
+    <data name="Lan_Join_Game" xml:space="preserve">
+        <value>Dem Spiel von {0} beitreten</value>
+    </data>
+    <data name="Lan_Searching" xml:space="preserve">
+        <value>Suche nach Spielen...</value>
+    </data>
+    <data name="Lan_No_Games" xml:space="preserve">
+        <value>Keine Spiele gefunden. Hoste eines oder warte.</value>
+    </data>
+    <data name="Lan_Starting_Game" xml:space="preserve">
+        <value>Spiel wird gestartet...</value>
+    </data>
+    <data name="Lan_Joining" xml:space="preserve">
+        <value>Trete {0} bei...</value>
+    </data>
+    <data name="Lan_Could_Not_Connect" xml:space="preserve">
+        <value>Verbindung fehlgeschlagen: {0}</value>
+    </data>
+    <data name="Lan_Players" xml:space="preserve">
+        <value>Spieler</value>
+    </data>
+    <data name="Lan_Ship" xml:space="preserve">
+        <value>Raumschiff : {0}</value>
+    </data>
+    <data name="Lan_Change_Colour" xml:space="preserve">
+        <value>Farbe ändern</value>
+    </data>
+    <data name="Lan_Ready" xml:space="preserve">
+        <value>Bereit : {0}</value>
+    </data>
+    <data name="Lan_Start_Game" xml:space="preserve">
+        <value>Spiel starten</value>
+    </data>
+    <data name="Lan_Leave" xml:space="preserve">
+        <value>Verlassen</value>
+    </data>
+    <data name="Lan_Waiting_For_Players" xml:space="preserve">
+        <value>Warte auf Spieler. Alle müssen bereit sein.</value>
+    </data>
+    <data name="Lan_Waiting_For_Host" xml:space="preserve">
+        <value>Warte darauf, dass der Host das Spiel startet.</value>
+    </data>
+    <data name="Lan_Rules" xml:space="preserve">
+        <value>{0}, Asteroiden: {1}, Ziel: {2} Punkte</value>
+    </data>
+    <data name="Lan_Host_Ended" xml:space="preserve">
+        <value>Der Host hat das Spiel beendet.</value>
+    </data>
+    <data name="Lan_Already_Started" xml:space="preserve">
+        <value>Dieses Spiel hat bereits begonnen.</value>
+    </data>
+    <data name="Lan_Not_In_Match" xml:space="preserve">
+        <value>Du warst nicht Teil des Spiels.</value>
+    </data>
+    <data name="Lan_Connection_Lost" xml:space="preserve">
+        <value>Das Netzwerkspiel wurde beendet.</value>
+    </data>
+</root>
