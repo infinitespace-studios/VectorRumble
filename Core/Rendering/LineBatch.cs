@@ -23,9 +23,11 @@ namespace VectorRumble
     {
         #region Constants
         /// <summary>
-        /// The maximum number of vertices in the LineBatch vertex array.
+        /// The maximum number of vertices in the LineBatch vertex array. A full buffer is flushed in
+        /// one draw call, so this is sized to hold a busy frame (4096 lines) in a single call; a
+        /// small one splits a frame into many, which is costly on mobile GPUs.
         /// </summary>
-        const int maxVertexCount = 512;
+        const int maxVertexCount = 8192;
         #endregion
 
         #region Fields
