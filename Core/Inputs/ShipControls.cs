@@ -71,6 +71,27 @@ namespace VectorRumble
             return layout;
         }
 
+        /// <summary>
+        /// Both layouts at once, for the one player on a machine who has the whole keyboard to themselves
+        /// (a network game): the arrow keys or WASD steer and thrust, and either side's fire and mine keys work.
+        /// </summary>
+        public static KeyboardLayout Everything()
+        {
+            var layout = new KeyboardLayout();
+            foreach (KeyboardLayout part in new[] { Wasd(), Arrows() })
+            {
+                layout.Left.AddRange(part.Left);
+                layout.Right.AddRange(part.Right);
+                layout.Thrust.AddRange(part.Thrust);
+                layout.Fire.AddRange(part.Fire);
+                layout.Mine.AddRange(part.Mine);
+                layout.Leave.AddRange(part.Leave);
+                layout.ChangeColour.AddRange(part.ChangeColour);
+                layout.ChangeShip.AddRange(part.ChangeShip);
+            }
+            return layout;
+        }
+
         public static KeyboardLayout Arrows()
         {
             var layout = new KeyboardLayout();
@@ -109,6 +130,14 @@ namespace VectorRumble
         /// then the two keyboard layouts (which also read gamepads three and four).
         /// </summary>
         public static ShipControls ForSlot(PlayerIndex slot) => slots[(int)slot];
+
+        private static readonly ShipControls localPlayer = new ShipControls(PlayerIndex.One, KeyboardLayout.Everything(), true);
+
+        /// <summary>
+        /// The controls of the one player on this machine in a network game: gamepad one (and the touch controls),
+        /// or the keyboard, in whichever layout they like.
+        /// </summary>
+        public static ShipControls ForLocalPlayer() => localPlayer;
 
         private readonly PlayerIndex pad;
         private readonly bool padJoins;

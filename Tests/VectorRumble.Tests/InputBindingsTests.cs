@@ -62,6 +62,28 @@ namespace VectorRumble.Tests
             Assert.Same(ShipControls.ForSlot(PlayerIndex.Three), ShipControls.ForSlot(PlayerIndex.Three));
         }
 
+        [Fact]
+        public void The_player_on_a_network_game_can_use_the_keyboard_in_either_layout()
+        {
+            var controls = ShipControls.ForLocalPlayer();
+
+            Assert.NotNull(controls.Keyboard);
+            Assert.Contains(Keys.W, controls.Keyboard.Thrust);
+            Assert.Contains(Keys.Up, controls.Keyboard.Thrust);
+            Assert.Contains(Keys.A, controls.Keyboard.Left);
+            Assert.Contains(Keys.Left, controls.Keyboard.Left);
+            Assert.Contains(Keys.Tab, controls.Keyboard.Fire);
+            Assert.Contains(Keys.RightControl, controls.Keyboard.Fire);
+            Assert.Contains(Keys.S, controls.Keyboard.Mine);
+            Assert.Contains(Keys.Down, controls.Keyboard.Mine);
+        }
+
+        [Fact]
+        public void The_player_on_a_network_game_also_has_gamepad_one()
+        {
+            Assert.Equal(PlayerIndex.One, ShipControls.ForLocalPlayer().Pad);
+        }
+
         static System.Collections.Generic.IEnumerable<Keys> AllKeys(KeyboardLayout layout) =>
             layout.Left.Concat(layout.Right).Concat(layout.Thrust).Concat(layout.Fire).Concat(layout.Mine).Concat(layout.Leave);
     }

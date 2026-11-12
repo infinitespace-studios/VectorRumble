@@ -49,6 +49,15 @@ namespace VectorRumble
         private readonly Vector2 screenSize;
         private readonly float scale;
 
+        // fades out while nobody is touching the screen: a player with a gamepad need not see these
+        private readonly IdleFade fade;
+
+        /// <summary>
+        /// True where the controls may fade away when not in use (during play). They stay in view elsewhere,
+        /// such as ship selection, where the screen asks the player to hold A.
+        /// </summary>
+        public bool CanFade { get; set; }
+
         private int leftId = -1, rightId = -1, aId = -1, bId = -1, xId = -1, startId = -1;
         private Vector2 leftOrigin, leftPosition, rightOrigin, rightPosition;
 
@@ -57,6 +66,9 @@ namespace VectorRumble
             this.texture = texture;
             screenSize = new Vector2(viewport.Width, viewport.Height);
             scale = screenSize.Y / BaseHeight;
+
+            // with a real gamepad plugged in the controls start out of sight, and come when a finger touches
+            fade = new IdleFade(startHidden: GamePad.GetState(PlayerIndex.One).IsConnected);
         }
 
         private Vector2 ButtonAPosition => screenSize - new Vector2(70f, 80f) * scale;
@@ -73,16 +85,23 @@ namespace VectorRumble
         public void Reset()
         {
             leftId = rightId = aId = bId = xId = startId = -1;
+
+            // when the screen has the controls back, they start their wait to fade afresh
+            fade.Wake();
         }
 
         /// <summary>
         /// Tracks the fingers down on the controls. Call once a frame, before the ships read it, with the
         /// touches the input state read for the frame.
         /// </summary>
-        public void Update(TouchCollection touches)
+        public void Update(TouchCollection touches, float elapsedSeconds)
         {
+            bool touched = false;
             foreach (TouchLocation touch in touches)
             {
+                if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
+                    touched = true;
+
                 switch (touch.State)
                 {
                     case TouchLocationState.Pressed:
@@ -98,6 +117,8 @@ namespace VectorRumble
                         break;
                 }
             }
+
+            fade.Update(elapsedSeconds, touched, CanFade);
         }
 
         private void Press(int id, Vector2 position)
@@ -194,15 +215,20 @@ namespace VectorRumble
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawStick(spriteBatch, LeftStickRect, leftId, leftOrigin, leftPosition, DefaultLeftStick);
-            DrawStick(spriteBatch, RightStickRect, rightId, rightOrigin, rightPosition, DefaultRightStick);
-            DrawButton(spriteBatch, ButtonARect, ButtonAPosition, aId >= 0);
-            DrawButton(spriteBatch, ButtonBRect, ButtonBPosition, bId >= 0);
-            DrawButton(spriteBatch, ButtonXRect, ButtonXPosition, xId >= 0);
-            DrawButton(spriteBatch, ButtonYRect, StartPosition, startId >= 0);
+            // faded right out: nothing to draw (the controls still work, a touch shows them again)
+            float visible = fade.Opacity;
+            if (visible <= 0.01f)
+                return;
+
+            DrawStick(spriteBatch, LeftStickRect, leftId, leftOrigin, leftPosition, DefaultLeftStick, visible);
+            DrawStick(spriteBatch, RightStickRect, rightId, rightOrigin, rightPosition, DefaultRightStick, visible);
+            DrawButton(spriteBatch, ButtonARect, ButtonAPosition, aId >= 0, visible);
+            DrawButton(spriteBatch, ButtonBRect, ButtonBPosition, bId >= 0, visible);
+            DrawButton(spriteBatch, ButtonXRect, ButtonXPosition, xId >= 0, visible);
+            DrawButton(spriteBatch, ButtonYRect, StartPosition, startId >= 0, visible);
         }
 
-        private void DrawStick(SpriteBatch spriteBatch, Rectangle source, int id, Vector2 origin, Vector2 position, Vector2 idle)
+        private void DrawStick(SpriteBatch spriteBatch, Rectangle source, int id, Vector2 origin, Vector2 position, Vector2 idle, float visible)
         {
             bool active = id >= 0;
             Vector2 center = active ? origin : idle;
@@ -211,15 +237,15 @@ namespace VectorRumble
                 offset = Vector2.Normalize(offset) * StickTravel * scale;
 
             var half = new Vector2(source.Width, source.Height) / 2f;
-            Color color = Color.White * (active ? 0.7f : 0.35f);
+            Color color = Color.White * ((active ? 0.7f : 0.35f) * visible);
             spriteBatch.Draw(texture, center, source, color * 0.6f, 0f, half, scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(texture, center + offset, source, color, 0f, half, scale * 0.6f, SpriteEffects.None, 0f);
         }
 
-        private void DrawButton(SpriteBatch spriteBatch, Rectangle source, Vector2 center, bool down)
+        private void DrawButton(SpriteBatch spriteBatch, Rectangle source, Vector2 center, bool down, float visible)
         {
             var half = new Vector2(source.Width, source.Height) / 2f;
-            Color color = Color.White * (down ? 0.9f : 0.4f);
+            Color color = Color.White * ((down ? 0.9f : 0.4f) * visible);
             spriteBatch.Draw(texture, center, source, color, 0f, half, scale * ButtonScale, SpriteEffects.None, 0f);
         }
     }

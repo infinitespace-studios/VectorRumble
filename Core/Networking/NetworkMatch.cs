@@ -58,8 +58,8 @@ namespace VectorRumble.Networking
                 ships[slot].Slot = slot;
                 ships[slot].IsRemote = slot != localSlot;
             }
-            // whichever slot a player holds, they fly with their own controls: the first player's
-            ships[localSlot].Controls = ShipControls.ForSlot(PlayerIndex.One);
+            // whichever slot a player holds, they fly with their own controls: a gamepad or the keyboard
+            ships[localSlot].Controls = ShipControls.ForLocalPlayer();
 
             stateSync = new ShipStateSync(network, slotIds, localSlot);
 

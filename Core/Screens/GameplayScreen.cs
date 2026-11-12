@@ -35,6 +35,12 @@ namespace VectorRumble
         Texture2D starTexture;
         protected VirtualGamePad virtualGamePad;
 
+        /// <summary>
+        /// Whether the on-screen controls may fade away when nobody is touching the screen. Only during play:
+        /// the other screens ask the player to press things on them.
+        /// </summary>
+        protected virtual bool CanFadeVirtualGamePad => false;
+
         private const float lineBreakWidth = 210f;
         #endregion
 
@@ -121,7 +127,13 @@ namespace VectorRumble
             if (otherScreenHasFocus || coveredByOtherScreen)
                 virtualGamePad?.Reset();
             else
-                virtualGamePad?.Update(ScreenManager.Input.Touches);
+            {
+                if (virtualGamePad != null)
+                {
+                    virtualGamePad.CanFade = CanFadeVirtualGamePad;
+                    virtualGamePad.Update(ScreenManager.Input.Touches, (float)gameTime.ElapsedGameTime.TotalSeconds);
+                }
+            }
         }
 
         /// <summary>
@@ -260,6 +272,8 @@ namespace VectorRumble
     {
         #region Fields
         bool gameOver;
+
+        protected override bool CanFadeVirtualGamePad => true;
         #endregion
 
         #region Initialization
