@@ -58,9 +58,16 @@ jobs:
             args: -rids osx-arm64,osx-x64 --macos-universal
             artifact: publish-osx-universal
             wineprefix: /Users/runner/.winemonogame
-          - os: ubuntu-latest
+          # Pinned: the Wine installer only knows Ubuntu 24.04 (any other release falls back to the jammy repository,
+          # whose signing key it cannot install), so "ubuntu-latest" breaks whenever GitHub moves it on
+          - os: ubuntu-24.04
             args: -r linux-x64
             artifact: publish-linux-x64
+            wineprefix: /home/runner/.winemonogame
+          # Wine is built for ARM with box64 here, which takes a few minutes longer than the other legs
+          - os: ubuntu-24.04-arm
+            args: -r linux-arm64
+            artifact: publish-linux-arm64
             wineprefix: /home/runner/.winemonogame
       fail-fast: false
     steps:
@@ -164,6 +171,11 @@ jobs:
           - os: linux
             rid: linux-x64
             artifact: publish-linux-x64
+            archive: .zip
+          # its own itch.io channel, so it does not replace the x64 build
+          - os: linux-arm64
+            rid: linux-arm64
+            artifact: publish-linux-arm64
             archive: .zip
       fail-fast: false
     needs: build
