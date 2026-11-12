@@ -262,17 +262,45 @@ namespace VectorRumble.Networking
                 ships[i].Score = scores[i];
         }
 
+        // The packet is serialized as soon as it is broadcast, so these are safe to reuse. They are only
+        // replaced when the number of asteroids changes (the packet writes exactly Positions.Length of them).
+        Vector2[] asteroidPositions = new Vector2[0];
+        Vector2[] asteroidVelocities = new Vector2[0];
+
         void SendAsteroids()
         {
-            Asteroid[] asteroids = world.Actors.OfType<Asteroid>().Take(AsteroidSyncPacket.MaxAsteroids).ToArray();
-            if (asteroids.Length == 0)
+            int count = 0;
+            var actors = world.Actors;
+            for (int i = 0; i < actors.Count && count < AsteroidSyncPacket.MaxAsteroids; i++)
+            {
+                if (actors[i] is Asteroid)
+                    count++;
+            }
+            if (count == 0)
                 return;
+
+            if (asteroidPositions.Length != count)
+            {
+                asteroidPositions = new Vector2[count];
+                asteroidVelocities = new Vector2[count];
+            }
+
+            int n = 0;
+            for (int i = 0; i < actors.Count && n < count; i++)
+            {
+                if (actors[i] is Asteroid asteroid)
+                {
+                    asteroidPositions[n] = asteroid.Position;
+                    asteroidVelocities[n] = asteroid.Velocity;
+                    n++;
+                }
+            }
 
             network.Broadcast(new AsteroidSyncPacket
             {
                 Sequence = asteroidSequence++,
-                Positions = asteroids.Select(a => a.Position).ToArray(),
-                Velocities = asteroids.Select(a => a.Velocity).ToArray(),
+                Positions = asteroidPositions,
+                Velocities = asteroidVelocities,
             }, false);
         }
 

@@ -29,6 +29,38 @@ namespace VectorRumble
         public Ship[] AvailableShips => Ships.Where(s => !string.IsNullOrEmpty(s.PlayerIndex)).OrderBy(p => p.PlayerStringToIndex).ToArray();
         public Ship[] Players => Ships.Where(s => s.Playing).ToArray();
         public Ship[] Ships { get { return ships; } }
+
+        // allocation-free versions of Players, for the code that runs every frame
+
+        /// <summary>True when at least one ship is being played.</summary>
+        public bool AnyPlaying
+        {
+            get
+            {
+                for (int i = 0; i < ships.Length; i++)
+                    if (ships[i].Playing)
+                        return true;
+                return false;
+            }
+        }
+
+        /// <summary>The first ship being played by the given player, or null.</summary>
+        public Ship FirstPlayingFor(PlayerIndex index)
+        {
+            for (int i = 0; i < ships.Length; i++)
+                if (ships[i].Playing && ships[i].PlayerStringToIndex == index)
+                    return ships[i];
+            return null;
+        }
+
+        /// <summary>The first selected ship belonging to the given player, or null.</summary>
+        public Ship FirstSelectedFor(PlayerIndex index)
+        {
+            for (int i = 0; i < SelectedPlayers.Count; i++)
+                if (SelectedPlayers[i].PlayerStringToIndex == index)
+                    return SelectedPlayers[i];
+            return null;
+        }
         public Ship[] SpareShips => Ships.Where(s => string.IsNullOrEmpty(s.PlayerIndex)).ToArray();
 
         internal void LoadContent(ContentManager content)

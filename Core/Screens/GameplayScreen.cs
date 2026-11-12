@@ -184,7 +184,7 @@ namespace VectorRumble
 
             spriteBatch.Begin();
 
-            Ship[] ships = null;
+            Ship scoreShip = null;
             Vector2 size;
 
             foreach (var index in playerIndexes)
@@ -193,7 +193,7 @@ namespace VectorRumble
                 var caps = GamePad.GetState(index);
 
                 // Only Draw Join message if no one is playing yet.
-                if (!World.ShipManager.Players.Any())
+                if (!World.ShipManager.AnyPlaying)
                 {
                     switch (index)
                     {
@@ -212,16 +212,16 @@ namespace VectorRumble
                     }
                 }
 
-                if (World.ShipManager.SelectedPlayers.Any()) {
-                    ships = World.ShipManager.SelectedPlayers.Where(p => p.PlayerStringToIndex == index).ToArray();
+                if (World.ShipManager.SelectedPlayers.Count > 0) {
+                    scoreShip = World.ShipManager.FirstSelectedFor(index);
                 }
 
-                if (World.ShipManager.Players.Any()) {
-                    ships = World.ShipManager.Players.Where(p => p.PlayerStringToIndex == index).ToArray();
+                if (World.ShipManager.AnyPlaying) {
+                    scoreShip = World.ShipManager.FirstPlayingFor(index);
                 }
 
-                if (ships != null && ships.Length > 0) {
-                    message = string.Format(Strings.Score, ships[0].Name, ships[0].Score);
+                if (scoreShip != null) {
+                    message = string.Format(Strings.Score, scoreShip.Name, scoreShip.Score);
                 }
 
                 size = spriteFont.MeasureString(message) * scale;
