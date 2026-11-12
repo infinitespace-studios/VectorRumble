@@ -48,6 +48,9 @@ namespace VectorRumble
 
         bool traceEnabled;
 
+        // frame time, GC and draw call readout (compiled out of ordinary Release builds; see PerfOverlay)
+        readonly PerfOverlay perfOverlay = new PerfOverlay();
+
         #endregion
 
         #region Properties
@@ -135,6 +138,7 @@ namespace VectorRumble
 
             font = content.LoadLocalized<SpriteFont>("Fonts/retroLarge");
             blankTexture = content.Load<Texture2D>("Textures/blank");
+            perfOverlay.LoadContent(content);
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
@@ -170,12 +174,15 @@ namespace VectorRumble
         /// </summary>
         public override void Update(GameTime gameTime)
         {
+            perfOverlay.BeginUpdate();
+
             // Fit the picture to the screen as it is now (it changes with a turn or a full screen).
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             Display.Update(pp.BackBufferWidth, pp.BackBufferHeight);
 
             // Read the keyboard and gamepad.
             input.Update();
+            perfOverlay.HandleInput(input);
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
@@ -220,6 +227,8 @@ namespace VectorRumble
             // Print debug trace?
             if (traceEnabled)
                 TraceScreens();
+
+            perfOverlay.EndUpdate();
         }
 
 
@@ -242,6 +251,8 @@ namespace VectorRumble
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            perfOverlay.BeginDraw();
+
             // draw the game at its own size...
             GraphicsDevice.SetRenderTarget(gameTarget);
             GraphicsDevice.Clear(Color.Black);
@@ -254,6 +265,9 @@ namespace VectorRumble
 
 				screen.Draw(gameTime);
             }
+
+            perfOverlay.EndDraw(GraphicsDevice);
+            perfOverlay.Draw(spriteBatch, blankTexture);
 
             // ...then scale it to fit the screen, with black bars where it does not reach
             GraphicsDevice.SetRenderTarget(null);
