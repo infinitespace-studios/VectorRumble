@@ -178,7 +178,7 @@ jobs:
             artifact: publish-linux-arm64
             archive: .zip
       fail-fast: false
-    needs: build
+    needs: [test, build]
     steps:
       - name: Download
         uses: actions/download-artifact@v6
